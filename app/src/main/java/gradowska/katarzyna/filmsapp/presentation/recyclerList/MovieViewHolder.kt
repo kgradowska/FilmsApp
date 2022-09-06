@@ -4,14 +4,20 @@ import androidx.recyclerview.widget.RecyclerView
 import gradowska.katarzyna.filmsapp.databinding.ItemMovieBinding
 import gradowska.katarzyna.filmsapp.presentation.movie.MovieDataModel
 
-class MovieViewHolder(private val binding: ItemMovieBinding) : RecyclerView.ViewHolder(binding.root) {
+class MovieViewHolder(
+    private val binding: ItemMovieBinding
+) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(movie: MovieDataModel){
-        with(movie){
+    fun bind(movie: MovieDataModel, clickListener: ((MovieDataModel) -> Unit)?) {
+        with(movie) {
             binding.titleText.text = movieTitle
             binding.bodyText.text = movieDescription
             binding.rate.text = movieRate
             binding.movieImage.setImageResource(moviePhoto)
+
+            binding.root.setOnClickListener {
+                clickListener?.invoke(movie)
+            }
         }
     }
 }
