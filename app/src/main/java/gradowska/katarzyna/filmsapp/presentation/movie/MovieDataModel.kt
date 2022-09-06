@@ -5,4 +5,5 @@ data class MovieDataModel(
     val movieTitle: String,
     val movieDescription: String,
     val movieRate: String,
-    val moviePhoto: Int)
+    val moviePhoto: String
+)
