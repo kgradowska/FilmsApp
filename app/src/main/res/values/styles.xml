@@ -26,4 +26,10 @@
         <item name="android:ellipsize">end</item>
     </style>
 
+    <style name="SingleMovieTitleStyle">
+        <item name="android:textSize">30sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/gold</item>
+    </style>
+
 </resources>

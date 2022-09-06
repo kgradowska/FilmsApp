@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/haiti"
+    android:padding="10dp">
+
+
+    <ImageView
+        android:id="@+id/singleMovieImage"
+        android:layout_width="100dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="300dp"
+        android:paddingTop="15dp"
+        android:src="@drawable/los_angeles"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/yearOfProduction" />
+
+    <TextView
+        android:id="@+id/singleMovieBodyText"
+        style="@style/MovieBodyStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="Lorem ipsum Lorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+        android:textStyle="italic|bold"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/singleMovieTitleText"
+        style="@style/SingleMovieTitleStyle"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:paddingStart="5dp"
+        android:text="Tytuł filmu jest bardzo długi"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toStartOf="@id/star"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread" />
+
+    <TextView
+        android:id="@+id/singleMovieRate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="8,3"
+        android:textColor="@color/gold"
+        android:textSize="45sp"
+        app:layout_constraintBottom_toTopOf="@id/star"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/singleMovieTitleText"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/star"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_baseline_star_rate_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/singleMovieTitleText"
+        app:layout_constraintTop_toBottomOf="@id/singleMovieRate" />
+
+    <TextView
+        android:id="@+id/director"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="5dp"
+        android:text="Reżyser"
+        android:textSize="16sp"
+        android:gravity="left"
+        android:textStyle="italic|bold"
+        android:textColor="@color/gold"
+        app:layout_constraintBottom_toTopOf="@id/theDirector"
+        app:layout_constraintStart_toEndOf="@id/singleMovieImage"
+        app:layout_constraintTop_toBottomOf="@id/yearOfProduction"
+        app:layout_constraintVertical_chainStyle="spread" />
+
+    <TextView
+        android:id="@+id/theDirector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Robert Zemeckis"
+        android:layout_marginStart="28dp"
+        android:textColor="@color/gold"
+        app:layout_constraintStart_toEndOf="@id/singleMovieImage"
+        app:layout_constraintTop_toBottomOf="@id/director" />
+
+    <TextView
+        android:id="@+id/yearOfProduction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:text="1994"
+        android:textColor="@color/gold"
+        app:layout_constraintBottom_toTopOf="@id/singleMovieImage"
+        app:layout_constraintStart_toStartOf="@id/singleMovieTitleText"
+        app:layout_constraintTop_toBottomOf="@id/singleMovieTitleText" />
+
+    <TextView
+        android:id="@+id/separationMark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="5dp"
+        android:text="|"
+        android:textColor="@color/gold"
+        app:layout_constraintStart_toEndOf="@id/yearOfProduction"
+        app:layout_constraintTop_toBottomOf="@id/singleMovieTitleText" />
+
+    <TextView
+        android:id="@+id/genre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="5dp"
+        android:text="drama"
+        android:textColor="@color/gold"
+        app:layout_constraintStart_toEndOf="@id/separationMark"
+        app:layout_constraintTop_toBottomOf="@id/singleMovieTitleText" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

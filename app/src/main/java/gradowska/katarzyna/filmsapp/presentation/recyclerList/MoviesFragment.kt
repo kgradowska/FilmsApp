@@ -1,6 +1,7 @@
 package gradowska.katarzyna.filmsapp.presentation.recyclerList
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,8 +36,13 @@ class MoviesFragment : Fragment() {
         _binding = null
     }
 
-    private fun initRecyclerView(){
+    private fun initRecyclerView() {
+        val adapter = MovieAdapter(viewModel.getFormat())
+        adapter.clickListener = {
+            Log.d("Adapter", "Kliknięty data model: $it")
+        }
+
         binding.filmRecyclerView.layoutManager = LinearLayoutManager(context)
-        binding.filmRecyclerView.adapter = MovieAdapter(viewModel.getFormat())
+        binding.filmRecyclerView.adapter = adapter
     }
 }

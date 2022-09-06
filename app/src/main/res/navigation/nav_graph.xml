@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/startFragment"
         android:name="gradowska.katarzyna.filmsapp.presentation.start.StartFragment"
-        tools:layout="@layout/fragment_start" >
+        tools:layout="@layout/fragment_start">
         <action
             android:id="@+id/action_startFragment_to_recyclerListFragment"
             app:destination="@id/recyclerListFragment" />
@@ -16,5 +16,9 @@
     <fragment
         android:id="@+id/recyclerListFragment"
         android:name="gradowska.katarzyna.filmsapp.presentation.recyclerList.MoviesFragment"
-        tools:layout="@layout/fragment_recycler_list"/>
+        tools:layout="@layout/fragment_recycler_list" />
+    <fragment
+        android:id="@+id/singleMovieFragment"
+        android:name="gradowska.katarzyna.filmsapp.presentation.singleMovie.SingleMovieFragment"
+        tools:layout="@layout/fragment_single_movie" />
 </navigation>
