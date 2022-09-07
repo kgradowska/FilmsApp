@@ -1,6 +1,7 @@
 package gradowska.katarzyna.filmsapp.presentation.recyclerList
 
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import gradowska.katarzyna.filmsapp.databinding.ItemMovieBinding
 import gradowska.katarzyna.filmsapp.presentation.movie.MovieDataModel
 
@@ -13,7 +14,7 @@ class MovieViewHolder(
             binding.titleText.text = movieTitle
             binding.bodyText.text = movieDescription
             binding.rate.text = movieRate
-            binding.movieImage.setImageResource(moviePhoto)
+            Glide.with(binding.root.context).load(moviePhoto).into(binding.movieImage)
 
             binding.root.setOnClickListener {
                 clickListener?.invoke(movie)
