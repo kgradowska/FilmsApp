@@ -7,7 +7,7 @@ class GetMoviesUseCase(val dataSource: MovieDataSource) {
      fun getMoviesList() : List<MovieDataModel>{
 
         var datamodel: List<MovieDataModel>
-        val dataModel = dataSource.getMoviesList().map {it -> it.toMovieDataModel()}
+         val dataModel = dataSource.getMoviesList().map { it -> it.toMovieDataModel(false) }
         return dataModel
     }
 }

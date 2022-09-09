@@ -37,10 +37,17 @@ class MoviesFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        val adapter = MovieAdapter(viewModel.getFormat())
+        val adapter = MovieAdapter()
+        adapter.setItems(viewModel.getMoviesList())
+
         adapter.clickListener = {
             Log.d("Adapter", "Kliknięty data model: $it")
         }
+        adapter.favouriteIconClickListener = {
+            viewModel.favouriteIconClicked(it) // modyfikacja istniejacej listy - zmiana flagi movieLiked
+            adapter.setItems(viewModel.getMoviesList()) // zwrocenie CALEJ listy (ktora linijke wyzej modyfikujemy)
+        }
+
 
         binding.filmRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.filmRecyclerView.adapter = adapter

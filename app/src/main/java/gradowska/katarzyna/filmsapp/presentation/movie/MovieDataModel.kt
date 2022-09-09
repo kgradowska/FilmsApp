@@ -5,5 +5,6 @@ data class MovieDataModel(
     val movieTitle: String,
     val movieDescription: String,
     val movieRate: String,
-    val moviePhoto: String
+    val moviePhoto: String,
+    var movieLiked: Boolean
 )

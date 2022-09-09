@@ -59,6 +59,51 @@ class MovieDataSource() {
             description = "Jest rok 1941. Do sycylijskiego miasteczka przyjeżdża piękna Malena. 13-letni Renato Amoroso dostaje na jej punkcie obsesji.",
             releaseYear = "2000"
         )
-        return listOf(m1, m2, m3, m4, m5, m6)
+        val m7 = MovieDTO(
+            id = "7",
+            title = "Malena7777",
+            director = "Giuseppe Tornatore",
+            score = "7,3",
+            imageRes = "https://fwcdn.pl/fpo/03/88/30388/7519149.3.jpg",
+            description = "Jest rok 1941. Do sycylijskiego miasteczka przyjeżdża piękna Malena. 13-letni Renato Amoroso dostaje na jej punkcie obsesji.",
+            releaseYear = "2000"
+        )
+        val m8 = MovieDTO(
+            id = "8",
+            title = "Malena88888",
+            director = "Giuseppe Tornatore",
+            score = "7,3",
+            imageRes = "https://fwcdn.pl/fpo/03/88/30388/7519149.3.jpg",
+            description = "Jest rok 1941. Do sycylijskiego miasteczka przyjeżdża piękna Malena. 13-letni Renato Amoroso dostaje na jej punkcie obsesji.",
+            releaseYear = "2000"
+        )
+        val m9 = MovieDTO(
+            id = "9",
+            title = "Malena99999",
+            director = "Giuseppe Tornatore",
+            score = "7,3",
+            imageRes = "https://fwcdn.pl/fpo/03/88/30388/7519149.3.jpg",
+            description = "Jest rok 1941. Do sycylijskiego miasteczka przyjeżdża piękna Malena. 13-letni Renato Amoroso dostaje na jej punkcie obsesji.",
+            releaseYear = "2000"
+        )
+        val m10 = MovieDTO(
+            id = "10",
+            title = "Malena10",
+            director = "Giuseppe Tornatore",
+            score = "7,3",
+            imageRes = "https://fwcdn.pl/fpo/03/88/30388/7519149.3.jpg",
+            description = "Jest rok 1941. Do sycylijskiego miasteczka przyjeżdża piękna Malena. 13-letni Renato Amoroso dostaje na jej punkcie obsesji.",
+            releaseYear = "2000"
+        )
+        val m11 = MovieDTO(
+            id = "11",
+            title = "Malena11",
+            director = "Giuseppe Tornatore",
+            score = "7,3",
+            imageRes = "https://fwcdn.pl/fpo/03/88/30388/7519149.3.jpg",
+            description = "Jest rok 1941. Do sycylijskiego miasteczka przyjeżdża piękna Malena. 13-letni Renato Amoroso dostaje na jej punkcie obsesji.",
+            releaseYear = "2000"
+        )
+        return listOf(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11)
     }
 }

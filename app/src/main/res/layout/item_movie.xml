@@ -78,7 +78,21 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/bodyText"
             app:layout_constraintTop_toBottomOf="@+id/rate"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <ImageView
+            android:id="@+id/starBorder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_star_border_20"
+            app:layout_constraintBottom_toBottomOf="@id/movieImage"
+            app:layout_constraintStart_toStartOf="@id/movieImage"
+            app:layout_constraintTop_toTopOf="@id/movieImage"
+            app:layout_constraintEnd_toEndOf="@id/movieImage"
+            android:layout_marginStart="45dp"
+            android:layout_marginBottom="70dp" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>

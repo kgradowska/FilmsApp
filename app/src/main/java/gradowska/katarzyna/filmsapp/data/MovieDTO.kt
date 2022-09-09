@@ -12,8 +12,9 @@ class MovieDTO(
     val releaseYear: String
 ) {
 
-    fun toMovieDataModel(): MovieDataModel {
+    fun toMovieDataModel(isFavourite: Boolean): MovieDataModel {
         val object1 = MovieDataModel(
+            movieLiked = isFavourite,
             movieID = id,
             movieTitle = title,
             movieDescription = description,
