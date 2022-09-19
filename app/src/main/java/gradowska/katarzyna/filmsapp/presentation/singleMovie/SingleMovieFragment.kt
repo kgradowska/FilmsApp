@@ -5,15 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import gradowska.katarzyna.filmsapp.databinding.FragmentSingleMovieBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SingleMovieFragment : Fragment() {
 
     private var _binding: FragmentSingleMovieBinding? = null
     val binding get() = _binding!!
 
-    private val viewModel: SingleMovieViewModel by viewModels()
+    private val viewModel: SingleMovieViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -9,10 +9,10 @@ import gradowska.katarzyna.filmsapp.presentation.movie.MovieDataModel
 class MovieAdapter() : RecyclerView.Adapter<MovieViewHolder>() {
     private val formats: ArrayList<MovieDataModel> = arrayListOf()
 
-    fun setItems(newList: List<MovieDataModel>) { // jestem tylko glupim adapterem, nie wiem co to za lista ani skad, dali to pokazuje
+    fun setItems(newList: List<MovieDataModel>) {
         formats.clear()
         formats.addAll(newList)
-        notifyDataSetChanged() // hej, zmienily sie dane, odswiez sobie widoki -> wola onBindViewHolder!!
+        notifyDataSetChanged()
     }
 
     var clickListener: ((MovieDataModel) -> Unit)? = null

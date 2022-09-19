@@ -5,17 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import gradowska.katarzyna.filmsapp.R
 import gradowska.katarzyna.filmsapp.databinding.FragmentStartBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class StartFragment : Fragment() {
 
     private var _binding: FragmentStartBinding? = null
     val binding get() = _binding!!
 
-    private val viewModel: StartFragmentViewModel by viewModels()
+    private val viewModel: StartFragmentViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
