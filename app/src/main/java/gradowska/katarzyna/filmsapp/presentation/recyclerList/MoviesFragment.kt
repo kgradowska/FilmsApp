@@ -6,16 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import gradowska.katarzyna.filmsapp.databinding.FragmentRecyclerListBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MoviesFragment : Fragment() {
 
     private var _binding: FragmentRecyclerListBinding? = null
     val binding get() = _binding!!
 
-    private val viewModel: MoviesFragmentViewModel by viewModels()
+    private val viewModel: MoviesFragmentViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
