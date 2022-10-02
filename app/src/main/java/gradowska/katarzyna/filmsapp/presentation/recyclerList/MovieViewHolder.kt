@@ -22,9 +22,9 @@ class MovieViewHolder(
             Glide.with(binding.root.context).load(moviePhoto).into(binding.movieImage)
 
             if (movieLiked) {
-                binding.starBorder.setImageResource(R.drawable.ic_baseline_star_20)
+                binding.starBorder.setImageResource(R.drawable.ic_baseline_star_rate_24)
             } else {
-                binding.starBorder.setImageResource(R.drawable.ic_baseline_star_border_20)
+                binding.starBorder.setImageResource(R.drawable.ic_baseline_star_border_24)
             }
 
             binding.starBorder.setOnClickListener {
