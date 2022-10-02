@@ -19,11 +19,11 @@ import gradowska.katarzyna.filmsapp.presentation.movie.MovieDataModel
 
 class MoviesFragmentViewModel(
     private val setFavouriteMovieUseCase: SetFavouriteMovieUseCase,
-    private val getFavouriteMovieUseCase: GetFavouriteMovieUseCase
+    private val getFavouriteMovieUseCase: GetFavouriteMovieUseCase,
+    private val getMoviesUseCase: GetMoviesUseCase,
 ) : ViewModel() {
 
-    private val movieList =
-        GetMoviesUseCase(MovieDataSource(), getFavouriteMovieUseCase).getMoviesList()
+    private val movieList = getMoviesUseCase.getMoviesList()
 
 //    init {
 //        updateMoviesFavouriteStatus()
