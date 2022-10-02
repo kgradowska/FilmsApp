@@ -15,14 +15,14 @@ import org.koin.dsl.module
 
 object FilmsDI {
     val filmModule = module {
-        single { MovieDataSource() }
+        single { MovieDataSource(androidContext()) }
         single { UserDataSource(androidContext()) }
 
         factory { GetFavouriteMovieUseCase(get()) }
         factory { GetMoviesUseCase(get(), get()) }
         factory { SetFavouriteMovieUseCase(get()) }
 
-        viewModel { MoviesFragmentViewModel(get(), get()) }
+        viewModel { MoviesFragmentViewModel(get(), get(), get()) }
         viewModel { SingleMovieViewModel() }
         viewModel { StartFragmentViewModel() }
         viewModel { MainActivityViewModel() }
