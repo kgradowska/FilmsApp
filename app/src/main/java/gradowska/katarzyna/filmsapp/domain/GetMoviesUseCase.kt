@@ -8,7 +8,7 @@ class GetMoviesUseCase(
     val getFavouriteMovieUseCase: GetFavouriteMovieUseCase
 ) {
     fun getMoviesList(): List<MovieDataModel> {
-        val dataModel = dataSource.getMoviesList().map { it ->
+        val dataModel = dataSource.getMoviesListFromJson().map { it ->
             it.toMovieDataModel(
                 isFavourite = getFavouriteMovieUseCase.getMovieIsFavourite(it.id)
             )
