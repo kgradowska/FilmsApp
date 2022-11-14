@@ -1,5 +1,6 @@
 package gradowska.katarzyna.filmsapp.presentation.recyclerList
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import gradowska.katarzyna.filmsapp.domain.usecase.GetMoviesUseCase
@@ -22,8 +23,12 @@ class MoviesFragmentViewModel(
 
     private fun getMoviesList() {
         viewModelScope.launch {
-            val movieList = getMoviesUseCase.getMoviesList(true)
-            _moviesList.emit(movieList)
+            try {
+                val movieList = getMoviesUseCase.getMoviesList(true)
+                _moviesList.emit(movieList)
+            } catch (exception: Exception) {
+                Log.e("getMovies", "Exception: ${exception.message}")
+            }
         }
     }
 

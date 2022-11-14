@@ -13,28 +13,12 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import java.lang.reflect.Type
 
 
-class MovieDataSource(context: Context) {
-
-    val moshi: Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-
-    private val BASE_URL = "https://api.themoviedb.org/3/"
-    private val API_KEY =
-        "" // generate your own api key here: https://developers.themoviedb.org/3/getting-started/introduction
-
-    private val retrofit: Retrofit by lazy {
-        val logging = HttpLoggingInterceptor()
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY)
-
-        Retrofit.Builder()
-            .client(OkHttpClient.Builder().addNetworkInterceptor(logging).build())
-            .baseUrl(BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .build()
-    }
-
-    val apiService: ApiService by lazy {
-        retrofit.create(ApiService::class.java)
-    }
+class MovieDataSource(
+    context: Context,
+    private val apiService: ApiService,
+    private val moshi: Moshi,
+    private val apiKey: String,
+) {
 
     fun getMoviesListFromJson(): List<MovieDTO> {
         val listMyData: Type = Types.newParameterizedType(
@@ -48,7 +32,7 @@ class MovieDataSource(context: Context) {
     }
 
     suspend fun getMoviesListFromApi(): MoviesListDTO {
-        return apiService.fetchMoviesList(API_KEY)
+        return apiService.fetchMoviesList(apiKey)
     }
 
     private val jsonString =
