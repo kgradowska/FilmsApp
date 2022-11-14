@@ -14,6 +14,10 @@ class MoviesFragmentViewModel(
     private val getMoviesUseCase: GetMoviesUseCase,
 ) : ViewModel() {
 
+    private var isLoading = false
+    private var canLoadMore = true
+    private var currentPage = 1
+
     private val _moviesList: MutableStateFlow<List<MovieDataModel>> = MutableStateFlow(listOf())
     val moviesList: StateFlow<List<MovieDataModel>> = _moviesList
 
@@ -21,13 +25,28 @@ class MoviesFragmentViewModel(
         getMoviesList()
     }
 
+    fun recyclerEndReached() {
+        getMoviesList()
+    }
+
     private fun getMoviesList() {
-        viewModelScope.launch {
-            try {
-                val movieList = getMoviesUseCase.getMoviesList(true)
-                _moviesList.emit(movieList)
-            } catch (exception: Exception) {
-                Log.e("getMovies", "Exception: ${exception.message}")
+        if (!isLoading && canLoadMore) {
+            viewModelScope.launch {
+                try {
+                    isLoading = true
+                    val movieList = getMoviesUseCase.getMoviesList(true, currentPage)
+
+                    isLoading = false
+                    canLoadMore = movieList.isNotEmpty()
+                    currentPage++
+
+                    val allMovies = ArrayList(_moviesList.value)
+                    allMovies.addAll(movieList)
+                    _moviesList.value = allMovies
+                } catch (exception: Exception) {
+                    isLoading = false
+                    Log.e("getMovies", "Exception: ${exception.message}")
+                }
             }
         }
     }

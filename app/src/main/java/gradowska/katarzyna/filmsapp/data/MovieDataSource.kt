@@ -31,8 +31,8 @@ class MovieDataSource(
         return jsonAdapter.fromJson(jsonString) as List<MovieDTO>
     }
 
-    suspend fun getMoviesListFromApi(): MoviesListDTO {
-        return apiService.fetchMoviesList(apiKey)
+    suspend fun getMoviesListFromApi(page: Int): MoviesListDTO {
+        return apiService.fetchMoviesList(apiKey, page)
     }
 
     private val jsonString =

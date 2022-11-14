@@ -7,9 +7,9 @@ class GetMoviesUseCase(
     val dataSource: MovieDataSource,
     val getFavouriteMovieUseCase: GetFavouriteMovieUseCase
 ) {
-    suspend fun getMoviesList(loadFromApi: Boolean): List<MovieDataModel> {
+    suspend fun getMoviesList(loadFromApi: Boolean, page: Int): List<MovieDataModel> {
         val dataModel = if (loadFromApi) {
-            dataSource.getMoviesListFromApi().results.map { it ->
+            dataSource.getMoviesListFromApi(page).results.map { it ->
                 it.toMovieDataModel(isFavourite = getFavouriteMovieUseCase.getMovieIsFavourite(it.id.toString()))
             }
         } else {
