@@ -4,7 +4,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import gradowska.katarzyna.filmsapp.R
 import gradowska.katarzyna.filmsapp.databinding.ItemMovieBinding
-import gradowska.katarzyna.filmsapp.presentation.movie.MovieDataModel
+import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
+
 
 class MovieViewHolder(
     private val binding: ItemMovieBinding

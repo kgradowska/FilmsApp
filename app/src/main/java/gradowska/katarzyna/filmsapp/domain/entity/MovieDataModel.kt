@@ -1,4 +1,4 @@
-package gradowska.katarzyna.filmsapp.presentation.movie
+package gradowska.katarzyna.filmsapp.domain.entity
 
 data class MovieDataModel(
     val movieID: String,

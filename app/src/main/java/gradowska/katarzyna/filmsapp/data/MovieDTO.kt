@@ -1,11 +1,13 @@
 package gradowska.katarzyna.filmsapp.data
 
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import gradowska.katarzyna.filmsapp.presentation.movie.MovieDataModel
+import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
 
 @JsonClass(generateAdapter = true)
 class MovieDTO(
     val id: String,
+    @Json(name = "title")
     val title: String,
     val director: String,
     val score: String,

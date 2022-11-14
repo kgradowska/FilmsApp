@@ -1,4 +1,4 @@
-package gradowska.katarzyna.filmsapp.domain
+package gradowska.katarzyna.filmsapp.domain.usecase
 
 import gradowska.katarzyna.filmsapp.data.UserDataSource
 

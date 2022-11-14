@@ -1,50 +1,39 @@
 package gradowska.katarzyna.filmsapp.presentation.recyclerList
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import android.util.Log
 import androidx.lifecycle.ViewModel
-import gradowska.katarzyna.filmsapp.data.MovieDataSource
-import gradowska.katarzyna.filmsapp.data.UserDataSource
-import gradowska.katarzyna.filmsapp.domain.GetFavouriteMovieUseCase
-import gradowska.katarzyna.filmsapp.domain.GetMoviesUseCase
-import gradowska.katarzyna.filmsapp.domain.SetFavouriteMovieUseCase
-import gradowska.katarzyna.filmsapp.presentation.movie.MovieDataModel
-
-//class MoviesFragmentViewModel(application: Application) : AndroidViewModel(application) {
-//    private val setFavouriteMovieUseCase: SetFavouriteMovieUseCase =
-//        SetFavouriteMovieUseCase(UserDataSource(context = getApplication<Application>().applicationContext))
-//
-//    private val getFavouriteMovieUseCase: GetFavouriteMovieUseCase =
-//        GetFavouriteMovieUseCase(UserDataSource(context = getApplication<Application>().applicationContext))
+import androidx.lifecycle.viewModelScope
+import gradowska.katarzyna.filmsapp.domain.usecase.GetMoviesUseCase
+import gradowska.katarzyna.filmsapp.domain.usecase.SetFavouriteMovieUseCase
+import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 class MoviesFragmentViewModel(
     private val setFavouriteMovieUseCase: SetFavouriteMovieUseCase,
-    private val getFavouriteMovieUseCase: GetFavouriteMovieUseCase,
     private val getMoviesUseCase: GetMoviesUseCase,
 ) : ViewModel() {
 
-    private val movieList = getMoviesUseCase.getMoviesList()
+    private val _moviesList: MutableStateFlow<List<MovieDataModel>> = MutableStateFlow(listOf())
+    val moviesList: StateFlow<List<MovieDataModel>> = _moviesList
 
-//    init {
-//        updateMoviesFavouriteStatus()
-//    }
-//
-//    private fun updateMoviesFavouriteStatus() {
-//        for (m in movieList) {
-//            m.movieLiked = getFavouriteMovieUseCase.getMovieIsFavourite(m.movieID)
-//        }
-//    }
+    init {
+        getMoviesList()
+    }
 
-    fun getMoviesList(): List<MovieDataModel> {
-        return movieList
+    private fun getMoviesList() {
+        viewModelScope.launch {
+            try {
+                val movieList = getMoviesUseCase.getMoviesList(true)
+                _moviesList.emit(movieList)
+            } catch (exception: Exception) {
+                Log.e("getMovies", "Exception: ${exception.message}")
+            }
+        }
     }
 
     fun favouriteIconClicked(movie: MovieDataModel) {
-        for (m in movieList) {
-            if (m.movieID == movie.movieID) {
-                m.movieLiked = !m.movieLiked
-                setFavouriteMovieUseCase.setMovieIsFavourite(m.movieID, m.movieLiked)
-            }
-        }
+        setFavouriteMovieUseCase.setMovieIsFavourite(movie.movieID, !movie.movieLiked)
+        getMoviesList()
     }
 }

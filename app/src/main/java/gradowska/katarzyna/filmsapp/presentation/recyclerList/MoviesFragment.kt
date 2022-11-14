@@ -1,13 +1,17 @@
 package gradowska.katarzyna.filmsapp.presentation.recyclerList
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import gradowska.katarzyna.filmsapp.databinding.FragmentRecyclerListBinding
+import kotlinx.coroutines.delay
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MoviesFragment : Fragment() {
@@ -16,6 +20,8 @@ class MoviesFragment : Fragment() {
     val binding get() = _binding!!
 
     private val viewModel: MoviesFragmentViewModel by viewModel()
+
+    private val adapter = MovieAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,6 +35,7 @@ class MoviesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
+        observe()
     }
 
     override fun onDestroyView() {
@@ -36,16 +43,20 @@ class MoviesFragment : Fragment() {
         _binding = null
     }
 
-    private fun initRecyclerView() {
-        val adapter = MovieAdapter()
-        adapter.setItems(viewModel.getMoviesList())
+    private fun observe() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.moviesList.collect {
+                adapter.setItems(it)
+            }
+        }
+    }
 
+    private fun initRecyclerView() {
         adapter.clickListener = {
             Log.d("Adapter", "Kliknięty data model: $it")
         }
         adapter.favouriteIconClickListener = {
             viewModel.favouriteIconClicked(it) // modyfikacja istniejacej listy - zmiana flagi movieLiked
-            adapter.setItems(viewModel.getMoviesList()) // zwrocenie CALEJ listy (ktora linijke wyzej modyfikujemy)
         }
 
 
