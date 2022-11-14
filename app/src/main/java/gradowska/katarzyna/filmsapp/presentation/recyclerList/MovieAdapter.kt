@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import gradowska.katarzyna.filmsapp.databinding.ItemMovieBinding
-import gradowska.katarzyna.filmsapp.presentation.movie.MovieDataModel
+import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
 
 class MovieAdapter() : RecyclerView.Adapter<MovieViewHolder>() {
     private val formats: ArrayList<MovieDataModel> = arrayListOf()
