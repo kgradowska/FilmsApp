@@ -58,7 +58,11 @@
             app:layout_constraintEnd_toStartOf="@id/rate"
             app:layout_constraintStart_toEndOf="@id/movieImage"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="spread" />
+            app:layout_constraintVertical_chainStyle="spread"
+            android:maxLines="2"
+            android:maxWidth="200sp"
+            android:gravity="center"
+            android:ellipsize="end" />
 
         <TextView
             android:id="@+id/rate"

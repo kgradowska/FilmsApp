@@ -4,12 +4,8 @@ import android.content.Context
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import gradowska.katarzyna.filmsapp.data.entity.MovieDetailsDTO
 import gradowska.katarzyna.filmsapp.data.entity.MoviesListDTO
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
 import java.lang.reflect.Type
 
 
@@ -33,6 +29,14 @@ class MovieDataSource(
 
     suspend fun getMoviesListFromApi(page: Int): MoviesListDTO {
         return apiService.fetchMoviesList(apiKey, page)
+    }
+
+    suspend fun getMovieFromApi(id: String): MovieDetailsDTO {
+        return apiService.fetchMovie(id, apiKey)
+    }
+
+    suspend fun getSearchedMovieFromApi(query: String, page: Int): MoviesListDTO {
+        return apiService.fetchSearchingMovie(apiKey, query, page)
     }
 
     private val jsonString =

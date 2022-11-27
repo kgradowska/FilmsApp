@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">FilmsApp</string>
-    <string name="startButtonTitle">open list</string>
+    <string name="startButtonTitle">open movie list</string>
 </resources>

@@ -5,10 +5,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import gradowska.katarzyna.filmsapp.R
 import gradowska.katarzyna.filmsapp.databinding.FragmentRecyclerListBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -34,11 +37,17 @@ class MoviesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         observe()
+        showToast()
+        searchButtonClicked()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun showToast() {
+        Toast.makeText(context, "Click on a movie to find out more.", Toast.LENGTH_LONG).show()
     }
 
     private fun observe() {
@@ -49,9 +58,21 @@ class MoviesFragment : Fragment() {
         }
     }
 
+    private fun searchButtonClicked() {
+        binding.button.setOnClickListener {
+            viewModel.searchClicked(binding.search.text.toString())
+        }
+    }
+
+
     private fun initRecyclerView() {
         adapter.clickListener = {
             Log.d("Adapter", "Kliknięty data model: $it")
+            findNavController().navigate(
+                MoviesFragmentDirections.actionRecyclerListFragmentToSingleMovieFragment(
+                    it.movieID
+                )
+            )
         }
         adapter.favouriteIconClickListener = {
             viewModel.favouriteIconClicked(it) // modyfikacja istniejacej listy - zmiana flagi movieLiked
@@ -65,7 +86,6 @@ class MoviesFragment : Fragment() {
                 }
             }
         })
-
 
         binding.filmRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.filmRecyclerView.adapter = adapter
