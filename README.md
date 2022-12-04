@@ -23,12 +23,10 @@ All things which are done up to now:
 - Koin - dependency injection (Singleton and Factory design patterns used)
 - Moshi - parsing elements from Json to ClassDTO (Data Transfer Object)
 - StateFlow - observing movieList
-
+- retrofit + okhttp (REST API)
+- searching movies by a title or keywords
 
 
 ## Things to do
 All things to do in the nearest future:
-- retrofit + okhttp -> I want to get movie data from the web server and show this list in the recycler view
-- creating some layouts
-- searching movies by title
 - light mode (dark mode is almost done)
