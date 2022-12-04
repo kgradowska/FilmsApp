@@ -3,7 +3,7 @@ This app is still **in progress**.
 
 Below you can read about things ***already done*** and those ***to be done soon***.
 ## Aim
-The main **aim** of this app is to **show a list of movies** and **make simple operations on** that **list**, like adding movies to the favourite movies list (already done) and searching films by title (to do in the future).
+The main **aim** of this app is to **show a list of movies** and **make simple operations on** that **list**, like adding movies to the favourite movies list and searching films by title.
 
 My **main goal** is to **learn different concepts** by making this application.
 
@@ -24,7 +24,7 @@ All things which are done up to now:
 - Moshi - parsing elements from Json to ClassDTO (Data Transfer Object)
 - StateFlow - observing movieList
 - retrofit + okhttp (REST API)
-- searching movies by a title or keywords
+- searching movies by title or keywords
 
 
 ## Things to do
