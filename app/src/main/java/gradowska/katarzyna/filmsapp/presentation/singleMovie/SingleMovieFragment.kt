@@ -34,6 +34,7 @@ class SingleMovieFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observe()
+        checkVisibility()
         binding.singleMovieTitleText.text = args.idMovie
     }
 
@@ -42,6 +43,11 @@ class SingleMovieFragment : Fragment() {
         _binding = null
     }
 
+    private fun checkVisibility() {
+        if (binding.tagLine.text == "    ") {
+            binding.tagLine.visibility = View.GONE
+        }
+    }
 
     private fun observe() {
         lifecycleScope.launchWhenStarted {

@@ -59,6 +59,6 @@ object FilmsDI {
 
     private val BASE_URL = "https://api.themoviedb.org/3/"
     private val API_KEY =
-        "" // generate your own api key here: https://developers.themoviedb.org/3/getting-started/introduction
+        "4cbf330fd2ec208655bc806eacdf5273" // generate your own api key here: https://developers.themoviedb.org/3/getting-started/introduction
 
 }

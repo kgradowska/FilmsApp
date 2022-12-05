@@ -91,16 +91,38 @@ class MoviesFragmentViewModel(
     }
 
     fun searchClicked(query: String) {
-        currentPage = 1
-        canLoadMore = true
-        isLoading = false
+        if (!isLoading) {
+            if (currentQuery != query) {
+                currentPage = 1
+                canLoadMore = true
+                isLoading = false
+            }
 
-        currentQuery = query
-        getSearchedMovies()
+            currentQuery = query
+
+            if (currentPage == 1) {
+                if (currentQuery.isEmpty()) {
+                    getMoviesList()
+                } else {
+                    getSearchedMovies()
+                }
+            }
+        }
     }
 
     fun favouriteIconClicked(movie: MovieDataModel) {
         setFavouriteMovieUseCase.setMovieIsFavourite(movie.movieID, !movie.movieLiked)
-        getMoviesList()
+
+        val newList = ArrayList<MovieDataModel>()
+
+        for (m in _moviesList.value) {
+            if (m.movieID != movie.movieID) {
+                newList.add(m)
+            } else {
+                newList.add(m.copy(movieLiked = !movie.movieLiked))
+            }
+        }
+
+        _moviesList.value = newList
     }
 }

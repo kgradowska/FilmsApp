@@ -79,12 +79,16 @@ data class MovieDetailsDTO(
     private fun createProductionCountriesText(): String {
         var productionCountriesText = ""
         var counter = 0
+        var addedString = ""
+        if (productionCountries.size > 1) {
+            addedString = "- "
+        }
         for (item in productionCountries) {
             if (counter < 4) {
                 if (counter > 0) {
                     productionCountriesText += "\n"
                 }
-                productionCountriesText += "- " + item.name
+                productionCountriesText += addedString + item.name
                 counter++
             }
         }

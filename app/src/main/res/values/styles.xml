@@ -2,7 +2,7 @@
 <resources>
     <style name="StartButtonStyle">
         <item name="android:textColor">@color/energyYellow</item>
-        <item name="android:background">@color/haiti</item>
+        <item name="android:background">@color/tolopea</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textSize">30sp</item>
         <item name="android:paddingStart">@dimen/start_and_end_padding</item>
