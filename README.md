@@ -14,7 +14,7 @@ After launching the app, you can click on an *OPEN LIST* button to see a list of
 
 ## Things done
 All things which are done up to now:
-- creating an activity, fragments, view models and layouts
+- implementing MVVM architecture (creating an activity, fragments, view models and layouts)
 - usage of View Binding
 - splitting code into packages: data, domain and presentation
 - using recycler view to show movies 
@@ -24,9 +24,11 @@ All things which are done up to now:
 - Moshi - parsing elements from Json to ClassDTO (Data Transfer Object)
 - StateFlow - observing movieList
 - retrofit + okhttp (REST API)
-- searching movies by title or keywords
+- searching movies by a title or keywords
 
 
 ## Things to do
 All things to do in the nearest future:
 - light mode (dark mode is almost done)
+- adding new filters to search movies (for example, searching by the genres)
+- changing the way of searching movies (this will probably be on a different layout)
