@@ -25,4 +25,19 @@ interface ApiService {
         @Query("query") query: String,
         @Query("page") page: Int,
     ): MoviesListDTO
+
+    @GET("discover/movie")
+    suspend fun fetchMoviesInGenre(
+        @Query("api_key") api_key: String,
+        @Query("query") query: String,
+        @Query("page") page: Int,
+        @Query("sort_by") sort_by: String,
+        @Query("with_genres") with_genres: String,
+    ): MoviesListDTO
+
+    @GET("genre/movie/list")
+    suspend fun fetchGenres(
+        @Query("api_key") api_key: String,
+        @Query("query") query: String,
+    ): MoviesListDTO
 }

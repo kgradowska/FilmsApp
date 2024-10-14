@@ -19,7 +19,8 @@
         android:hint="search movie"
         android:padding="5dp"
         android:paddingVertical="10dp"
-        android:background="@drawable/rounded_edittext" />
+        android:background="@drawable/rounded_edittext"
+        android:foreground="?attr/selectableItemBackground" />
 
     <TextView
         android:layout_marginTop="10dp"
@@ -35,6 +36,7 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="10dp"
         android:textSize="20sp"
+        android:foreground="?attr/selectableItemBackground"
         android:background="@drawable/rounded_button" />
 
     <androidx.recyclerview.widget.RecyclerView

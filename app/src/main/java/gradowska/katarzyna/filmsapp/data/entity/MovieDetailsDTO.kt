@@ -34,7 +34,7 @@ data class MovieDetailsDTO(
     @Json(name = "popularity")
     val popularity: Double,
     @Json(name = "poster_path")
-    val posterPath: String,
+    val posterPath: String?,
     @Json(name = "production_companies")
     val productionCompanies: List<ProductionCompany>,
     @Json(name = "production_countries")
@@ -125,7 +125,7 @@ data class BelongsToCollection(
     @Json(name = "name")
     val name: String,
     @Json(name = "poster_path")
-    val posterPath: String
+    val posterPath: String?
 )
 
 @JsonClass(generateAdapter = true)
