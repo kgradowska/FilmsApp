@@ -54,7 +54,7 @@ data class MoviesListDTO(
             movieDescription = overview,
             moviePhoto = "https://image.tmdb.org/t/p/original/" + posterPath,
             movieLiked = isFavourite,
-            movieRate = voteAverage.toString()
+            movieRate = voteAverage
         )
     }
 }
