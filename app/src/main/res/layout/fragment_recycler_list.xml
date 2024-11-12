@@ -2,11 +2,52 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/haiti">
+    android:background="@color/tolopea"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditText
+        android:id="@+id/search"
+        android:layout_width="390dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="5dp"
+        android:maxLines="1"
+        android:lines="1"
+        android:textSize="20sp"
+        android:hint="search movie"
+        android:padding="5dp"
+        android:paddingVertical="10dp"
+        android:background="@drawable/rounded_edittext"
+        android:foreground="?attr/selectableItemBackground" />
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search"
+        android:textColor="@color/wineBerry2"
+        android:text="Search"
+        android:textStyle="bold"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="10dp"
+        android:textSize="20sp"
+        android:foreground="?attr/selectableItemBackground"
+        android:background="@drawable/rounded_button" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/filmRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"/>
+        android:padding="5dp"
+        android:layout_marginTop="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

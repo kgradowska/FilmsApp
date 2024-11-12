@@ -2,7 +2,7 @@
 <resources>
     <style name="StartButtonStyle">
         <item name="android:textColor">@color/energyYellow</item>
-        <item name="android:background">@color/haiti</item>
+        <item name="android:background">@color/tolopea</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textSize">30sp</item>
         <item name="android:paddingStart">@dimen/start_and_end_padding</item>
@@ -10,7 +10,7 @@
         <item name="android:paddingTop">@dimen/top_and_bottom_padding</item>
         <item name="android:paddingBottom">@dimen/top_and_bottom_padding</item>
         <item name="android:gravity">center</item>
-        <item name="android:textStyle">bold|italic</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="MovieTitleStyle">
@@ -20,14 +20,14 @@
     </style>
 
     <style name="MovieBodyStyle">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">italic</item>
         <item name="android:ellipsize">end</item>
     </style>
 
     <style name="SingleMovieTitleStyle">
-        <item name="android:textSize">30sp</item>
+        <item name="android:textSize">33sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/gold</item>
     </style>

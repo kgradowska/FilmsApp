@@ -10,7 +10,7 @@ class MovieDTO(
     @Json(name = "title")
     val title: String,
     val director: String,
-    val score: String,
+    val score: Double,
     val imageRes: String,
     val description: String,
     val releaseYear: String

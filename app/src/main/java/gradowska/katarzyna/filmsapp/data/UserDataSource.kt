@@ -16,5 +16,4 @@ class UserDataSource(context: Context) {
         return sharedPref.getBoolean(movieId, false)
     }
 
-
 }
