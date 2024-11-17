@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import gradowska.katarzyna.filmsapp.R
 import gradowska.katarzyna.filmsapp.databinding.FragmentStartBinding
@@ -22,7 +21,7 @@ class StartFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentStartBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -41,6 +40,10 @@ class StartFragment : Fragment() {
         binding.startButton.setOnClickListener {
             findNavController().navigate(R.id.action_startFragment_to_recyclerListFragment)
         }
+        binding.genreButton.setOnClickListener {
+            findNavController().navigate(R.id.action_startFragment_to_genresFragment)
+        }
     }
 }
+
 

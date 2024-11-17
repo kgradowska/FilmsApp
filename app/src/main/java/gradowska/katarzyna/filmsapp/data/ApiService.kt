@@ -1,5 +1,6 @@
 package gradowska.katarzyna.filmsapp.data
 
+import gradowska.katarzyna.filmsapp.data.entity.GenresDTO
 import gradowska.katarzyna.filmsapp.data.entity.MovieDetailsDTO
 import gradowska.katarzyna.filmsapp.data.entity.MoviesListDTO
 import retrofit2.http.GET
@@ -37,7 +38,6 @@ interface ApiService {
 
     @GET("genre/movie/list")
     suspend fun fetchGenres(
-        @Query("api_key") api_key: String,
-        @Query("query") query: String,
-    ): MoviesListDTO
+        @Query("api_key") api_key: String
+    ): GenresDTO
 }

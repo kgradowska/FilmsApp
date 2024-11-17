@@ -6,6 +6,7 @@ import gradowska.katarzyna.filmsapp.data.ApiService
 import gradowska.katarzyna.filmsapp.data.MovieDataSource
 import gradowska.katarzyna.filmsapp.data.UserDataSource
 import gradowska.katarzyna.filmsapp.domain.usecase.*
+import gradowska.katarzyna.filmsapp.presentation.genres.GenresFragmentViewModel
 import gradowska.katarzyna.filmsapp.presentation.main.MainActivityViewModel
 import gradowska.katarzyna.filmsapp.presentation.recyclerList.MoviesFragmentViewModel
 import gradowska.katarzyna.filmsapp.presentation.singleMovie.SingleMovieViewModel
@@ -29,11 +30,13 @@ object FilmsDI {
         factory { SetFavouriteMovieUseCase(get()) }
         factory { GetMovieDetailsUseCase(get(), get()) }
         factory { GetSearchedMovieDetailsUseCase(get(), get()) }
+        factory { GetGenresUseCase(get()) }
 
         viewModel { MoviesFragmentViewModel(get(), get(), get()) }
         viewModel { (movieId: String) -> SingleMovieViewModel(movieId, get()) }
         viewModel { StartFragmentViewModel() }
         viewModel { MainActivityViewModel() }
+        viewModel { GenresFragmentViewModel(get()) }
     }
 
     val networkModule = module {

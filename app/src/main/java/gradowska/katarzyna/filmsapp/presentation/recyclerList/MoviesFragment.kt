@@ -7,18 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import gradowska.katarzyna.filmsapp.R
 import gradowska.katarzyna.filmsapp.databinding.FragmentRecyclerListBinding
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MoviesFragment : Fragment() {
 
     private var _binding: FragmentRecyclerListBinding? = null
-    val binding get() = _binding!!
+    private val binding get() = _binding!!
 
     private val viewModel: MoviesFragmentViewModel by viewModel()
 
@@ -28,7 +30,7 @@ class MoviesFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentRecyclerListBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -51,9 +53,11 @@ class MoviesFragment : Fragment() {
     }
 
     private fun observe() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.moviesList.collect {
-                adapter.setItems(it)
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.moviesList.collect {
+                    adapter.setItems(it)
+                }
             }
         }
     }

@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_startFragment_to_recyclerListFragment"
             app:destination="@id/recyclerListFragment" />
+        <action
+            android:id="@+id/action_startFragment_to_genresFragment"
+            app:destination="@id/genresFragment" />
     </fragment>
     <fragment
         android:id="@+id/recyclerListFragment"
@@ -28,5 +31,10 @@
         <argument
             android:name="idMovie"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/genresFragment"
+        android:name="gradowska.katarzyna.filmsapp.presentation.genres.GenresFragment"
+        tools:layout="@layout/fragment_genres">
     </fragment>
 </navigation>

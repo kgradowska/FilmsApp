@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 
 class SingleMovieViewModel(
     private val movieId: String,
-    private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
+    private val getMovieDetailsUseCase: GetMovieDetailsUseCase
 ) : ViewModel() {
 
     private val _movieDetails: MutableSharedFlow<MovieDetailsDataModel> = MutableSharedFlow()
