@@ -10,7 +10,7 @@ import gradowska.katarzyna.filmsapp.domain.usecase.GetSearchedMovieDetailsUseCas
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-class MoviesFragmentViewModel(
+class MoviesViewModel(
     private val setFavouriteMovieUseCase: SetFavouriteMovieUseCase,
     private val getMoviesUseCase: GetMoviesUseCase,
     private val getSearchedMovieUseCase: GetSearchedMovieDetailsUseCase

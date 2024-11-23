@@ -7,11 +7,11 @@ import gradowska.katarzyna.filmsapp.databinding.ItemMovieBinding
 import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
 
 class MovieAdapter() : RecyclerView.Adapter<MovieViewHolder>() {
-    private val formats: ArrayList<MovieDataModel> = arrayListOf()
+    private val moviesList: ArrayList<MovieDataModel> = arrayListOf()
 
     fun setItems(newList: List<MovieDataModel>) {
-        formats.clear()
-        formats.addAll(newList)
+        moviesList.clear()
+        moviesList.addAll(newList)
         notifyDataSetChanged()
     }
 
@@ -24,8 +24,8 @@ class MovieAdapter() : RecyclerView.Adapter<MovieViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.bind(formats[position], clickListener, favouriteIconClickListener)
+        holder.bind(moviesList[position], clickListener, favouriteIconClickListener)
     }
 
-    override fun getItemCount() = formats.size
+    override fun getItemCount() = moviesList.size
 }

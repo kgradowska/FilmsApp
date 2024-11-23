@@ -22,7 +22,7 @@ class MoviesFragment : Fragment() {
     private var _binding: FragmentRecyclerListBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: MoviesFragmentViewModel by viewModel()
+    private val viewModel: MoviesViewModel by viewModel()
 
     private val adapter = MovieAdapter()
 

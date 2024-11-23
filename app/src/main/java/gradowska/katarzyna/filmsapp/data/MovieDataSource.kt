@@ -39,6 +39,15 @@ class MovieDataSource(
         return apiService.fetchSearchingMovie(apiKey, query, page)
     }
 
+    suspend fun getMoviesInGenre(
+        query: String,
+        page: Int,
+        sortBy: String,
+        withGenres: String
+    ): MoviesListDTO {
+        return apiService.fetchMoviesInGenre(apiKey, query, page, sortBy, withGenres)
+    }
+
     suspend fun getGenresFromApi(): GenresDTO {
         return apiService.fetchGenres(apiKey)
     }

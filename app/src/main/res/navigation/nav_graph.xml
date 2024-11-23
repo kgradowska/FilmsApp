@@ -36,5 +36,13 @@
         android:id="@+id/genresFragment"
         android:name="gradowska.katarzyna.filmsapp.presentation.genres.GenresFragment"
         tools:layout="@layout/fragment_genres">
+        <action
+            android:id="@+id/action_genresFragment_to_moviesGenresFragment"
+            app:destination="@id/moviesGenresFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/moviesGenresFragment"
+        android:name="gradowska.katarzyna.filmsapp.presentation.moviesgenres.MoviesGenresFragment"
+        tools:layout="@layout/fragment_genres_movies">
     </fragment>
 </navigation>

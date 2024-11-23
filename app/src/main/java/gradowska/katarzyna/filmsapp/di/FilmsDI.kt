@@ -8,7 +8,8 @@ import gradowska.katarzyna.filmsapp.data.UserDataSource
 import gradowska.katarzyna.filmsapp.domain.usecase.*
 import gradowska.katarzyna.filmsapp.presentation.genres.GenresFragmentViewModel
 import gradowska.katarzyna.filmsapp.presentation.main.MainActivityViewModel
-import gradowska.katarzyna.filmsapp.presentation.recyclerList.MoviesFragmentViewModel
+import gradowska.katarzyna.filmsapp.presentation.moviesgenres.MoviesGenresViewModel
+import gradowska.katarzyna.filmsapp.presentation.recyclerList.MoviesViewModel
 import gradowska.katarzyna.filmsapp.presentation.singleMovie.SingleMovieViewModel
 import gradowska.katarzyna.filmsapp.presentation.start.StartFragmentViewModel
 import okhttp3.OkHttpClient
@@ -32,11 +33,12 @@ object FilmsDI {
         factory { GetSearchedMovieDetailsUseCase(get(), get()) }
         factory { GetGenresUseCase(get()) }
 
-        viewModel { MoviesFragmentViewModel(get(), get(), get()) }
+        viewModel { MoviesViewModel(get(), get(), get()) }
         viewModel { (movieId: String) -> SingleMovieViewModel(movieId, get()) }
         viewModel { StartFragmentViewModel() }
         viewModel { MainActivityViewModel() }
         viewModel { GenresFragmentViewModel(get()) }
+        viewModel { MoviesGenresViewModel() }
     }
 
     val networkModule = module {

@@ -9,8 +9,15 @@ class GenreViewHolder(
     private val binding: ItemGenreBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(genre: GenreDataModel, isLast: Boolean) {
+    fun bind(
+        genre: GenreDataModel,
+        isLast: Boolean,
+        clickListener: ((GenreDataModel) -> Unit)?
+    ) {
         binding.genre.text = genre.name
         binding.line.isVisible = !isLast
+        binding.root.setOnClickListener {
+            clickListener?.invoke(genre)
+        }
     }
 }

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import gradowska.katarzyna.filmsapp.databinding.FragmentGenresBinding
 import kotlinx.coroutines.launch
@@ -56,5 +57,12 @@ class GenresFragment : Fragment() {
     private fun initRecyclerView() {
         binding.genresRecycler.layoutManager = LinearLayoutManager(context)
         binding.genresRecycler.adapter = adapter
+
+        adapter.clickListener = {
+            findNavController().navigate(
+                GenresFragmentDirections.actionGenresFragmentToMoviesGenresFragment()
+            )
+        }
+
     }
 }
