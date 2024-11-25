@@ -2,13 +2,14 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/tolopea">
 
         <ImageView
@@ -19,10 +20,10 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="300dp"
             android:foregroundGravity="top"
-            android:src="@drawable/los_angeles"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tagLine" />
+            app:layout_constraintTop_toBottomOf="@id/tagLine"
+            tools:src="@drawable/los_angeles" />
 
         <ImageView
             android:id="@+id/movieBackdrop"
@@ -30,10 +31,10 @@
             android:layout_height="wrap_content"
             android:foregroundGravity="left"
             android:scaleType="fitStart"
-            android:src="@drawable/los_angeles"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/los_angeles" />
 
         <ImageView
             android:id="@+id/rectangle"
@@ -58,12 +59,12 @@
             android:layout_marginEnd="20dp"
             android:lineHeight="24dp"
             android:paddingBottom="30dp"
-            android:text="Lorem ipsum Lorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
             android:textStyle="italic|bold"
             app:layout_constrainedHeight="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/originalTitle" />
+            app:layout_constraintTop_toBottomOf="@id/originalTitle"
+            tools:text="Lorem ipsum Lorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" />
 
         <TextView
             android:id="@+id/tagLine"
@@ -77,7 +78,6 @@
             android:gravity="center"
             android:paddingHorizontal="5dp"
             android:paddingVertical="10dp"
-            android:text="Lorem ipsum Lorem ipsumLorem ipsumLorem ipsumLorem"
             android:textColor="@color/white"
             android:textSize="25dp"
             android:textStyle="italic|bold"
@@ -85,7 +85,8 @@
             app:layout_constraintBottom_toTopOf="@id/singleMovieImage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/runtime" />
+            app:layout_constraintTop_toBottomOf="@id/runtime"
+            tools:text="Lorem ipsum Lorem ipsumLorem ipsumLorem ipsumLorem" />
 
         <TextView
             android:id="@+id/singleMovieTitleText"
@@ -94,15 +95,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            android:paddingEnd="30dp"
             android:ellipsize="end"
             android:foregroundGravity="left"
             android:gravity="left"
             android:maxLines="3"
-            android:text="Tytuł filmu jest bardzo długi"
+            android:paddingEnd="30dp"
             app:layout_constrainedWidth="true"
             app:layout_constraintStart_toStartOf="@+id/movieBackdrop"
-            app:layout_constraintTop_toBottomOf="@+id/movieBackdrop" />
+            app:layout_constraintTop_toBottomOf="@+id/movieBackdrop"
+            tools:text="Tytuł filmu jest bardzo długi" />
 
         <TextView
             android:id="@+id/singleMovieRate"
@@ -111,13 +112,13 @@
             android:layout_marginTop="5dp"
             android:gravity="center"
             android:maxLines="1"
-            android:text="8,3"
             android:textColor="@color/gold"
             android:textSize="36sp"
             app:layout_constraintBottom_toTopOf="@id/star"
             app:layout_constraintEnd_toEndOf="@id/rectangle"
             app:layout_constraintStart_toStartOf="@id/rectangle"
-            app:layout_constraintTop_toTopOf="@+id/rectangle" />
+            app:layout_constraintTop_toTopOf="@+id/rectangle"
+            tools:text="8,3" />
 
         <ImageView
             android:id="@+id/star"
@@ -146,7 +147,7 @@
             android:id="@+id/productionCountriesText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Production countries"
+            android:text="@string/production_countries"
             android:textColor="@color/gold"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -158,11 +159,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:text="1994"
             android:textColor="@color/gold"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@id/separationMark"
-            app:layout_constraintTop_toTopOf="@id/runtime" />
+            app:layout_constraintTop_toTopOf="@id/runtime"
+            tools:text="1994" />
 
         <TextView
             android:id="@+id/runtime"
@@ -171,12 +172,12 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="15dp"
-            android:text="139"
             android:textColor="@color/gold"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@id/tagLine"
             app:layout_constraintStart_toStartOf="@id/singleMovieTitleText"
-            app:layout_constraintTop_toBottomOf="@id/genre" />
+            app:layout_constraintTop_toBottomOf="@id/genre"
+            tools:text="139" />
 
         <TextView
             android:id="@+id/separationMark"
@@ -195,11 +196,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
             android:layout_marginTop="5dp"
-            android:text="drama"
             android:textColor="@color/gold"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@id/singleMovieTitleText"
-            app:layout_constraintTop_toBottomOf="@id/singleMovieTitleText" />
+            app:layout_constraintTop_toBottomOf="@id/singleMovieTitleText"
+            tools:text="drama" />
 
         <TextView
             android:id="@+id/viewsCounter"
@@ -225,7 +226,7 @@
             android:layout_marginTop="30dp"
             android:gravity="center"
             android:lineHeight="24dp"
-            android:text="votes"
+            android:text="@string/votes"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constrainedHeight="true"
@@ -251,7 +252,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Original Language"
+            android:text="@string/original_language"
             android:textColor="@color/gold"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -276,7 +277,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Original title"
+            android:text="@string/original_title"
             android:textColor="@color/gold"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -285,14 +286,15 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:id="@+id/constrait"
             android:background="@drawable/budget_revenue_background"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/singleMovieBodyText">
-
+            app:layout_constraintTop_toBottomOf="@id/singleMovieBodyText"
+            app:layout_constraintVertical_bias="1">
 
             <TextView
                 android:id="@+id/revenue"
@@ -313,7 +315,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="150dp"
-                android:text="Revenue"
+                android:text="@string/revenue"
                 android:textColor="@color/gold"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -341,17 +343,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="60dp"
                 android:layout_marginTop="10dp"
-                android:text="Budget"
+                android:text="@string/budget"
                 android:textColor="@color/gold"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintHorizontal_chainStyle="spread"
-                app:layout_constraintStart_toStartOf="@id/constrait"
-                app:layout_constraintTop_toTopOf="@id/constrait" />
-
+                app:layout_constraintStart_toStartOf="@id/constraint"
+                app:layout_constraintTop_toTopOf="@id/constraint" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </ScrollView>

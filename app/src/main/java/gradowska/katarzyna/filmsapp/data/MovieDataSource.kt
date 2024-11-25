@@ -40,10 +40,10 @@ class MovieDataSource(
     }
 
     suspend fun getMoviesInGenre(
-        query: String,
-        page: Int,
-        sortBy: String,
-        withGenres: String
+        query: String?,
+        page: Int?,
+        sortBy: String?,
+        withGenres: String?
     ): MoviesListDTO {
         return apiService.fetchMoviesInGenre(apiKey, query, page, sortBy, withGenres)
     }

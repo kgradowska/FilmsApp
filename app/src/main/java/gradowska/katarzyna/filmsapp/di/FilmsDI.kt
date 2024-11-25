@@ -32,13 +32,14 @@ object FilmsDI {
         factory { GetMovieDetailsUseCase(get(), get()) }
         factory { GetSearchedMovieDetailsUseCase(get(), get()) }
         factory { GetGenresUseCase(get()) }
+        factory { GetMoviesGenresUseCase(get(), get()) }
 
         viewModel { MoviesViewModel(get(), get(), get()) }
         viewModel { (movieId: String) -> SingleMovieViewModel(movieId, get()) }
         viewModel { StartFragmentViewModel() }
         viewModel { MainActivityViewModel() }
         viewModel { GenresFragmentViewModel(get()) }
-        viewModel { MoviesGenresViewModel() }
+        viewModel { (idGenre: Int) -> MoviesGenresViewModel(idGenre, get()) }
     }
 
     val networkModule = module {

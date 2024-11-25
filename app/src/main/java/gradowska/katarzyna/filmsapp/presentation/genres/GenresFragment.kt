@@ -60,7 +60,7 @@ class GenresFragment : Fragment() {
 
         adapter.clickListener = {
             findNavController().navigate(
-                GenresFragmentDirections.actionGenresFragmentToMoviesGenresFragment()
+                GenresFragmentDirections.actionGenresFragmentToMoviesGenresFragment(it.id)
             )
         }
 

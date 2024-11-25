@@ -13,6 +13,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import gradowska.katarzyna.filmsapp.R
 import gradowska.katarzyna.filmsapp.databinding.FragmentRecyclerListBinding
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -49,7 +50,7 @@ class MoviesFragment : Fragment() {
     }
 
     private fun showToast() {
-        Toast.makeText(context, "Click on a movie to find out more.", Toast.LENGTH_LONG).show()
+        Toast.makeText(context, R.string.movie_click_toast, Toast.LENGTH_LONG).show()
     }
 
     private fun observe() {
