@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -40,7 +40,7 @@
             android:id="@+id/rectangle"
             android:layout_width="100dp"
             android:layout_height="168dp"
-            android:layout_marginLeft="300dp"
+            android:layout_marginStart="300dp"
             android:layout_marginBottom="51dp"
             android:alpha="0.8"
             android:background="@color/wineBerry2"
@@ -66,6 +66,13 @@
             app:layout_constraintTop_toBottomOf="@id/originalTitle"
             tools:text="Lorem ipsum Lorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" />
 
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="start"
+            app:constraint_referenced_ids="originalTitle,singleMovieImage" />
+
         <TextView
             android:id="@+id/tagLine"
             android:layout_width="0dp"
@@ -79,7 +86,7 @@
             android:paddingHorizontal="5dp"
             android:paddingVertical="10dp"
             android:textColor="@color/white"
-            android:textSize="25dp"
+            android:textSize="25sp"
             android:textStyle="italic|bold"
             app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toTopOf="@id/singleMovieImage"
@@ -97,7 +104,7 @@
             android:layout_marginTop="20dp"
             android:ellipsize="end"
             android:foregroundGravity="left"
-            android:gravity="left"
+            android:gravity="start"
             android:maxLines="3"
             android:paddingEnd="30dp"
             app:layout_constrainedWidth="true"
@@ -114,45 +121,51 @@
             android:maxLines="1"
             android:textColor="@color/gold"
             android:textSize="36sp"
-            app:layout_constraintBottom_toTopOf="@id/star"
+            app:layout_constraintBottom_toTopOf="@id/starBorder"
             app:layout_constraintEnd_toEndOf="@id/rectangle"
             app:layout_constraintStart_toStartOf="@id/rectangle"
             app:layout_constraintTop_toTopOf="@+id/rectangle"
             tools:text="8,3" />
 
         <ImageView
-            android:id="@+id/star"
+            android:id="@+id/starBorder"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/ic_baseline_star_rate_24"
+            android:src="@drawable/ic_baseline_star_border_24"
             app:layout_constraintEnd_toEndOf="@id/singleMovieRate"
             app:layout_constraintStart_toStartOf="@id/singleMovieRate"
             app:layout_constraintTop_toBottomOf="@id/singleMovieRate" />
 
-
         <TextView
-            android:id="@+id/productionCountries"
+            android:id="@+id/viewsCounter"
+            style="@style/MovieBodyStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:gravity="left"
-            android:textColor="@color/gold"
-            android:textSize="16sp"
-            android:textStyle="italic"
-            app:layout_constraintStart_toEndOf="@id/singleMovieImage"
-            app:layout_constraintTop_toBottomOf="@id/productionCountriesText"
-            app:layout_constraintVertical_chainStyle="spread" />
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:lineHeight="24dp"
+            android:textStyle="bold"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintBottom_toTopOf="@id/viewsText"
+            app:layout_constraintEnd_toEndOf="@id/starBorder"
+            app:layout_constraintStart_toStartOf="@id/starBorder"
+            app:layout_constraintTop_toBottomOf="@id/starBorder"
+            tools:text="235325" />
 
         <TextView
-            android:id="@+id/productionCountriesText"
+            android:id="@+id/viewsText"
+            style="@style/MovieBodyStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/production_countries"
-            android:textColor="@color/gold"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:lineHeight="24dp"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/singleMovieImage"
-            app:layout_constraintTop_toTopOf="@id/singleMovieImage" />
+            app:layout_constrainedHeight="true"
+            app:layout_constraintEnd_toEndOf="@id/starBorder"
+            app:layout_constraintStart_toStartOf="@id/starBorder"
+            app:layout_constraintTop_toBottomOf="@id/starBorder" />
 
         <TextView
             android:id="@+id/yearOfProduction"
@@ -203,48 +216,27 @@
             tools:text="drama" />
 
         <TextView
-            android:id="@+id/viewsCounter"
-            style="@style/MovieBodyStyle"
+            android:id="@+id/productionCountriesText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:lineHeight="24dp"
-            android:textStyle="bold"
-            app:layout_constrainedHeight="true"
-            app:layout_constraintBottom_toTopOf="@id/viewsText"
-            app:layout_constraintEnd_toEndOf="@id/star"
-            app:layout_constraintStart_toStartOf="@id/star"
-            app:layout_constraintTop_toBottomOf="@id/star"
-            tools:text="235325" />
-
-        <TextView
-            android:id="@+id/viewsText"
-            style="@style/MovieBodyStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:gravity="center"
-            android:lineHeight="24dp"
-            android:text="@string/votes"
+            android:text="@string/production_countries"
+            android:textColor="@color/gold"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constrainedHeight="true"
-            app:layout_constraintEnd_toEndOf="@id/star"
-            app:layout_constraintStart_toStartOf="@id/star"
-            app:layout_constraintTop_toBottomOf="@id/star" />
+            app:layout_constraintStart_toEndOf="@id/singleMovieImage"
+            app:layout_constraintTop_toTopOf="@id/singleMovieImage" />
 
         <TextView
-            android:id="@+id/originalLanguage"
+            android:id="@+id/productionCountries"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:gravity="left"
+            android:gravity="start"
             android:textColor="@color/gold"
             android:textSize="16sp"
             android:textStyle="italic"
             app:layout_constraintStart_toEndOf="@id/singleMovieImage"
-            app:layout_constraintTop_toBottomOf="@id/originalLanguageText"
+            app:layout_constraintTop_toBottomOf="@id/productionCountriesText"
             app:layout_constraintVertical_chainStyle="spread" />
 
         <TextView
@@ -259,18 +251,18 @@
             app:layout_constraintStart_toEndOf="@id/singleMovieImage"
             app:layout_constraintTop_toBottomOf="@id/productionCountries" />
 
-
         <TextView
-            android:id="@+id/originalTitle"
+            android:id="@+id/originalLanguage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:gravity="left"
+            android:gravity="start"
             android:textColor="@color/gold"
             android:textSize="16sp"
             android:textStyle="italic"
-            app:layout_constraintStart_toStartOf="@id/originalLanguageText"
-            app:layout_constraintTop_toBottomOf="@id/originalTitleText" />
+            app:layout_constraintStart_toEndOf="@id/singleMovieImage"
+            app:layout_constraintTop_toBottomOf="@id/originalLanguageText"
+            app:layout_constraintVertical_chainStyle="spread" />
 
         <TextView
             android:id="@+id/originalTitleText"
@@ -284,6 +276,17 @@
             app:layout_constraintStart_toStartOf="@id/originalLanguageText"
             app:layout_constraintTop_toBottomOf="@id/originalLanguage" />
 
+        <TextView
+            android:id="@+id/originalTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="start"
+            android:textColor="@color/gold"
+            android:textSize="16sp"
+            android:textStyle="italic"
+            app:layout_constraintStart_toStartOf="@id/originalLanguageText"
+            app:layout_constraintTop_toBottomOf="@id/originalTitleText" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint"
@@ -295,47 +298,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/singleMovieBodyText"
             app:layout_constraintVertical_bias="1">
-
-            <TextView
-                android:id="@+id/revenue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="left"
-                android:paddingBottom="10dp"
-                android:textColor="@color/gold"
-                android:textSize="16sp"
-                android:textStyle="italic"
-                app:layout_constraintHorizontal_chainStyle="spread"
-                app:layout_constraintStart_toStartOf="@id/revenueText"
-                app:layout_constraintTop_toBottomOf="@id/revenueText" />
-
-            <TextView
-                android:id="@+id/revenueText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="150dp"
-                android:text="@string/revenue"
-                android:textColor="@color/gold"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintHorizontal_chainStyle="spread"
-                app:layout_constraintStart_toEndOf="@id/budget"
-                app:layout_constraintTop_toTopOf="@id/budgetText" />
-
-            <TextView
-                android:id="@+id/budget"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="left"
-                android:paddingBottom="10dp"
-                android:textColor="@color/gold"
-                android:textSize="16sp"
-                android:textStyle="italic"
-                app:layout_constraintHorizontal_chainStyle="spread"
-                app:layout_constraintStart_toStartOf="@id/budgetText"
-                app:layout_constraintTop_toBottomOf="@id/budgetText" />
 
             <TextView
                 android:id="@+id/budgetText"
@@ -350,6 +312,46 @@
                 app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintStart_toStartOf="@id/constraint"
                 app:layout_constraintTop_toTopOf="@id/constraint" />
+
+            <TextView
+                android:id="@+id/budget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="start"
+                android:paddingBottom="10dp"
+                android:textColor="@color/gold"
+                android:textSize="16sp"
+                android:textStyle="italic"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="@id/budgetText"
+                app:layout_constraintTop_toBottomOf="@id/budgetText" />
+
+            <TextView
+                android:id="@+id/revenueText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/revenue"
+                android:textColor="@color/gold"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toEndOf="@id/budget"
+                app:layout_constraintTop_toTopOf="@id/budgetText" />
+
+            <TextView
+                android:id="@+id/revenue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="start"
+                android:paddingBottom="10dp"
+                android:textColor="@color/gold"
+                android:textSize="16sp"
+                android:textStyle="italic"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="@id/revenueText"
+                app:layout_constraintTop_toBottomOf="@id/revenueText" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

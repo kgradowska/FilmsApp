@@ -1,5 +1,6 @@
 package gradowska.katarzyna.filmsapp.presentation.recyclerList
 
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import gradowska.katarzyna.filmsapp.R
@@ -19,7 +20,12 @@ class MovieViewHolder(
         with(movie) {
             binding.titleText.text = movieTitle
             binding.bodyText.text = movieDescription
-            binding.rate.text = roundTo3Digits(movieRate)
+            if (movieRate == null) {
+                binding.rate.isVisible = false
+            } else {
+                binding.rate.isVisible = true
+                binding.rate.text = roundTo3Digits(movieRate)
+            }
 
             Glide.with(binding.root.context).load(moviePhoto).into(binding.movieImage)
 

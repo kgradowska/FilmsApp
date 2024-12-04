@@ -5,10 +5,13 @@
     <string name="movie_click_toast">Click on a movie to find out more</string>
     <string name="search_movie">search movie</string>
     <string name="search">Search</string>
-    <string name="votes">votes</string>
     <string name="production_countries">Production countries</string>
     <string name="original_language">Original Language</string>
     <string name="original_title">Original title</string>
     <string name="budget">Budget</string>
     <string name="revenue">Revenue</string>
+    <plurals name="votes">
+        <item quantity="one">vote</item>
+        <item quantity="other">votes</item>
+    </plurals>
 </resources>

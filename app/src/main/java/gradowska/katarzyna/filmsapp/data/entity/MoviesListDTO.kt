@@ -24,7 +24,7 @@ data class MoviesListDTO(
         @Json(name = "backdrop_path")
         val backdropPath: String?,
         @Json(name = "genre_ids")
-        val genreIds: List<Int>,
+        val genreIds: List<Int>?,
         @Json(name = "id")
         val id: Int,
         @Json(name = "original_language")
@@ -34,19 +34,19 @@ data class MoviesListDTO(
         @Json(name = "overview")
         val overview: String,
         @Json(name = "popularity")
-        val popularity: Double,
+        val popularity: Double?, // TODO is it used?
         @Json(name = "poster_path")
         val posterPath: String?,
         @Json(name = "release_date")
-        val releaseDate: String,
+        val releaseDate: String?, // TODO is it used?
         @Json(name = "title")
         val title: String,
         @Json(name = "video")
-        val video: Boolean,
+        val video: Boolean?, // TODO is it used?
         @Json(name = "vote_average")
-        val voteAverage: Double,
+        val voteAverage: Double?,
         @Json(name = "vote_count")
-        val voteCount: Int
+        val voteCount: Int?
     ) {
         fun toMovieDataModel(isFavourite: Boolean) = MovieDataModel(
             movieID = id.toString(),

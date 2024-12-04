@@ -44,6 +44,11 @@ class MoviesGenresFragment : Fragment() {
         observe()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getMoviesList()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
@@ -57,6 +62,10 @@ class MoviesGenresFragment : Fragment() {
             findNavController().navigate(
                 MoviesGenresFragmentDirections.actionMoviesGenresFragmentToSingleMovieFragment(it.movieID)
             )
+        }
+
+        adapter.favouriteIconClickListener = {
+            viewModel.favouriteIconClicked(it)
         }
     }
 

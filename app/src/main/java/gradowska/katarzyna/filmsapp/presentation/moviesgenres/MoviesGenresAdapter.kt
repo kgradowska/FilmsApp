@@ -16,7 +16,7 @@ class MoviesGenresAdapter() : RecyclerView.Adapter<MoviesGenresViewHolder>() {
     }
 
     var clickListener: ((MovieDataModel) -> Unit)? = null
-    private var favouriteIconClickListener: ((MovieDataModel) -> Unit)? = null
+    var favouriteIconClickListener: ((MovieDataModel) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesGenresViewHolder {
         val binding = ItemMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)

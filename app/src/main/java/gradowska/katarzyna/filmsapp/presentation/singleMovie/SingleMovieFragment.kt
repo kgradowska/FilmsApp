@@ -1,7 +1,6 @@
 package gradowska.katarzyna.filmsapp.presentation.singleMovie
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import gradowska.katarzyna.filmsapp.R
 import gradowska.katarzyna.filmsapp.databinding.FragmentSingleMovieBinding
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -67,12 +67,13 @@ class SingleMovieFragment : Fragment() {
                         genre.text = it.movieGenres
                         runtime.text = it.movieRuntime
                         productionCountries.text = it.movieProductionCountries
+                        productionCountriesText.isVisible = it.movieProductionCountries.isNotBlank()
+
                         Glide.with(root.context).load(it.movieBackdropPath)
                             .into(movieBackdrop)
 
                         tagLine.isVisible = it.movieTagline.isNotBlank()
                         tagLine.text = it.movieTagline
-                        Log.d("kagr", it.movieBudget)
 
                         if (it.movieBudget == "0 \$" && it.movieRevenue == "0 \$") {
                             constraint.isVisible = false
@@ -93,7 +94,22 @@ class SingleMovieFragment : Fragment() {
                         }
 
                         originalTitle.text = it.movieOriginalTitle
+                        originalTitleText.isVisible = it.movieOriginalTitle.isNotBlank()
                         originalLanguage.text = it.movieOriginalLanguage
+                        originalLanguageText.isVisible = it.movieOriginalLanguage.isNotBlank()
+
+                        if (it.movieLiked) {
+                            starBorder.setImageResource(R.drawable.ic_baseline_star_rate_24)
+                        } else {
+                            starBorder.setImageResource(R.drawable.ic_baseline_star_border_24)
+                        }
+
+                        starBorder.setOnClickListener { _ ->
+                            viewModel.favouriteIconClicked(it) // modyfikacja istniejacej listy - zmiana flagi movieLiked
+                        }
+
+                        viewsText.text =
+                            resources.getQuantityText(R.plurals.votes, it.movieVoteCount.toInt())
                     }
                 }
             }

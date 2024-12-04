@@ -1,10 +1,13 @@
 package gradowska.katarzyna.filmsapp.presentation.recyclerList
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -44,6 +47,11 @@ class MoviesFragment : Fragment() {
         searchButtonClicked()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getMoviesList(true)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -64,8 +72,14 @@ class MoviesFragment : Fragment() {
     }
 
     private fun searchButtonClicked() {
-        binding.button.setOnClickListener {
-            viewModel.searchClicked(binding.search.text.toString())
+        binding.search.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                viewModel.searchClicked(binding.search.text.toString())
+                val imm =
+                    context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(binding.search.windowToken, 0)
+            }
+            true
         }
     }
 

@@ -25,25 +25,23 @@ class MoviesViewModel(
 
     private var currentQuery = ""
 
-    init {
-        getMoviesList()
-    }
-
     fun recyclerEndReached() {
         if (currentQuery.isEmpty()) {
-            getMoviesList()
+            getMoviesList(false)
         } else {
             getSearchedMovies()
         }
     }
 
-    private fun getMoviesList() {
+    fun getMoviesList(isFromOnResume: Boolean) {
+        if (isFromOnResume) {
+            currentPage = 1
+        }
         if (!isLoading && canLoadMore) {
             viewModelScope.launch {
                 try {
                     isLoading = true
                     val movieList = getMoviesUseCase.getMoviesList(true, currentPage)
-
                     val allMovies = if (currentPage == 1) {
                         ArrayList()
                     } else {
@@ -102,7 +100,7 @@ class MoviesViewModel(
 
             if (currentPage == 1) {
                 if (currentQuery.isEmpty()) {
-                    getMoviesList()
+                    getMoviesList(false)
                 } else {
                     getSearchedMovies()
                 }

@@ -1,29 +1,24 @@
 package gradowska.katarzyna.filmsapp.presentation.moviesgenres
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import gradowska.katarzyna.filmsapp.databinding.ItemMovieBinding
 import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
 import gradowska.katarzyna.filmsapp.domain.usecase.GetMoviesGenresUseCase
+import gradowska.katarzyna.filmsapp.domain.usecase.SetFavouriteMovieUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlin.math.log
 
 class MoviesGenresViewModel(
     private val idGenre: Int,
-    private val getMoviesGenresUseCase: GetMoviesGenresUseCase
+    private val getMoviesGenresUseCase: GetMoviesGenresUseCase,
+    private val setFavouriteMovieUseCase: SetFavouriteMovieUseCase
 ) : ViewModel() {
 
     private val _moviesList: MutableStateFlow<List<MovieDataModel>> = MutableStateFlow(listOf())
     val moviesList: StateFlow<List<MovieDataModel>> = _moviesList
 
-    init {
-        getMoviesList()
-    }
-
-    private fun getMoviesList() {
+    fun getMoviesList() {
         viewModelScope.launch {
             val movieList = getMoviesGenresUseCase.getMovieList(
                 query = null,
@@ -40,5 +35,21 @@ class MoviesGenresViewModel(
             _moviesList.value = movieList
 
         }
+    }
+
+    fun favouriteIconClicked(movie: MovieDataModel) {
+        setFavouriteMovieUseCase.setMovieIsFavourite(movie.movieID, !movie.movieLiked)
+
+        val newList = ArrayList<MovieDataModel>()
+
+        for (m in _moviesList.value) {
+            if (m.movieID != movie.movieID) {
+                newList.add(m)
+            } else {
+                newList.add(m.copy(movieLiked = !movie.movieLiked))
+            }
+        }
+
+        _moviesList.value = newList
     }
 }
