@@ -56,6 +56,7 @@ class SingleMovieFragment : Fragment() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.movieDetails.collect {
+                    if (it == null) return@collect
                     with(binding) {
                         singleMovieTitleText.text = it.movieTitle
                         singleMovieRate.text = String.format("%.2f", it.movieRate.toDouble())

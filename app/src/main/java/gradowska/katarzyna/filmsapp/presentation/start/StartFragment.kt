@@ -28,7 +28,7 @@ class StartFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initClickListener()
+        //initClickListener()
     }
 
     override fun onDestroyView() {
@@ -36,14 +36,14 @@ class StartFragment : Fragment() {
         _binding = null
     }
 
-    private fun initClickListener() {
-        binding.startButton.setOnClickListener {
-            findNavController().navigate(R.id.action_startFragment_to_recyclerListFragment)
-        }
-        binding.genreButton.setOnClickListener {
-            findNavController().navigate(R.id.action_startFragment_to_genresFragment)
-        }
-    }
+    /*    private fun initClickListener() {
+            binding.startButton.setOnClickListener {
+                findNavController().navigate(R.id.action_startFragment_to_recyclerListFragment)
+            }
+            binding.genreButton.setOnClickListener {
+                findNavController().navigate(R.id.action_startFragment_to_genresFragment)
+            }
+        }*/
 }
 
 

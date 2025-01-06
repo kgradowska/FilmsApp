@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/singleMovie"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
@@ -109,7 +110,7 @@
             app:layout_constrainedWidth="true"
             app:layout_constraintStart_toStartOf="@+id/movieBackdrop"
             app:layout_constraintTop_toBottomOf="@+id/movieBackdrop"
-            tools:text="Tytuł filmu jest bardzo długi" />
+            tools:text="Lorem ipsum Lorem ipsumLorem ipsumLorem ipsumLorem" />
 
         <TextView
             android:id="@+id/singleMovieRate"
@@ -212,7 +213,7 @@
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@id/singleMovieTitleText"
             app:layout_constraintTop_toBottomOf="@id/singleMovieTitleText"
-            tools:text="drama" />
+            tools:text="Lorem" />
 
         <TextView
             android:id="@+id/productionCountriesText"

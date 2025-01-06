@@ -2,28 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph.xml"
-    app:startDestination="@id/recyclerListFragment">
-
-    <fragment
-        android:id="@+id/startFragment"
-        android:name="gradowska.katarzyna.filmsapp.presentation.start.StartFragment"
-        tools:layout="@layout/fragment_start">
-        <action
-            android:id="@+id/action_startFragment_to_recyclerListFragment"
-            app:destination="@id/recyclerListFragment" />
-        <action
-            android:id="@+id/action_startFragment_to_genresFragment"
-            app:destination="@id/genresFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/recyclerListFragment"
-        android:name="gradowska.katarzyna.filmsapp.presentation.recyclerList.MoviesFragment"
-        tools:layout="@layout/fragment_recycler_list">
-        <action
-            android:id="@+id/action_recyclerListFragment_to_singleMovieFragment"
-            app:destination="@id/singleMovieFragment" />
-    </fragment>
+    android:id="@+id/nav_graph_filter"
+    app:startDestination="@id/genresFragment">
     <fragment
         android:id="@+id/singleMovieFragment"
         android:name="gradowska.katarzyna.filmsapp.presentation.singleMovie.SingleMovieFragment"

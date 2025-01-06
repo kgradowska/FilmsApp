@@ -14,4 +14,6 @@
         <item quantity="one">vote</item>
         <item quantity="other">votes</item>
     </plurals>
+    <string name="find">Find</string>
+    <string name="filter">Filter</string>
 </resources>

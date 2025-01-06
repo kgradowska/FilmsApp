@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import gradowska.katarzyna.filmsapp.domain.entity.MovieDetailsDataModel
 import gradowska.katarzyna.filmsapp.domain.usecase.GetMovieDetailsUseCase
 import gradowska.katarzyna.filmsapp.domain.usecase.SetFavouriteMovieUseCase
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class SingleMovieViewModel(
@@ -15,8 +15,8 @@ class SingleMovieViewModel(
     private val setFavouriteMovieUseCase: SetFavouriteMovieUseCase
 ) : ViewModel() {
 
-    private val _movieDetails: MutableSharedFlow<MovieDetailsDataModel> = MutableSharedFlow()
-    val movieDetails: SharedFlow<MovieDetailsDataModel> = _movieDetails
+    private val _movieDetails: MutableStateFlow<MovieDetailsDataModel?> = MutableStateFlow(null)
+    val movieDetails: StateFlow<MovieDetailsDataModel?> = _movieDetails
 
     init {
         viewModelScope.launch {
