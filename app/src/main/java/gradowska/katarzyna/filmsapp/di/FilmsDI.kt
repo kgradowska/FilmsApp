@@ -11,7 +11,6 @@ import gradowska.katarzyna.filmsapp.presentation.main.MainActivityViewModel
 import gradowska.katarzyna.filmsapp.presentation.moviesgenres.MoviesGenresViewModel
 import gradowska.katarzyna.filmsapp.presentation.recyclerList.MoviesViewModel
 import gradowska.katarzyna.filmsapp.presentation.singleMovie.SingleMovieViewModel
-import gradowska.katarzyna.filmsapp.presentation.start.StartFragmentViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
@@ -36,7 +35,6 @@ object FilmsDI {
 
         viewModel { MoviesViewModel(get(), get(), get()) }
         viewModel { (movieId: String) -> SingleMovieViewModel(movieId, get(), get()) }
-        viewModel { StartFragmentViewModel() }
         viewModel { MainActivityViewModel() }
         viewModel { GenresFragmentViewModel(get()) }
         viewModel { (idGenre: Int) -> MoviesGenresViewModel(idGenre, get(), get()) }
