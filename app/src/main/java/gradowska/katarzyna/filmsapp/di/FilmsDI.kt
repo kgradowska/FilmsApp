@@ -37,7 +37,7 @@ object FilmsDI {
         viewModel { (movieId: String) -> SingleMovieViewModel(movieId, get(), get()) }
         viewModel { MainActivityViewModel() }
         viewModel { GenresFragmentViewModel(get()) }
-        viewModel { (idGenre: Int) -> MoviesGenresViewModel(idGenre, get(), get()) }
+        viewModel { MoviesGenresViewModel(get(), get(), get()) }
     }
 
     val networkModule = module {

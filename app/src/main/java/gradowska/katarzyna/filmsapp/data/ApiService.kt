@@ -34,6 +34,8 @@ interface ApiService {
         @Query("page") page: Int?,
         @Query("sort_by") sort_by: String?,
         @Query("with_genres") with_genres: String?,
+        @Query("vote_average.gte") vote_average_gte: Float?,
+        @Query("vote_average.lte") vote_average_lte: Float?
     ): MoviesListDTO
 
     @GET("genre/movie/list")
