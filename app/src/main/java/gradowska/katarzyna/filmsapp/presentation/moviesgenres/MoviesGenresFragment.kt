@@ -26,7 +26,7 @@ class MoviesGenresFragment : Fragment() {
 
     private val args: MoviesGenresFragmentArgs by navArgs()
 
-    private val viewModel: MoviesGenresViewModel by viewModel { parametersOf(args.idGenre) }
+    private val viewModel: MoviesGenresViewModel by viewModel()
 
     private val adapter = MoviesGenresAdapter()
 

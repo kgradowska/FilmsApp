@@ -58,11 +58,11 @@ class GenresFragment : Fragment() {
         binding.genresRecycler.layoutManager = LinearLayoutManager(context)
         binding.genresRecycler.adapter = adapter
 
-        adapter.clickListener = {
+        /*adapter.clickListener = {
             findNavController().navigate(
                 GenresFragmentDirections.actionGenresFragmentToMoviesGenresFragment(it.id)
             )
-        }
+        }*/
 
     }
 }

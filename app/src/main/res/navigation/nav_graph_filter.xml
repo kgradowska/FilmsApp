@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_filter"
-    app:startDestination="@id/genresFragment">
+    app:startDestination="@id/moviesGenresFragment">
     <fragment
         android:id="@+id/singleMovieFragment"
         android:name="gradowska.katarzyna.filmsapp.presentation.singleMovie.SingleMovieFragment"
@@ -11,14 +11,6 @@
         <argument
             android:name="idMovie"
             app:argType="string" />
-    </fragment>
-    <fragment
-        android:id="@+id/genresFragment"
-        android:name="gradowska.katarzyna.filmsapp.presentation.genres.GenresFragment"
-        tools:layout="@layout/fragment_genres">
-        <action
-            android:id="@+id/action_genresFragment_to_moviesGenresFragment"
-            app:destination="@id/moviesGenresFragment" />
     </fragment>
     <fragment
         android:id="@+id/moviesGenresFragment"
