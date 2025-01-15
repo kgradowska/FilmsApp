@@ -14,9 +14,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import gradowska.katarzyna.filmsapp.databinding.FragmentGenresMoviesBinding
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 
 
 class MoviesGenresFragment : Fragment() {
@@ -45,6 +45,15 @@ class MoviesGenresFragment : Fragment() {
         initRecyclerView()
         observeMovies()
         observeGenresArray()
+        observeAppBarHiding()
+    }
+
+    private fun observeAppBarHiding() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.hideAppBarLayout.collectLatest {
+                hideAppBarLayout()
+            }
+        }
     }
 
     override fun onDestroy() {
@@ -65,6 +74,10 @@ class MoviesGenresFragment : Fragment() {
         adapter.favouriteIconClickListener = {
             viewModel.favouriteIconClicked(it)
         }
+    }
+
+    private fun hideAppBarLayout() {
+        binding.appBar.setExpanded(false, true)
     }
 
     private fun observeMovies() {
@@ -88,7 +101,9 @@ class MoviesGenresFragment : Fragment() {
         binding.button.setOnClickListener {
             with(viewModel) {
                 spinnerValues = binding.slider.values
-                searchClicked()
+                lifecycleScope.launch {
+                    searchButtonClicked()
+                }
             }
         }
     }
@@ -97,6 +112,18 @@ class MoviesGenresFragment : Fragment() {
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, values)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.genres.adapter = adapter
+
+        lifecycleScope.launch {
+            viewModel.genresList.collect { genres ->
+                val genre = genres.find { it.id == viewModel.genreId }
+                if (genre != null) {
+                    val defaultPosition = values.indexOf(genre.name)
+                    if (defaultPosition != -1) {
+                        binding.genres.setSelection(defaultPosition)
+                    }
+                }
+            }
+        }
 
         binding.genres.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(

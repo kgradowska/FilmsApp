@@ -7,8 +7,10 @@ import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
 import gradowska.katarzyna.filmsapp.domain.usecase.GetGenresUseCase
 import gradowska.katarzyna.filmsapp.domain.usecase.GetMoviesGenresUseCase
 import gradowska.katarzyna.filmsapp.domain.usecase.SetFavouriteMovieUseCase
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
 class MoviesGenresViewModel(
@@ -23,6 +25,9 @@ class MoviesGenresViewModel(
     private val _genresList: MutableStateFlow<List<GenreDataModel>> = MutableStateFlow(listOf())
     val genresList: StateFlow<List<GenreDataModel>> = _genresList
 
+    private val _hideAppBarLayout = MutableSharedFlow<Unit>()
+    val hideAppBarLayout = _hideAppBarLayout.asSharedFlow()
+
     var genreId: Int? = null
 
     var spinnerValues: List<Float> = listOf(0F, 10F)
@@ -30,7 +35,7 @@ class MoviesGenresViewModel(
     init {
         viewModelScope.launch {
             getGenres()
-            getMoviesList(null, null, null)
+            getMoviesList(genreId, spinnerValues[0], spinnerValues[1])
         }
     }
 
@@ -51,7 +56,6 @@ class MoviesGenresViewModel(
             allMovies.addAll(movieList)
             _moviesList.value = allMovies*/
             _moviesList.value = movieList
-
         }
     }
 
@@ -65,13 +69,13 @@ class MoviesGenresViewModel(
                 newList.add(m.copy(movieLiked = !movie.movieLiked))
             }
         }
-
         _moviesList.value = newList
     }
 
-    fun searchClicked() {
+    suspend fun searchButtonClicked() {
         if (spinnerValues.size == 2) {
             getMoviesList(genreId, spinnerValues[0], spinnerValues[1])
+            _hideAppBarLayout.emit(Unit)
         }
     }
 
