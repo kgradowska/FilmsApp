@@ -1,5 +1,6 @@
 package gradowska.katarzyna.filmsapp.presentation.moviesgenres
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import gradowska.katarzyna.filmsapp.domain.entity.GenreDataModel
@@ -7,6 +8,7 @@ import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
 import gradowska.katarzyna.filmsapp.domain.usecase.GetGenresUseCase
 import gradowska.katarzyna.filmsapp.domain.usecase.GetMoviesGenresUseCase
 import gradowska.katarzyna.filmsapp.domain.usecase.SetFavouriteMovieUseCase
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,37 +27,72 @@ class MoviesGenresViewModel(
     private val _genresList: MutableStateFlow<List<GenreDataModel>> = MutableStateFlow(listOf())
     val genresList: StateFlow<List<GenreDataModel>> = _genresList
 
+    private val _rangeValues = MutableStateFlow(listOf(INITIAL_MIN_RANGE, INITIAL_MAX_RANGE))
+    val rangeValues: StateFlow<List<Float>> = _rangeValues
+
     private val _hideAppBarLayout = MutableSharedFlow<Unit>()
     val hideAppBarLayout = _hideAppBarLayout.asSharedFlow()
 
-    var genreId: Int? = null
+    private var fetchJob: Job? = null
 
-    var spinnerValues: List<Float> = listOf(0F, 10F)
+    var genreId: Int? = null
+    private var isLoading = false
+    private var canLoadMore = true
+    private var currentPage = 1
+
+    companion object {
+        private const val INITIAL_MIN_RANGE = 6.5f
+        private const val INITIAL_MAX_RANGE = 8.2f
+    }
+
+    private var currentMinRange = INITIAL_MIN_RANGE
+    private var currentMaxRange = INITIAL_MAX_RANGE
 
     init {
         viewModelScope.launch {
-            getGenres()
-            getMoviesList(genreId, spinnerValues[0], spinnerValues[1])
+            val genres = getGenres()
+            genreId = genres.firstOrNull()?.id
+            getMoviesList()
         }
     }
 
-    private fun getMoviesList(genreId: Int?, voteAverageGte: Float?, voteAverageLte: Float?) {
-        viewModelScope.launch {
-            val movieList = getMoviesGenresUseCase.getMovieList(
-                query = null,
-                currentPage = 1,
-                withGenres = genreId?.toString(),
-                voteAverageGte = voteAverageGte,
-                voteAverageLte = voteAverageLte
-            )
-            /*val allMovies = if (true) {
-                ArrayList()
-            } else {
-                ArrayList(_moviesList.value)
+    fun listEndReached() {
+        getMoviesList()
+    }
+
+    fun onSliderRangeChanged(selectedValues: List<Float>) {
+        _rangeValues.value = selectedValues
+    }
+
+    private fun getMoviesList() {
+        if (!isLoading && canLoadMore) {
+            fetchJob?.cancel()
+            fetchJob = viewModelScope.launch {
+                try {
+                    isLoading = true
+                    val movieList = getMoviesGenresUseCase.getMovieList(
+                        query = null,
+                        currentPage = currentPage,
+                        withGenres = genreId?.toString(),
+                        voteAverageGte = currentMinRange,
+                        voteAverageLte = currentMaxRange,
+                    )
+                    val allMovies = if (currentPage == 1) {
+                        ArrayList()
+                    } else {
+                        ArrayList(_moviesList.value)
+                    }
+                    allMovies.addAll(movieList)
+                    _moviesList.value = allMovies
+
+                    isLoading = false
+                    canLoadMore = movieList.isNotEmpty()
+                    currentPage++
+                } catch (exception: Exception) {
+                    isLoading = false
+                    Log.e("getMoviesGenres", "Exception: ${exception.message}")
+                }
             }
-            allMovies.addAll(movieList)
-            _moviesList.value = allMovies*/
-            _moviesList.value = movieList
         }
     }
 
@@ -72,15 +109,26 @@ class MoviesGenresViewModel(
         _moviesList.value = newList
     }
 
-    suspend fun searchButtonClicked() {
-        if (spinnerValues.size == 2) {
-            getMoviesList(genreId, spinnerValues[0], spinnerValues[1])
+    fun searchButtonClicked() {
+        setStartValues()
+        getMoviesList()
+        viewModelScope.launch {
             _hideAppBarLayout.emit(Unit)
         }
     }
 
-    private suspend fun getGenres() {
+    private fun setStartValues() {
+        currentPage = 1
+        _moviesList.value = emptyList()
+        canLoadMore = true
+        isLoading = false
+        currentMinRange = _rangeValues.value[0]
+        currentMaxRange = _rangeValues.value[1]
+    }
+
+    private suspend fun getGenres(): List<GenreDataModel> {
         val genres = getGenresUseCase.getGenres()
         _genresList.emit(genres)
+        return genres
     }
 }

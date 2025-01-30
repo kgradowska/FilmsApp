@@ -27,14 +27,14 @@
                     android:id="@+id/filter"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:background="@color/tolopea"
+                    android:padding="5dp"
                     android:text="@string/filter"
+                    android:textAlignment="center"
                     android:textColor="@color/gold"
                     android:textSize="26sp"
-                    android:textAlignment="center"
-                    android:padding="5dp"
-                    android:background="@color/tolopea"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -45,9 +45,9 @@
                     android:text="@string/genre"
                     android:textColor="@color/gold"
                     android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="@id/genres"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/genres"
-                    app:layout_constraintBottom_toBottomOf="@id/genres" />
+                    app:layout_constraintTop_toTopOf="@id/genres" />
 
                 <Spinner
                     android:id="@+id/genres"
@@ -92,7 +92,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:layout_marginTop="8dp"
                         android:text="@string/zero"
                         android:textColor="@color/black"
                         android:textSize="14sp"
@@ -105,7 +104,6 @@
                         android:id="@+id/endValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
                         android:layout_marginEnd="15dp"
                         android:text="@string/ten"
                         android:textColor="@color/black"
@@ -120,6 +118,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
+                        android:stepSize="0.1"
                         android:valueFrom="0"
                         android:valueTo="10"
                         app:haloRadius="0dp"

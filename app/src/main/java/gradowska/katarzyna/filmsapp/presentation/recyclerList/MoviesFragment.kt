@@ -2,7 +2,6 @@ package gradowska.katarzyna.filmsapp.presentation.recyclerList
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +9,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -43,13 +40,7 @@ class MoviesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         observe()
-        showToast()
         searchButtonClicked()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.getMoviesList(true)
     }
 
     override fun onDestroyView() {
@@ -63,10 +54,8 @@ class MoviesFragment : Fragment() {
 
     private fun observe() {
         lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.moviesList.collect {
-                    adapter.setItems(it)
-                }
+            viewModel.moviesList.collect {
+                adapter.setItems(it)
             }
         }
     }
@@ -86,7 +75,6 @@ class MoviesFragment : Fragment() {
 
     private fun initRecyclerView() {
         adapter.clickListener = {
-            Log.d("Adapter", "Kliknięty data model: $it")
             findNavController().navigate(
                 MoviesFragmentDirections.actionRecyclerListFragmentToSingleMovieFragment(
                     it.movieID
@@ -100,7 +88,7 @@ class MoviesFragment : Fragment() {
         binding.filmRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollHorizontally(1)) {
+                if (!recyclerView.canScrollVertically(1)) {
                     viewModel.recyclerEndReached()
                 }
             }

@@ -11,8 +11,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import gradowska.katarzyna.filmsapp.databinding.FragmentGenresMoviesBinding
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -23,8 +23,6 @@ class MoviesGenresFragment : Fragment() {
 
     private var _binding: FragmentGenresMoviesBinding? = null
     private val binding get() = _binding!!
-
-    private val args: MoviesGenresFragmentArgs by navArgs()
 
     private val viewModel: MoviesGenresViewModel by viewModel()
 
@@ -43,9 +41,20 @@ class MoviesGenresFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setClickListeners()
         initRecyclerView()
+        setupRangeSliderListener()
+        observe()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
+    private fun observe() {
+        observeAppBarHiding()
         observeMovies()
         observeGenresArray()
-        observeAppBarHiding()
+        observeRangeValues()
     }
 
     private fun observeAppBarHiding() {
@@ -56,10 +65,6 @@ class MoviesGenresFragment : Fragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
 
     private fun initRecyclerView() {
         binding.filmRecyclerView.layoutManager = LinearLayoutManager(context)
@@ -73,6 +78,29 @@ class MoviesGenresFragment : Fragment() {
 
         adapter.favouriteIconClickListener = {
             viewModel.favouriteIconClicked(it)
+        }
+
+        binding.filmRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!recyclerView.canScrollVertically(1)) {
+                    viewModel.listEndReached()
+                }
+            }
+        })
+    }
+
+    private fun setupRangeSliderListener() {
+        binding.slider.addOnChangeListener { slider, _, _ ->
+            viewModel.onSliderRangeChanged(slider.values)
+        }
+    }
+
+    private fun observeRangeValues() {
+        lifecycleScope.launch {
+            viewModel.rangeValues.collect { values ->
+                binding.slider.values = values
+            }
         }
     }
 
@@ -99,12 +127,7 @@ class MoviesGenresFragment : Fragment() {
 
     private fun setClickListeners() {
         binding.button.setOnClickListener {
-            with(viewModel) {
-                spinnerValues = binding.slider.values
-                lifecycleScope.launch {
-                    searchButtonClicked()
-                }
-            }
+            viewModel.searchButtonClicked()
         }
     }
 
