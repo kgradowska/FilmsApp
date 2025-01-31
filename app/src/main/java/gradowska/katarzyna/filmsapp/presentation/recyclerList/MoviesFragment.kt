@@ -58,6 +58,12 @@ class MoviesFragment : Fragment() {
                 adapter.setItems(it)
             }
         }
+
+        lifecycleScope.launch {
+            viewModel.showToast.collect {
+                showToast()
+            }
+        }
     }
 
     private fun searchButtonClicked() {

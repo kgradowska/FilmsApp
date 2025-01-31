@@ -7,6 +7,7 @@ import gradowska.katarzyna.filmsapp.domain.usecase.GetMoviesUseCase
 import gradowska.katarzyna.filmsapp.domain.usecase.SetFavouriteMovieUseCase
 import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
 import gradowska.katarzyna.filmsapp.domain.usecase.GetSearchedMovieDetailsUseCase
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -23,10 +24,17 @@ class MoviesViewModel(
     private val _moviesList: MutableStateFlow<List<MovieDataModel>> = MutableStateFlow(listOf())
     val moviesList: StateFlow<List<MovieDataModel>> = _moviesList
 
+    private val _showToast = MutableSharedFlow<Unit>()
+    val showToast = _showToast.asSharedFlow()
+
     private var currentQuery = ""
 
     init {
         getMoviesList()
+        viewModelScope.launch {
+            delay(2000)
+            _showToast.emit(Unit)
+        }
     }
 
     fun recyclerEndReached() {
