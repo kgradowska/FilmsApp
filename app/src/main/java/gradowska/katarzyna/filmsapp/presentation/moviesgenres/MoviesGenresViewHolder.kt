@@ -26,7 +26,10 @@ class MoviesGenresViewHolder(
                 binding.rate.text = roundTo3Digits(movieRate)
             }
 
-            Glide.with(binding.root.context).load(moviePhoto).into(binding.movieImage)
+            Glide.with(binding.root.context)
+                .load(moviePhoto)
+                .placeholder(R.drawable.ic_poster_placeholder)
+                .into(binding.movieImage)
 
             if (movieLiked) {
                 binding.starBorder.setImageResource(R.drawable.ic_baseline_star_rate_24)

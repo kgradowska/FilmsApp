@@ -28,9 +28,8 @@
         <ImageView
             android:id="@+id/movieBackdrop"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:foregroundGravity="left"
-            android:scaleType="fitStart"
+            android:layout_height="280dp"
+            android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -302,11 +301,11 @@
 
 
             <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineStart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/guidelineStart"
-                app:layout_constraintGuide_percent="0.2"
-                android:orientation="vertical" />
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.2" />
 
             <TextView
                 android:id="@+id/budgetText"
@@ -349,11 +348,11 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineEnd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/guidelineEnd"
-                app:layout_constraintGuide_percent="0.8"
-                android:orientation="vertical" />
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.8" />
 
             <TextView
                 android:id="@+id/revenue"

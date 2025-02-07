@@ -61,7 +61,9 @@ class SingleMovieFragment : Fragment() {
                         singleMovieTitleText.text = it.movieTitle
                         singleMovieRate.text = String.format("%.2f", it.movieRate.toDouble())
                         singleMovieBodyText.text = it.movieDescription
-                        Glide.with(root.context).load(it.moviePhoto)
+                        Glide.with(root.context)
+                            .load(it.moviePhoto)
+                            .placeholder(R.drawable.ic_poster_placeholder)
                             .into(singleMovieImage)
                         yearOfProduction.text = it.movieReleaseDate
                         viewsCounter.text = it.movieVoteCount
@@ -70,7 +72,9 @@ class SingleMovieFragment : Fragment() {
                         productionCountries.text = it.movieProductionCountries
                         productionCountriesText.isVisible = it.movieProductionCountries.isNotBlank()
 
-                        Glide.with(root.context).load(it.movieBackdropPath)
+                        Glide.with(root.context)
+                            .load(it.movieBackdropPath)
+                            .placeholder(R.drawable.ic_poster_placeholder)
                             .into(movieBackdrop)
 
                         tagLine.isVisible = it.movieTagline.isNotBlank()
