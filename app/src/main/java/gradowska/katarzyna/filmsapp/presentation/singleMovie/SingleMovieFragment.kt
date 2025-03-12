@@ -61,50 +61,9 @@ class SingleMovieFragment : Fragment() {
                 viewModel.movieDetails.collect {
                     if (it == null) return@collect
                     with(binding) {
-                        singleMovieTitleText.text = it.movieTitle
-                        singleMovieRate.text = String.format("%.2f", it.movieRate.toDouble())
-                        singleMovieBodyText.text = it.movieDescription
-                        Glide.with(root.context)
-                            .load(it.moviePhoto)
-                            .placeholder(R.drawable.ic_poster_placeholder)
-                            .into(singleMovieImage)
-                        yearOfProduction.text = it.movieReleaseDate
-                        viewsCounter.text = it.movieVoteCount
-                        genre.text = it.movieGenres
-                        runtime.text = it.movieRuntime
-                        productionCountries.text = it.movieProductionCountries
-                        productionCountriesText.isVisible = it.movieProductionCountries.isNotBlank()
-
-                        Glide.with(root.context)
-                            .load(it.movieBackdropPath)
-                            .placeholder(R.drawable.ic_poster_placeholder)
-                            .into(movieBackdrop)
-
-                        tagLine.isVisible = it.movieTagline.isNotBlank()
-                        tagLine.text = it.movieTagline
-
-                        if (it.movieBudget == "0 \$" && it.movieRevenue == "0 \$") {
-                            constraint.isVisible = false
-                            budget.text = it.movieBudget
-                            revenue.text = it.movieRevenue
-                        } else if (it.movieBudget == "0 \$" && it.movieRevenue != "0 \$") {
-                            budget.isVisible = false
-                            budgetText.isVisible = false
-                            revenue.text = it.movieRevenue
-                        } else if (it.movieBudget != "0 \$" && it.movieRevenue == "0 \$") {
-                            revenue.isVisible = false
-                            revenueText.isVisible = false
-                            budget.text = it.movieBudget
-                        } else {
-                            constraint.isVisible = true
-                            budget.text = it.movieBudget
-                            revenue.text = it.movieRevenue
-                        }
-
-                        originalTitle.text = it.movieOriginalTitle
-                        originalTitleText.isVisible = it.movieOriginalTitle.isNotBlank()
-                        originalLanguage.text = it.movieOriginalLanguage
-                        originalLanguageText.isVisible = it.movieOriginalLanguage.isNotBlank()
+                        displayingBasicMovieData(it)
+                        displayingBudgetAndRevenue(it)
+                        displayingPhotos(it)
 
                         if (it.movieLiked) {
                             starBorder.setImageResource(R.drawable.ic_baseline_star_rate_24)
@@ -121,14 +80,74 @@ class SingleMovieFragment : Fragment() {
                         )
 
                         starBorder.setOnClickListener { _ ->
-                            viewModel.favouriteIconClicked(it) // modyfikacja istniejacej listy - zmiana flagi movieLiked
+                            viewModel.favouriteIconClicked(it)
                         }
-
-                        viewsText.text =
-                            resources.getQuantityText(R.plurals.votes, it.movieVoteCount.toInt())
                     }
                 }
             }
+        }
+    }
+
+    private fun displayingBasicMovieData(movieDetailsDataModel: MovieDetailsDataModel) {
+        with(binding) {
+            genre.text = movieDetailsDataModel.movieGenres
+            runtime.text = movieDetailsDataModel.movieRuntime
+            originalLanguage.text = movieDetailsDataModel.movieOriginalLanguage
+            originalLanguageText.isVisible =
+                movieDetailsDataModel.movieOriginalLanguage.isNotBlank()
+            originalTitle.text = movieDetailsDataModel.movieOriginalTitle
+            originalTitleText.isVisible = movieDetailsDataModel.movieOriginalTitle.isNotBlank()
+            productionCountries.text = movieDetailsDataModel.movieProductionCountries
+            productionCountriesText.isVisible =
+                movieDetailsDataModel.movieProductionCountries.isNotBlank()
+            singleMovieBodyText.text = movieDetailsDataModel.movieDescription
+            singleMovieRate.text = String.format("%.2f", movieDetailsDataModel.movieRate.toDouble())
+            singleMovieTitleText.text = movieDetailsDataModel.movieTitle
+            tagLine.isVisible = movieDetailsDataModel.movieTagline.isNotBlank()
+            tagLine.text = movieDetailsDataModel.movieTagline
+            viewsCounter.text = movieDetailsDataModel.movieVoteCount
+            viewsText.text =
+                resources.getQuantityText(
+                    R.plurals.votes,
+                    movieDetailsDataModel.movieVoteCount.toInt()
+                )
+            yearOfProduction.text = movieDetailsDataModel.movieReleaseDate
+        }
+    }
+
+    private fun displayingBudgetAndRevenue(movieDetailsDataModel: MovieDetailsDataModel) {
+        with(binding) {
+            if (movieDetailsDataModel.movieBudget == "0 \$" && movieDetailsDataModel.movieRevenue == "0 \$") {
+                constraint.isVisible = false
+                budget.text = movieDetailsDataModel.movieBudget
+                revenue.text = movieDetailsDataModel.movieRevenue
+            } else if (movieDetailsDataModel.movieBudget == "0 \$" && movieDetailsDataModel.movieRevenue != "0 \$") {
+                budget.isVisible = false
+                budgetText.isVisible = false
+                revenue.text = movieDetailsDataModel.movieRevenue
+            } else if (movieDetailsDataModel.movieBudget != "0 \$" && movieDetailsDataModel.movieRevenue == "0 \$") {
+                revenue.isVisible = false
+                revenueText.isVisible = false
+                budget.text = movieDetailsDataModel.movieBudget
+            } else {
+                constraint.isVisible = true
+                budget.text = movieDetailsDataModel.movieBudget
+                revenue.text = movieDetailsDataModel.movieRevenue
+            }
+        }
+    }
+
+    private fun displayingPhotos(movieDetailsDataModel: MovieDetailsDataModel) {
+        with(binding) {
+            Glide.with(root.context)
+                .load(movieDetailsDataModel.moviePhoto)
+                .placeholder(R.drawable.ic_poster_placeholder)
+                .into(singleMovieImage)
+
+            Glide.with(root.context)
+                .load(movieDetailsDataModel.movieBackdropPath)
+                .placeholder(R.drawable.ic_poster_placeholder)
+                .into(movieBackdrop)
         }
     }
 
