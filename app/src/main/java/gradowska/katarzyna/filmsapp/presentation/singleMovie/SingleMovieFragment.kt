@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.bundle.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -13,6 +15,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import gradowska.katarzyna.filmsapp.R
 import gradowska.katarzyna.filmsapp.databinding.FragmentSingleMovieBinding
+import gradowska.katarzyna.filmsapp.domain.entity.MovieDetailsDataModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -109,6 +112,14 @@ class SingleMovieFragment : Fragment() {
                             starBorder.setImageResource(R.drawable.ic_baseline_star_border_24)
                         }
 
+                        setFragmentResult(
+                            MOVIE_FRAGMENT_RESULT,
+                            bundleOf(
+                                MOVIE_FRAGMENT_FAVOURITE_KEY to it.movieLiked,
+                                MOVIE_FRAGMENT_ID_KEY to it.movieID,
+                            )
+                        )
+
                         starBorder.setOnClickListener { _ ->
                             viewModel.favouriteIconClicked(it) // modyfikacja istniejacej listy - zmiana flagi movieLiked
                         }
@@ -119,5 +130,11 @@ class SingleMovieFragment : Fragment() {
                 }
             }
         }
+    }
+
+    companion object {
+        const val MOVIE_FRAGMENT_RESULT = "MOVIE_FRAGMENT_RESULT"
+        const val MOVIE_FRAGMENT_FAVOURITE_KEY = "MOVIE_FRAGMENT_FAVOURITE_KEY"
+        const val MOVIE_FRAGMENT_ID_KEY = "MOVIE_FRAGMENT_ID_KEY"
     }
 }

@@ -56,6 +56,18 @@ class MoviesGenresViewModel(
         }
     }
 
+    fun onFavouriteResultReceived(
+        isFavourite: Boolean,
+        movieID: String?,
+    ) {
+        val index = moviesList.value.indexOfFirst { it.movieID == movieID }
+        if (index != -1) {
+            val newList = ArrayList(moviesList.value)
+            newList.getOrNull(index)?.movieLiked = isFavourite
+            _moviesList.value = newList
+        }
+    }
+
     fun listEndReached() {
         getMoviesList()
     }
@@ -90,6 +102,7 @@ class MoviesGenresViewModel(
                     currentPage++
                 } catch (exception: Exception) {
                     isLoading = false
+                    _moviesList.value = emptyList()
                     Log.e("getMoviesGenres", "Exception: ${exception.message}")
                 }
             }
@@ -119,7 +132,6 @@ class MoviesGenresViewModel(
 
     private fun setStartValues() {
         currentPage = 1
-        _moviesList.value = emptyList()
         canLoadMore = true
         isLoading = false
         currentMinRange = _rangeValues.value[0]

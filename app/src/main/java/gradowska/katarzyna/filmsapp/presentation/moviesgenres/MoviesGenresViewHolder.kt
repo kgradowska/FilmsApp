@@ -1,15 +1,19 @@
 package gradowska.katarzyna.filmsapp.presentation.moviesgenres
 
+import android.view.View
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import gradowska.katarzyna.filmsapp.R
 import gradowska.katarzyna.filmsapp.databinding.ItemMovieBinding
+import gradowska.katarzyna.filmsapp.databinding.PlaceholderEmptyListBinding
 import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
 
-class MoviesGenresViewHolder(
+abstract class MoviesGenresViewHolder(val view: View) : RecyclerView.ViewHolder(view)
+
+class MoviesGenresItemViewHolder(
     private val binding: ItemMovieBinding
-) : RecyclerView.ViewHolder(binding.root) {
+) : MoviesGenresViewHolder(binding.root) {
 
     fun bind(
         movie: MovieDataModel,
@@ -53,3 +57,7 @@ class MoviesGenresViewHolder(
         return number2digits
     }
 }
+
+class MoviesGenresEmptyViewHolder(
+    binding: PlaceholderEmptyListBinding
+) : MoviesGenresViewHolder(binding.root)

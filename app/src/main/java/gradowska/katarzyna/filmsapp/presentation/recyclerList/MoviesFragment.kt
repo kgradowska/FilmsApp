@@ -9,12 +9,14 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import gradowska.katarzyna.filmsapp.R
 import gradowska.katarzyna.filmsapp.databinding.FragmentRecyclerListBinding
+import gradowska.katarzyna.filmsapp.presentation.singleMovie.SingleMovieFragment
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -39,6 +41,7 @@ class MoviesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
+        setupFragmentResultListener()
         observe()
         searchButtonClicked()
     }
@@ -73,11 +76,23 @@ class MoviesFragment : Fragment() {
                 val imm =
                     context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(binding.search.windowToken, 0)
+                binding.filmRecyclerView.scrollToPosition(0)
             }
             true
         }
     }
 
+    private fun setupFragmentResultListener() {
+        setFragmentResultListener(SingleMovieFragment.MOVIE_FRAGMENT_RESULT) { _, bundle ->
+            val isFavourite =
+                bundle.getBoolean(SingleMovieFragment.MOVIE_FRAGMENT_FAVOURITE_KEY, false)
+            val movieID = bundle.getString(SingleMovieFragment.MOVIE_FRAGMENT_ID_KEY)
+            viewModel.onFavouriteResultReceived(
+                isFavourite = isFavourite,
+                movieID = movieID,
+            )
+        }
+    }
 
     private fun initRecyclerView() {
         adapter.clickListener = {

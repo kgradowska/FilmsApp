@@ -7,13 +7,16 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.AppBarLayout
 import gradowska.katarzyna.filmsapp.databinding.FragmentGenresMoviesBinding
+import gradowska.katarzyna.filmsapp.presentation.singleMovie.SingleMovieFragment
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -42,6 +45,7 @@ class MoviesGenresFragment : Fragment() {
         setClickListeners()
         initRecyclerView()
         setupRangeSliderListener()
+        setupFragmentResultListener()
         observe()
     }
 
@@ -96,6 +100,18 @@ class MoviesGenresFragment : Fragment() {
         }
     }
 
+    private fun setupFragmentResultListener() {
+        setFragmentResultListener(SingleMovieFragment.MOVIE_FRAGMENT_RESULT) { _, bundle ->
+            val isFavourite =
+                bundle.getBoolean(SingleMovieFragment.MOVIE_FRAGMENT_FAVOURITE_KEY, false)
+            val movieID = bundle.getString(SingleMovieFragment.MOVIE_FRAGMENT_ID_KEY)
+            viewModel.onFavouriteResultReceived(
+                isFavourite = isFavourite,
+                movieID = movieID,
+            )
+        }
+    }
+
     private fun observeRangeValues() {
         lifecycleScope.launch {
             viewModel.rangeValues.collect { values ->
@@ -112,7 +128,6 @@ class MoviesGenresFragment : Fragment() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.moviesList.collect {
-                    adapter.setItems(it)
                     binding.slider.setLabelFormatter { value ->
                         if (value % 1 == 0f) {
                             value.toInt().toString()
@@ -120,6 +135,20 @@ class MoviesGenresFragment : Fragment() {
                             String.format("%.1f", value)
                         }
                     }
+
+                    val params =
+                        binding.collapsingToolbarLayout.layoutParams as AppBarLayout.LayoutParams
+                    if (it.isEmpty()) {
+                        params.scrollFlags = (AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+                                or AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED)
+                    } else {
+                        params.scrollFlags = (AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
+                                or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+                                or AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED)
+                    }
+                    binding.collapsingToolbarLayout.layoutParams = params
+
+                    adapter.setItems(it)
                 }
             }
         }
@@ -128,6 +157,7 @@ class MoviesGenresFragment : Fragment() {
     private fun setClickListeners() {
         binding.button.setOnClickListener {
             viewModel.searchButtonClicked()
+            binding.filmRecyclerView.scrollToPosition(0)
         }
     }
 

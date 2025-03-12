@@ -97,6 +97,18 @@ class MoviesViewModel(
         }
     }
 
+    fun onFavouriteResultReceived(
+        isFavourite: Boolean,
+        movieID: String?,
+    ) {
+        val index = moviesList.value.indexOfFirst { it.movieID == movieID }
+        if (index != -1) {
+            val newList = ArrayList(moviesList.value)
+            newList.getOrNull(index)?.movieLiked = isFavourite
+            _moviesList.value = newList
+        }
+    }
+
     fun searchClicked(query: String) {
         if (!isLoading) {
             if (currentQuery != query) {
