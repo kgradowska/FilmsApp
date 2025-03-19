@@ -7,22 +7,22 @@ The main **aim** of this app is to **show a list of movies** and **make simple o
 
 My **main goal** is to **learn different concepts** by making this application.
 
-The **attention** has been **focused mainly** on the **code and architecture quality**, as well as on **the appearance of the user interface**.
+The **attention** has been **focused** on the **code and architecture quality**, as well as on **the appearance of the user interface**.
 
 ## Application Guide
 After launching the app, you can search movies on a **Find screen** or change the screen by clicking on a *Filter* button at the bottom of a screen to use filters.
 
 ## Things done
 All things which are done up to now:
-- implementing MVVM architecture (creating an activity, fragments, view models and layouts)
+- usage of data from TMDB API: https://developer.themoviedb.org/docs/getting-started
+- implementing MVVM and single activity architecture
 - usage of View Binding
 - splitting code into packages: data, domain and presentation
-- using recycler view to show movies 
-  - making a layout for one element
-  - making movie (element) clickable
+- using Recycler Views to show movies 
+- making a layout for movie details
 - Koin - dependency injection (Singleton and Factory design patterns used)
 - Moshi - parsing elements from Json to ClassDTO (Data Transfer Object)
-- Kotlin Flow
+- Kotlin Flow & Coroutines
 - Retrofit + OkHttp (REST API)
 - searching movies by a title or keywords
 - searching movies by filters on a new screen
