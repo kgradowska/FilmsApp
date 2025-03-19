@@ -1,4 +1,4 @@
-package gradowska.katarzyna.filmsapp.presentation.recyclerList
+package gradowska.katarzyna.filmsapp.presentation.moviesgenres
 
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -7,8 +7,7 @@ import gradowska.katarzyna.filmsapp.R
 import gradowska.katarzyna.filmsapp.databinding.ItemMovieBinding
 import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
 
-
-class MovieViewHolder(
+class MoviesGenresViewHolder(
     private val binding: ItemMovieBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 

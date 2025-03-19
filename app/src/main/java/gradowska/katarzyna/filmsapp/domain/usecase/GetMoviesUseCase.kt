@@ -4,8 +4,8 @@ import gradowska.katarzyna.filmsapp.data.MovieDataSource
 import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
 
 class GetMoviesUseCase(
-    val dataSource: MovieDataSource,
-    val getFavouriteMovieUseCase: GetFavouriteMovieUseCase
+    private val dataSource: MovieDataSource,
+    private val getFavouriteMovieUseCase: GetFavouriteMovieUseCase
 ) {
     suspend fun getMoviesList(loadFromApi: Boolean, page: Int): List<MovieDataModel> {
         val dataModel = if (loadFromApi) {
@@ -19,7 +19,6 @@ class GetMoviesUseCase(
                 )
             }
         }
-
         return dataModel
     }
 }

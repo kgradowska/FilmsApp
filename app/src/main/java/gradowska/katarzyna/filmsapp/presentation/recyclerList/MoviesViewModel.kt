@@ -10,7 +10,7 @@ import gradowska.katarzyna.filmsapp.domain.usecase.GetSearchedMovieDetailsUseCas
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-class MoviesFragmentViewModel(
+class MoviesViewModel(
     private val setFavouriteMovieUseCase: SetFavouriteMovieUseCase,
     private val getMoviesUseCase: GetMoviesUseCase,
     private val getSearchedMovieUseCase: GetSearchedMovieDetailsUseCase
@@ -25,25 +25,23 @@ class MoviesFragmentViewModel(
 
     private var currentQuery = ""
 
-    init {
-        getMoviesList()
-    }
-
     fun recyclerEndReached() {
         if (currentQuery.isEmpty()) {
-            getMoviesList()
+            getMoviesList(false)
         } else {
             getSearchedMovies()
         }
     }
 
-    private fun getMoviesList() {
+    fun getMoviesList(isFromOnResume: Boolean) {
+        if (isFromOnResume) {
+            currentPage = 1
+        }
         if (!isLoading && canLoadMore) {
             viewModelScope.launch {
                 try {
                     isLoading = true
                     val movieList = getMoviesUseCase.getMoviesList(true, currentPage)
-
                     val allMovies = if (currentPage == 1) {
                         ArrayList()
                     } else {
@@ -102,7 +100,7 @@ class MoviesFragmentViewModel(
 
             if (currentPage == 1) {
                 if (currentQuery.isEmpty()) {
-                    getMoviesList()
+                    getMoviesList(false)
                 } else {
                     getSearchedMovies()
                 }

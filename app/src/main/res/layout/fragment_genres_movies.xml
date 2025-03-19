@@ -13,7 +13,6 @@
         android:background="@drawable/rounded_edittext"
         android:foreground="?attr/selectableItemBackground"
         android:hint="@string/search_movie"
-        android:imeOptions="actionSearch"
         android:inputType="text"
         android:lines="1"
         android:maxLines="1"
@@ -24,18 +23,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/rounded_button"
+        android:foreground="?attr/selectableItemBackground"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="10dp"
+        android:text="@string/search"
+        android:textColor="@color/wineBerry2"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/filmRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
-        android:paddingBottom="25dp"
+        android:layout_marginBottom="25dp"
         android:padding="5dp"
-        app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search"
+        app:layout_constraintTop_toBottomOf="@+id/button"
         app:layout_constraintVertical_bias="0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

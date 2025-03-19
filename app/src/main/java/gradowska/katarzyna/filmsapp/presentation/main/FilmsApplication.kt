@@ -13,8 +13,8 @@ class FilmsApplication : Application() {
         super.onCreate()
 
         startKoin {
-            androidLogger() // funkcja wypisuje loggi z Koina
-            androidContext(this@FilmsApplication) // podanie contextu
+            androidLogger()
+            androidContext(this@FilmsApplication)
             modules(filmModule, networkModule)
         }
     }

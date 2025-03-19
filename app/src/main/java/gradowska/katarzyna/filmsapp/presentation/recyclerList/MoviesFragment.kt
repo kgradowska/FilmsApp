@@ -1,26 +1,32 @@
 package gradowska.katarzyna.filmsapp.presentation.recyclerList
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import gradowska.katarzyna.filmsapp.R
 import gradowska.katarzyna.filmsapp.databinding.FragmentRecyclerListBinding
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MoviesFragment : Fragment() {
 
     private var _binding: FragmentRecyclerListBinding? = null
-    val binding get() = _binding!!
+    private val binding get() = _binding!!
 
-    private val viewModel: MoviesFragmentViewModel by viewModel()
+    private val viewModel: MoviesViewModel by viewModel()
 
     private val adapter = MovieAdapter()
 
@@ -28,7 +34,7 @@ class MoviesFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentRecyclerListBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -41,26 +47,39 @@ class MoviesFragment : Fragment() {
         searchButtonClicked()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getMoviesList(true)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
     private fun showToast() {
-        Toast.makeText(context, "Click on a movie to find out more.", Toast.LENGTH_LONG).show()
+        Toast.makeText(context, R.string.movie_click_toast, Toast.LENGTH_LONG).show()
     }
 
     private fun observe() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.moviesList.collect {
-                adapter.setItems(it)
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.moviesList.collect {
+                    adapter.setItems(it)
+                }
             }
         }
     }
 
     private fun searchButtonClicked() {
-        binding.button.setOnClickListener {
-            viewModel.searchClicked(binding.search.text.toString())
+        binding.search.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                viewModel.searchClicked(binding.search.text.toString())
+                val imm =
+                    context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(binding.search.windowToken, 0)
+            }
+            true
         }
     }
 
