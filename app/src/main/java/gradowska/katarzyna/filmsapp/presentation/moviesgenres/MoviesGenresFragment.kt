@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
+import gradowska.katarzyna.filmsapp.R
 import gradowska.katarzyna.filmsapp.databinding.FragmentGenresMoviesBinding
 import gradowska.katarzyna.filmsapp.presentation.singleMovie.SingleMovieFragment
 import kotlinx.coroutines.flow.collectLatest
@@ -162,8 +163,8 @@ class MoviesGenresFragment : Fragment() {
     }
 
     private fun handleSpinner(values: Array<String>) {
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, values)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val adapter = ArrayAdapter(requireContext(), R.layout.item_spinner, values)
+        adapter.setDropDownViewResource(R.layout.item_spinner_dropdown)
         binding.genres.adapter = adapter
 
         lifecycleScope.launch {

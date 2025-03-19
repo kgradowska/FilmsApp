@@ -49,8 +49,6 @@ class MovieViewHolder(
     }
 
     private fun roundTo3Digits(number: Double): String {
-        val number3digits: Double = String.format("%.3f", number).toDouble()
-        val number2digits: String = String.format("%.2f", number3digits).toDouble().toString()
-        return number2digits
+        return String.format("%.2f", number).replace(",", ".")
     }
 }

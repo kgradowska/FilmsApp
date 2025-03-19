@@ -101,7 +101,8 @@ class SingleMovieFragment : Fragment() {
             productionCountriesText.isVisible =
                 movieDetailsDataModel.movieProductionCountries.isNotBlank()
             singleMovieBodyText.text = movieDetailsDataModel.movieDescription
-            singleMovieRate.text = String.format("%.2f", movieDetailsDataModel.movieRate.toDouble())
+            singleMovieRate.text =
+                String.format("%.2f", movieDetailsDataModel.movieRate.toDouble()).replace(",", ".")
             singleMovieTitleText.text = movieDetailsDataModel.movieTitle
             tagLine.isVisible = movieDetailsDataModel.movieTagline.isNotBlank()
             tagLine.text = movieDetailsDataModel.movieTagline

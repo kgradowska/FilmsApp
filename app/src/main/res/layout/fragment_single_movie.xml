@@ -16,11 +16,10 @@
             android:id="@+id/singleMovieImage"
             android:layout_width="150dp"
             android:layout_height="180dp"
-            android:layout_marginStart="60dp"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="300dp"
             android:foregroundGravity="top"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tagLine"
             tools:src="@drawable/los_angeles" />
@@ -39,14 +38,16 @@
             android:id="@+id/rectangle"
             android:layout_width="100dp"
             android:layout_height="168dp"
-            android:layout_marginStart="300dp"
-            android:layout_marginBottom="51dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
             android:alpha="0.8"
             android:background="@color/wineBerry2"
             app:layout_constraintBottom_toBottomOf="@id/movieBackdrop"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1"
             app:layout_constraintStart_toStartOf="@id/movieBackdrop"
-            app:layout_constraintTop_toTopOf="@id/movieBackdrop" />
+            app:layout_constraintTop_toTopOf="@id/movieBackdrop"
+            app:layout_constraintVertical_bias="0" />
 
         <TextView
             android:id="@+id/singleMovieBodyText"

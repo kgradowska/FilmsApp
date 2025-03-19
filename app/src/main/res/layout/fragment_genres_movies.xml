@@ -59,6 +59,7 @@
                     android:popupBackground="@color/gold"
                     android:spinnerMode="dropdown"
                     android:textAlignment="center"
+                    android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/genre"
                     app:layout_constraintTop_toBottomOf="@id/filter" />
