@@ -1,8 +1,6 @@
 package gradowska.katarzyna.filmsapp.domain.usecase
 
 import gradowska.katarzyna.filmsapp.data.MovieDataSource
-import gradowska.katarzyna.filmsapp.data.entity.MovieDetailsDTO
-import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
 import gradowska.katarzyna.filmsapp.domain.entity.MovieDetailsDataModel
 
 class GetMovieDetailsUseCase(

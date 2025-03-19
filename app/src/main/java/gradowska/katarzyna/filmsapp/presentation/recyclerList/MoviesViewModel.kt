@@ -3,12 +3,15 @@ package gradowska.katarzyna.filmsapp.presentation.recyclerList
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import gradowska.katarzyna.filmsapp.domain.usecase.GetMoviesUseCase
-import gradowska.katarzyna.filmsapp.domain.usecase.SetFavouriteMovieUseCase
 import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
+import gradowska.katarzyna.filmsapp.domain.usecase.GetMoviesUseCase
 import gradowska.katarzyna.filmsapp.domain.usecase.GetSearchedMovieDetailsUseCase
+import gradowska.katarzyna.filmsapp.domain.usecase.SetFavouriteMovieUseCase
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
 class MoviesViewModel(

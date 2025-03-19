@@ -1,9 +1,8 @@
 package gradowska.katarzyna.filmsapp.data.entity
 
-import gradowska.katarzyna.filmsapp.domain.entity.MovieDetailsDataModel
-import com.squareup.moshi.JsonClass
-
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+import gradowska.katarzyna.filmsapp.domain.entity.MovieDetailsDataModel
 
 @JsonClass(generateAdapter = true)
 data class MovieDetailsDTO(
