@@ -40,11 +40,6 @@ class MoviesGenresViewModel(
     private var canLoadMore = true
     private var currentPage = 1
 
-    companion object {
-        private const val INITIAL_MIN_RANGE = 6.5f
-        private const val INITIAL_MAX_RANGE = 8.2f
-    }
-
     private var currentMinRange = INITIAL_MIN_RANGE
     private var currentMaxRange = INITIAL_MAX_RANGE
 
@@ -143,4 +138,10 @@ class MoviesGenresViewModel(
         _genresList.emit(genres)
         return genres
     }
+
+    companion object {
+        private const val INITIAL_MIN_RANGE = 5f
+        private const val INITIAL_MAX_RANGE = 7f
+    }
+
 }

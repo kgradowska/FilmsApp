@@ -132,8 +132,7 @@
                         app:thumbRadius="12dp"
                         app:trackColorActive="@color/wineBerry2"
                         app:trackColorInactive="@color/white"
-                        app:trackHeight="4dp"
-                        app:values="@array/slider_values" />
+                        app:trackHeight="4dp" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView

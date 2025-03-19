@@ -70,7 +70,6 @@ class MoviesGenresFragment : Fragment() {
         }
     }
 
-
     private fun initRecyclerView() {
         binding.filmRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.filmRecyclerView.adapter = adapter

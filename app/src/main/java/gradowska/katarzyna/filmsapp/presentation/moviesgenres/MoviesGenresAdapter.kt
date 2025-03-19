@@ -23,16 +23,21 @@ class MoviesGenresAdapter() : RecyclerView.Adapter<MoviesGenresViewHolder>() {
         return when (viewType) {
             ITEM_TYPE -> {
                 val binding =
-                    ItemMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                    ItemMovieBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
                 MoviesGenresItemViewHolder(binding)
             }
 
             else -> {
-                val binding = PlaceholderEmptyListBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                )
+                val binding =
+                    PlaceholderEmptyListBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
                 MoviesGenresEmptyViewHolder(binding)
             }
         }
