@@ -27,7 +27,10 @@ class MovieViewHolder(
                 binding.rate.text = roundTo3Digits(movieRate)
             }
 
-            Glide.with(binding.root.context).load(moviePhoto).into(binding.movieImage)
+            Glide.with(binding.root.context)
+                .load(moviePhoto)
+                .placeholder(R.drawable.ic_poster_placeholder)
+                .into(binding.movieImage)
 
             if (movieLiked) {
                 binding.starBorder.setImageResource(R.drawable.ic_baseline_star_rate_24)
@@ -46,8 +49,6 @@ class MovieViewHolder(
     }
 
     private fun roundTo3Digits(number: Double): String {
-        val number3digits: Double = String.format("%.3f", number).toDouble()
-        val number2digits: String = String.format("%.2f", number3digits).toDouble().toString()
-        return number2digits
+        return String.format("%.2f", number).replace(",", ".")
     }
 }

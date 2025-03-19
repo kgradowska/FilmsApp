@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_filter"
+    app:startDestination="@id/moviesGenresFragment">
+    <fragment
+        android:id="@+id/singleMovieFragment"
+        android:name="gradowska.katarzyna.filmsapp.presentation.singleMovie.SingleMovieFragment"
+        tools:layout="@layout/fragment_single_movie">
+        <argument
+            android:name="idMovie"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/moviesGenresFragment"
+        android:name="gradowska.katarzyna.filmsapp.presentation.moviesgenres.MoviesGenresFragment"
+        tools:layout="@layout/fragment_genres_movies">
+        <action
+            android:id="@+id/action_moviesGenresFragment_to_singleMovieFragment"
+            app:destination="@id/singleMovieFragment" />
+        <argument
+            android:name="idGenre"
+            app:argType="integer" />
+    </fragment>
+</navigation>

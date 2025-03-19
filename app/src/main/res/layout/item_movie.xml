@@ -26,10 +26,10 @@
                 android:id="@+id/movieImage"
                 android:layout_width="80dp"
                 android:layout_height="120dp"
-                android:src="@drawable/los_angeles"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/los_angeles" />
 
             <TextView
                 android:id="@+id/bodyText"
@@ -43,10 +43,10 @@
                 android:textStyle="italic|bold"
                 app:layout_constrainedHeight="true"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/rate"
+                app:layout_constraintEnd_toStartOf="@+id/ratingContainer"
                 app:layout_constraintStart_toEndOf="@id/movieImage"
                 app:layout_constraintTop_toBottomOf="@id/titleText"
-                tools:text="Lorem ipsum fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" />
+                tools:text="Lorem ipsum " />
 
             <TextView
                 android:id="@+id/titleText"
@@ -58,35 +58,40 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 app:layout_constraintBottom_toTopOf="@id/bodyText"
-                app:layout_constraintEnd_toStartOf="@id/rate"
+                app:layout_constraintEnd_toStartOf="@id/ratingContainer"
                 app:layout_constraintStart_toEndOf="@id/movieImage"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="spread"
                 tools:text="Tytuł filmu" />
 
-            <TextView
-                android:id="@+id/rate"
+            <LinearLayout
+                android:id="@+id/ratingContainer"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/gold"
-                android:textSize="32sp"
-                app:layout_constraintEnd_toEndOf="@id/starBorder"
-                app:layout_constraintStart_toStartOf="@id/starBorder"
-                app:layout_constraintBottom_toTopOf="@id/starBorder"
-                tools:text="8,3" />
-
-            <ImageView
-                android:id="@+id/starBorder"
-                android:layout_width="50dp"
-                android:layout_height="60dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginBottom="10dp"
-                android:src="@drawable/ic_baseline_star_border_24"
+                android:layout_height="0dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/bodyText"
-                app:layout_constraintTop_toTopOf="@id/bodyText" />
+                app:layout_constraintTop_toTopOf="parent">
 
+                <TextView
+                    android:id="@+id/rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:textColor="@color/gold"
+                    android:textSize="32sp"
+                    tools:text="8,76" />
 
+                <ImageView
+                    android:id="@+id/starBorder"
+                    android:layout_width="50dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="end"
+                    android:src="@drawable/ic_baseline_star_border_24" />
+
+            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -43,9 +43,19 @@ class MovieDataSource(
         query: String?,
         page: Int?,
         sortBy: String?,
-        withGenres: String?
+        withGenres: String?,
+        voteAverageGte: Float?,
+        voteAverageLte: Float?
     ): MoviesListDTO {
-        return apiService.fetchMoviesInGenre(apiKey, query, page, sortBy, withGenres)
+        return apiService.fetchMoviesInGenre(
+            apiKey,
+            query,
+            page,
+            sortBy,
+            withGenres,
+            voteAverageGte,
+            voteAverageLte
+        )
     }
 
     suspend fun getGenresFromApi(): GenresDTO {

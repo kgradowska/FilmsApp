@@ -12,9 +12,18 @@ class GetMoviesGenresUseCase(
         query: String?,
         currentPage: Int?,
         sortBy: String? = "popularity.desc",
-        withGenres: String?
+        withGenres: String?,
+        voteAverageGte: Float?,
+        voteAverageLte: Float?
     ): List<MovieDataModel> {
-        return dataSource.getMoviesInGenre(query, currentPage, sortBy, withGenres).results.map {
+        return dataSource.getMoviesInGenre(
+            query,
+            currentPage,
+            sortBy,
+            withGenres,
+            voteAverageGte,
+            voteAverageLte
+        ).results.map {
             it.toMovieDataModel(isFavourite = getFavouriteMovieUseCase.getMovieIsFavourite(it.id.toString()))
         }
     }

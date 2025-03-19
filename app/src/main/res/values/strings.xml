@@ -14,4 +14,11 @@
         <item quantity="one">vote</item>
         <item quantity="other">votes</item>
     </plurals>
+    <string name="find">Find</string>
+    <string name="filter">Filter</string>
+    <string name="genre">Genre</string>
+    <string name="vote_average_range">Vote Average Range</string>
+    <string name="zero">0</string>
+    <string name="ten">10</string>
+    <string name="empty_movie_list">Movie list is empty</string>
 </resources>

@@ -1,7 +1,10 @@
 package gradowska.katarzyna.filmsapp.presentation.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import gradowska.katarzyna.filmsapp.R
 import gradowska.katarzyna.filmsapp.databinding.ActivityMainBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -16,5 +19,11 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val navHostFragment =
+            this.supportFragmentManager.findFragmentById(R.id.fragment_container) as? NavHostFragment
+        val controller = navHostFragment?.navController ?: return
+        binding.bottomNavigationView.setupWithNavController(
+            navController = controller,
+        )
     }
 }

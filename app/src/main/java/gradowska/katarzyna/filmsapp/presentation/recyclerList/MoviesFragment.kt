@@ -2,7 +2,6 @@ package gradowska.katarzyna.filmsapp.presentation.recyclerList
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,14 +9,14 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import gradowska.katarzyna.filmsapp.R
 import gradowska.katarzyna.filmsapp.databinding.FragmentRecyclerListBinding
+import gradowska.katarzyna.filmsapp.presentation.singleMovie.SingleMovieFragment
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -42,14 +41,9 @@ class MoviesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
+        setupFragmentResultListener()
         observe()
-        showToast()
         searchButtonClicked()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.getMoviesList(true)
     }
 
     override fun onDestroyView() {
@@ -63,10 +57,14 @@ class MoviesFragment : Fragment() {
 
     private fun observe() {
         lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.moviesList.collect {
-                    adapter.setItems(it)
-                }
+            viewModel.moviesList.collect {
+                adapter.setItems(it)
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.showToast.collect {
+                showToast()
             }
         }
     }
@@ -78,15 +76,26 @@ class MoviesFragment : Fragment() {
                 val imm =
                     context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(binding.search.windowToken, 0)
+                binding.filmRecyclerView.scrollToPosition(0)
             }
             true
         }
     }
 
+    private fun setupFragmentResultListener() {
+        setFragmentResultListener(SingleMovieFragment.MOVIE_FRAGMENT_RESULT) { _, bundle ->
+            val isFavourite =
+                bundle.getBoolean(SingleMovieFragment.MOVIE_FRAGMENT_FAVOURITE_KEY, false)
+            val movieID = bundle.getString(SingleMovieFragment.MOVIE_FRAGMENT_ID_KEY)
+            viewModel.onFavouriteResultReceived(
+                isFavourite = isFavourite,
+                movieID = movieID,
+            )
+        }
+    }
 
     private fun initRecyclerView() {
         adapter.clickListener = {
-            Log.d("Adapter", "Kliknięty data model: $it")
             findNavController().navigate(
                 MoviesFragmentDirections.actionRecyclerListFragmentToSingleMovieFragment(
                     it.movieID
@@ -100,7 +109,7 @@ class MoviesFragment : Fragment() {
         binding.filmRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollHorizontally(1)) {
+                if (!recyclerView.canScrollVertically(1)) {
                     viewModel.recyclerEndReached()
                 }
             }

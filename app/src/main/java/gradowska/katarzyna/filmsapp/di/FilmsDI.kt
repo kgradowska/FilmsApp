@@ -5,17 +5,21 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import gradowska.katarzyna.filmsapp.data.ApiService
 import gradowska.katarzyna.filmsapp.data.MovieDataSource
 import gradowska.katarzyna.filmsapp.data.UserDataSource
-import gradowska.katarzyna.filmsapp.domain.usecase.*
-import gradowska.katarzyna.filmsapp.presentation.genres.GenresFragmentViewModel
+import gradowska.katarzyna.filmsapp.domain.usecase.GetFavouriteMovieUseCase
+import gradowska.katarzyna.filmsapp.domain.usecase.GetGenresUseCase
+import gradowska.katarzyna.filmsapp.domain.usecase.GetMovieDetailsUseCase
+import gradowska.katarzyna.filmsapp.domain.usecase.GetMoviesGenresUseCase
+import gradowska.katarzyna.filmsapp.domain.usecase.GetMoviesUseCase
+import gradowska.katarzyna.filmsapp.domain.usecase.GetSearchedMovieDetailsUseCase
+import gradowska.katarzyna.filmsapp.domain.usecase.SetFavouriteMovieUseCase
 import gradowska.katarzyna.filmsapp.presentation.main.MainActivityViewModel
 import gradowska.katarzyna.filmsapp.presentation.moviesgenres.MoviesGenresViewModel
 import gradowska.katarzyna.filmsapp.presentation.recyclerList.MoviesViewModel
 import gradowska.katarzyna.filmsapp.presentation.singleMovie.SingleMovieViewModel
-import gradowska.katarzyna.filmsapp.presentation.start.StartFragmentViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
-import org.koin.core.module.dsl.*
+import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -36,10 +40,8 @@ object FilmsDI {
 
         viewModel { MoviesViewModel(get(), get(), get()) }
         viewModel { (movieId: String) -> SingleMovieViewModel(movieId, get(), get()) }
-        viewModel { StartFragmentViewModel() }
         viewModel { MainActivityViewModel() }
-        viewModel { GenresFragmentViewModel(get()) }
-        viewModel { (idGenre: Int) -> MoviesGenresViewModel(idGenre, get(), get()) }
+        viewModel { MoviesGenresViewModel(get(), get(), get()) }
     }
 
     val networkModule = module {

@@ -3,11 +3,15 @@ package gradowska.katarzyna.filmsapp.presentation.recyclerList
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import gradowska.katarzyna.filmsapp.domain.usecase.GetMoviesUseCase
-import gradowska.katarzyna.filmsapp.domain.usecase.SetFavouriteMovieUseCase
 import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
+import gradowska.katarzyna.filmsapp.domain.usecase.GetMoviesUseCase
 import gradowska.katarzyna.filmsapp.domain.usecase.GetSearchedMovieDetailsUseCase
-import kotlinx.coroutines.flow.*
+import gradowska.katarzyna.filmsapp.domain.usecase.SetFavouriteMovieUseCase
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
 class MoviesViewModel(
@@ -23,20 +27,28 @@ class MoviesViewModel(
     private val _moviesList: MutableStateFlow<List<MovieDataModel>> = MutableStateFlow(listOf())
     val moviesList: StateFlow<List<MovieDataModel>> = _moviesList
 
+    private val _showToast = MutableSharedFlow<Unit>()
+    val showToast = _showToast.asSharedFlow()
+
     private var currentQuery = ""
+
+    init {
+        getMoviesList()
+        viewModelScope.launch {
+            delay(2000)
+            _showToast.emit(Unit)
+        }
+    }
 
     fun recyclerEndReached() {
         if (currentQuery.isEmpty()) {
-            getMoviesList(false)
+            getMoviesList()
         } else {
             getSearchedMovies()
         }
     }
 
-    fun getMoviesList(isFromOnResume: Boolean) {
-        if (isFromOnResume) {
-            currentPage = 1
-        }
+    private fun getMoviesList() {
         if (!isLoading && canLoadMore) {
             viewModelScope.launch {
                 try {
@@ -88,6 +100,18 @@ class MoviesViewModel(
         }
     }
 
+    fun onFavouriteResultReceived(
+        isFavourite: Boolean,
+        movieID: String?,
+    ) {
+        val index = moviesList.value.indexOfFirst { it.movieID == movieID }
+        if (index != -1) {
+            val newList = ArrayList(moviesList.value)
+            newList.getOrNull(index)?.movieLiked = isFavourite
+            _moviesList.value = newList
+        }
+    }
+
     fun searchClicked(query: String) {
         if (!isLoading) {
             if (currentQuery != query) {
@@ -100,7 +124,7 @@ class MoviesViewModel(
 
             if (currentPage == 1) {
                 if (currentQuery.isEmpty()) {
-                    getMoviesList(false)
+                    getMoviesList()
                 } else {
                     getSearchedMovies()
                 }

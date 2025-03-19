@@ -1,7 +1,7 @@
 package gradowska.katarzyna.filmsapp.data.entity
-import com.squareup.moshi.JsonClass
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
 
 
@@ -33,16 +33,10 @@ data class MoviesListDTO(
         val originalTitle: String,
         @Json(name = "overview")
         val overview: String,
-        @Json(name = "popularity")
-        val popularity: Double?, // TODO is it used?
         @Json(name = "poster_path")
         val posterPath: String?,
-        @Json(name = "release_date")
-        val releaseDate: String?, // TODO is it used?
         @Json(name = "title")
         val title: String,
-        @Json(name = "video")
-        val video: Boolean?, // TODO is it used?
         @Json(name = "vote_average")
         val voteAverage: Double?,
         @Json(name = "vote_count")
