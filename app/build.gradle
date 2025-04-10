@@ -84,9 +84,9 @@ dependencies {
 
     annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
-    testImplementation 'org.mockito:mockito-core:4.2.0'
-    testImplementation 'org.mockito:mockito-junit-jupiter:4.2.0'
+    testImplementation 'io.mockk:mockk:1.13.17'
+    testImplementation "io.mockk:mockk-android:1.13.17"
+    testImplementation "io.mockk:mockk-agent:1.13.17"
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
 }
