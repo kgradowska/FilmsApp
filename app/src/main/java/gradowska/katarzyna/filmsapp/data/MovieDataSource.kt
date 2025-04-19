@@ -31,7 +31,7 @@ class MovieDataSource(
         return apiService.fetchMoviesList(apiKey, page)
     }
 
-    suspend fun getMovieFromApi(id: String): MovieDetailsDTO {
+    suspend fun getMovieFromApi(id: String): MovieDetailsDTO? {
         return apiService.fetchMovie(id, apiKey)
     }
 

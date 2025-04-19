@@ -18,7 +18,7 @@ interface ApiService {
     suspend fun fetchMovie(
         @Path("movie_id") movie_id: String,
         @Query("api_key") api_key: String,
-    ): MovieDetailsDTO
+    ): MovieDetailsDTO?
 
     @GET("search/movie")
     suspend fun fetchSearchingMovie(
