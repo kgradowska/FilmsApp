@@ -25,7 +25,7 @@ class GetMoviesUseCaseTest {
 
     @Before
     fun setUp() {
-        MockKAnnotations.init(this)
+        MockKAnnotations.init(this, relaxUnitFun = true)
         useCase = GetMoviesUseCase(movieDataSource, getFavouriteMovieUseCase)
     }
 

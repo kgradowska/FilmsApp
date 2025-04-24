@@ -2,20 +2,20 @@ package gradowska.katarzyna.filmsapp.domain.usecase
 
 import gradowska.katarzyna.filmsapp.data.UserDataSource
 import io.mockk.MockKAnnotations
-import io.mockk.mockk
+import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import org.junit.Before
 import org.junit.Test
 
 class SetFavouriteMovieUseCaseTest {
 
+    @MockK
     private lateinit var userDataSource: UserDataSource
     private lateinit var useCase: SetFavouriteMovieUseCase
 
     @Before
     fun setUp() {
-        MockKAnnotations.init(this)
-        userDataSource = mockk(relaxed = true)
+        MockKAnnotations.init(this, relaxUnitFun = true)
         useCase = SetFavouriteMovieUseCase(userDataSource)
     }
 

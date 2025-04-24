@@ -24,7 +24,7 @@ class GetSearchedMovieDetailsUseCaseTest {
 
     @Before
     fun setUp() {
-        MockKAnnotations.init(this)
+        MockKAnnotations.init(this, relaxUnitFun = true)
         useCase = GetSearchedMovieDetailsUseCase(movieDataSource, getFavouriteMovieUseCase)
     }
 
@@ -34,7 +34,7 @@ class GetSearchedMovieDetailsUseCaseTest {
         val query = "Inception"
         val page = 1
 
-        val result1 = MoviesListDTO.Result(
+        val movie = MoviesListDTO.Result(
             id = 10,
             title = "Inception",
             overview = "Dream within a dream",
@@ -51,13 +51,13 @@ class GetSearchedMovieDetailsUseCaseTest {
         coEvery { movieDataSource.getSearchedMovieFromApi(query, page) } returns MoviesListDTO(
             page = 1,
             totalPages = 1,
-            results = listOf(result1),
+            results = listOf(movie),
             totalResults = 1
         )
 
-        coEvery { getFavouriteMovieUseCase.getMovieIsFavourite("10") } returns true
+        coEvery { getFavouriteMovieUseCase.getMovieIsFavourite(movie.id.toString()) } returns true
 
-        val expected = listOf(result1.toMovieDataModel(isFavourite = true))
+        val expected = listOf(movie.toMovieDataModel(isFavourite = true))
 
         // act
         val result = useCase.getSearchedMovieList(query, page)
@@ -66,7 +66,7 @@ class GetSearchedMovieDetailsUseCaseTest {
         assertEquals(expected, result)
         coVerify(exactly = 1) {
             movieDataSource.getSearchedMovieFromApi(query, page)
-            getFavouriteMovieUseCase.getMovieIsFavourite("10")
+            getFavouriteMovieUseCase.getMovieIsFavourite(movie.id.toString())
         }
     }
 
