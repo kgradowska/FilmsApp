@@ -8,9 +8,9 @@ class GetMovieDetailsUseCase(
     private val getFavouriteMovieUseCase: GetFavouriteMovieUseCase,
 ) {
 
-    suspend fun getMovie(id: String): MovieDetailsDataModel {
+    suspend fun getMovie(id: String): MovieDetailsDataModel? {
         val dataMovieModel = dataSource.getMovieFromApi(id)
-            .toMovieDetailsDataModel(getFavouriteMovieUseCase.getMovieIsFavourite(id))
+            ?.toMovieDetailsDataModel(getFavouriteMovieUseCase.getMovieIsFavourite(id))
         return dataMovieModel
     }
 }
