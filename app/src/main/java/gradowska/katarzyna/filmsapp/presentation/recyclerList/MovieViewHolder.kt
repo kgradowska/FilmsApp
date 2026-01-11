@@ -1,11 +1,10 @@
 package gradowska.katarzyna.filmsapp.presentation.recyclerList
 
-import androidx.core.view.isVisible
+import androidx.compose.ui.Modifier
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import gradowska.katarzyna.filmsapp.R
 import gradowska.katarzyna.filmsapp.databinding.ItemMovieBinding
 import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
+import gradowska.katarzyna.filmsapp.presentation.recyclerList.compose.MovieItem
 
 
 class MovieViewHolder(
@@ -17,34 +16,21 @@ class MovieViewHolder(
         clickListener: ((MovieDataModel) -> Unit)?,
         favouriteIconClickListener: ((MovieDataModel) -> Unit)?
     ) {
-        with(movie) {
-            binding.titleText.text = movieTitle
-            binding.bodyText.text = movieDescription
-            if (movieRate == null) {
-                binding.rate.isVisible = false
-            } else {
-                binding.rate.isVisible = true
-                binding.rate.text = roundTo3Digits(movieRate)
-            }
-
-            Glide.with(binding.root.context)
-                .load(moviePhoto)
-                .placeholder(R.drawable.ic_poster_placeholder)
-                .into(binding.movieImage)
-
-            if (movieLiked) {
-                binding.starBorder.setImageResource(R.drawable.ic_baseline_star_rate_24)
-            } else {
-                binding.starBorder.setImageResource(R.drawable.ic_baseline_star_border_24)
-            }
-
-            binding.starBorder.setOnClickListener {
-                favouriteIconClickListener?.invoke(movie)
-            }
-
-            binding.root.setOnClickListener {
-                clickListener?.invoke(movie)
-            }
+        binding.movieItemCompose.setContent {
+            MovieItem(
+                titleText = movie.movieTitle,
+                bodyText = movie.movieDescription,
+                rate = movie.movieRate,
+                movieImage = movie.moviePhoto,
+                isLiked = movie.movieLiked,
+                onItemClick = {
+                    clickListener?.invoke(movie)
+                },
+                onFavouriteClick = {
+                    favouriteIconClickListener?.invoke(movie)
+                },
+                modifier = Modifier
+            )
         }
     }
 
