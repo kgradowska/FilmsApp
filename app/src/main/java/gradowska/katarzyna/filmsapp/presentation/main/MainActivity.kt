@@ -1,29 +1,22 @@
 package gradowska.katarzyna.filmsapp.presentation.main
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
-import gradowska.katarzyna.filmsapp.R
-import gradowska.katarzyna.filmsapp.databinding.ActivityMainBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 
-class MainActivity : AppCompatActivity() {
+import gradowska.katarzyna.filmsapp.presentation.navigation.MainScreen
 
-    private lateinit var binding: ActivityMainBinding
-
-    private val viewModel: MainActivityViewModel by viewModel()
+class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        val navHostFragment =
-            this.supportFragmentManager.findFragmentById(R.id.fragment_container) as? NavHostFragment
-        val controller = navHostFragment?.navController ?: return
-        binding.bottomNavigationView.setupWithNavController(
-            navController = controller,
-        )
+        setContent {
+            //FilmsAppTheme { TODO do it later - create Theme and Colors files
+            MainScreen()
+            //}
+        }
     }
 }
