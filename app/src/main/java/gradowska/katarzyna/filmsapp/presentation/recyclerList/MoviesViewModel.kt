@@ -23,24 +23,24 @@ class MoviesViewModel(
     private var isLoading = false
     private var canLoadMore = true
     private var currentPage = 1
+    private var currentQuery = ""
 
-    private val _moviesList: MutableStateFlow<List<MovieDataModel>> = MutableStateFlow(listOf())
+    private val _moviesList: MutableStateFlow<List<MovieDataModel>> = MutableStateFlow(emptyList())
     val moviesList: StateFlow<List<MovieDataModel>> = _moviesList
 
     private val _showToast = MutableSharedFlow<Unit>()
     val showToast = _showToast.asSharedFlow()
 
-    private var currentQuery = ""
-
     init {
         getMoviesList()
         viewModelScope.launch {
             delay(2000)
-            _showToast.emit(Unit)
+            _showToast.emit(Unit) // TODO add a toast in compose
         }
     }
 
     fun recyclerEndReached() {
+        if (isLoading || !canLoadMore) return
         if (currentQuery.isEmpty()) {
             getMoviesList()
         } else {
@@ -54,13 +54,12 @@ class MoviesViewModel(
                 try {
                     isLoading = true
                     val movieList = getMoviesUseCase.getMoviesList(true, currentPage)
-                    val allMovies = if (currentPage == 1) {
-                        ArrayList()
+
+                    if (currentPage == 1) {
+                        _moviesList.value = movieList
                     } else {
-                        ArrayList(_moviesList.value)
+                        _moviesList.value = _moviesList.value + movieList
                     }
-                    allMovies.addAll(movieList)
-                    _moviesList.value = allMovies
 
                     isLoading = false
                     canLoadMore = movieList.isNotEmpty()
@@ -81,13 +80,11 @@ class MoviesViewModel(
                     val movieList =
                         getSearchedMovieUseCase.getSearchedMovieList(currentQuery, currentPage)
 
-                    val allMovies = if (currentPage == 1) {
-                        ArrayList()
+                    if (currentPage == 1) {
+                        _moviesList.value = movieList
                     } else {
-                        ArrayList(_moviesList.value)
+                        _moviesList.value = _moviesList.value + movieList
                     }
-                    allMovies.addAll(movieList)
-                    _moviesList.value = allMovies
 
                     isLoading = false
                     canLoadMore = movieList.isNotEmpty()
@@ -101,14 +98,12 @@ class MoviesViewModel(
     }
 
     fun onFavouriteResultReceived(
+        // TODO add database
         isFavourite: Boolean,
         movieID: String?,
     ) {
-        val index = moviesList.value.indexOfFirst { it.movieID == movieID }
-        if (index != -1) {
-            val newList = ArrayList(moviesList.value)
-            newList.getOrNull(index)?.movieLiked = isFavourite
-            _moviesList.value = newList
+        _moviesList.value = _moviesList.value.map { movie ->
+            if (movie.movieID == movieID) movie.copy(movieLiked = isFavourite) else movie
         }
     }
 
@@ -116,11 +111,10 @@ class MoviesViewModel(
         if (!isLoading) {
             if (currentQuery != query) {
                 currentPage = 1
+                currentQuery = query
+                _moviesList.value = emptyList()
                 canLoadMore = true
-                isLoading = false
             }
-
-            currentQuery = query
 
             if (currentPage == 1) {
                 if (currentQuery.isEmpty()) {
@@ -133,18 +127,17 @@ class MoviesViewModel(
     }
 
     fun favouriteIconClicked(movie: MovieDataModel) {
-        setFavouriteMovieUseCase.setMovieIsFavourite(movie.movieID, !movie.movieLiked)
+        viewModelScope.launch {
+            val newLikedStatus = !movie.movieLiked
+            setFavouriteMovieUseCase.setMovieIsFavourite(movie.movieID, newLikedStatus)
 
-        val newList = ArrayList<MovieDataModel>()
-
-        for (m in _moviesList.value) {
-            if (m.movieID != movie.movieID) {
-                newList.add(m)
-            } else {
-                newList.add(m.copy(movieLiked = !movie.movieLiked))
+            _moviesList.value = _moviesList.value.map { m ->
+                if (m.movieID == movie.movieID) {
+                    m.copy(movieLiked = newLikedStatus)
+                } else {
+                    m
+                }
             }
         }
-
-        _moviesList.value = newList
     }
 }

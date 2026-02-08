@@ -20,7 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -30,17 +29,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import gradowska.katarzyna.filmsapp.R
+import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
+import gradowska.katarzyna.filmsapp.presentation.theme.Gold
+import gradowska.katarzyna.filmsapp.presentation.theme.White
+import gradowska.katarzyna.filmsapp.presentation.theme.WineBerry2
 import java.util.Locale
 
 @Composable
 fun MovieItem(
-    movieImage: String,
-    titleText: String,
-    bodyText: String,
-    rate: Double?,
-    isLiked: Boolean,
-    onItemClick: () -> Unit,
-    onFavouriteClick: () -> Unit,
+    movie: MovieDataModel,
+    onItemClick: (MovieDataModel) -> Unit,
+    onFavouriteClick: (MovieDataModel) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -48,10 +47,10 @@ fun MovieItem(
             .fillMaxWidth()
             .height(150.dp)
             .padding(5.dp)
-            .clickable { onItemClick() },
+            .clickable { onItemClick(movie) },
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(
-            containerColor = colorResource(R.color.wineBerry2)
+            containerColor = WineBerry2
         ),
     ) {
         Row(
@@ -65,7 +64,7 @@ fun MovieItem(
                 )
         ) {
             AsyncImage(
-                model = movieImage,
+                model = movie.moviePhoto,
                 contentDescription = null,
                 modifier = Modifier
                     .width(80.dp)
@@ -81,9 +80,9 @@ fun MovieItem(
                     .fillMaxHeight(),
             ) {
                 Text(
-                    text = titleText,
+                    text = movie.movieTitle,
                     maxLines = 2,
-                    color = colorResource(R.color.gold),
+                    color = Gold,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     overflow = TextOverflow.Ellipsis
@@ -92,9 +91,9 @@ fun MovieItem(
                 Spacer(Modifier.weight(1f))
 
                 Text(
-                    text = bodyText,
+                    text = movie.movieDescription,
                     maxLines = 5,
-                    color = colorResource(R.color.white),
+                    color = White,
                     fontSize = 15.sp,
                     fontStyle = FontStyle.Italic,
                     overflow = TextOverflow.Ellipsis
@@ -107,10 +106,10 @@ fun MovieItem(
                 modifier = modifier.fillMaxHeight(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                if (rate != null) {
+                if (movie.movieRate != null) {
                     Text(
-                        text = String.format(Locale.getDefault(), "%.2f", rate),
-                        color = colorResource(R.color.gold),
+                        text = String.format(Locale.getDefault(), "%.2f", movie.movieRate),
+                        color = Gold,
                         fontSize = 32.sp
                     )
                 }
@@ -119,7 +118,7 @@ fun MovieItem(
 
                 Icon(
                     painter = painterResource(
-                        if (isLiked)
+                        if (movie.movieLiked)
                             R.drawable.ic_baseline_star_rate_24
                         else
                             R.drawable.ic_baseline_star_border_24
@@ -128,7 +127,7 @@ fun MovieItem(
                     contentDescription = null,
                     modifier = Modifier
                         .size(50.dp)
-                        .clickable { onFavouriteClick() }
+                        .clickable { onFavouriteClick(movie) }
                 )
 
                 Spacer(modifier = Modifier.weight(1f))
@@ -141,11 +140,14 @@ fun MovieItem(
 @Composable
 fun MovieItemPreview() {
     MovieItem(
-        movieImage = "",
-        titleText = "Movie title",
-        bodyText = "Short movie description which can take a few lines.",
-        rate = 8.7,
-        isLiked = true,
+        movie = MovieDataModel(
+            movieID = "abc",
+            moviePhoto = "",
+            movieTitle = "Movie title",
+            movieDescription = "Short movie description which can take a few lines.",
+            movieRate = 8.7,
+            movieLiked = true
+        ),
         onItemClick = {},
         onFavouriteClick = {}
     )
