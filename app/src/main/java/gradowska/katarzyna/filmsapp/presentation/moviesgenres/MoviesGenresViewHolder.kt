@@ -1,5 +1,7 @@
 package gradowska.katarzyna.filmsapp.presentation.moviesgenres
 
+// TODO remove this file after migration
+/*
 import android.view.View
 import androidx.compose.ui.Modifier
 import androidx.recyclerview.widget.RecyclerView
@@ -44,4 +46,4 @@ class MoviesGenresItemViewHolder(
 
 class MoviesGenresEmptyViewHolder(
     binding: PlaceholderEmptyListBinding
-) : MoviesGenresViewHolder(binding.root)
+) : MoviesGenresViewHolder(binding.root)*/

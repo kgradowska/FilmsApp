@@ -1,5 +1,7 @@
 package gradowska.katarzyna.filmsapp.presentation.recyclerList
 
+// TODO remove this file after migration
+/*
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -118,4 +120,4 @@ class MoviesFragment : Fragment() {
         binding.filmRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.filmRecyclerView.adapter = adapter
     }
-}
+}*/

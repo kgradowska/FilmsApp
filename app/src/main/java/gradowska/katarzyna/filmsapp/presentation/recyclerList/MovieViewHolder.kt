@@ -1,5 +1,7 @@
 package gradowska.katarzyna.filmsapp.presentation.recyclerList
 
+// TODO remove this file after migration
+/*
 import androidx.compose.ui.Modifier
 import androidx.recyclerview.widget.RecyclerView
 import gradowska.katarzyna.filmsapp.databinding.ItemMovieBinding
@@ -37,4 +39,4 @@ class MovieViewHolder(
     private fun roundTo3Digits(number: Double): String {
         return String.format("%.2f", number).replace(",", ".")
     }
-}
+}*/

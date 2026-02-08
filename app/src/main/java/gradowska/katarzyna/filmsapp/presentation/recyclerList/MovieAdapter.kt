@@ -1,5 +1,7 @@
 package gradowska.katarzyna.filmsapp.presentation.recyclerList
 
+// TODO remove this file after migration
+/*
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -28,4 +30,4 @@ class MovieAdapter() : RecyclerView.Adapter<MovieViewHolder>() {
     }
 
     override fun getItemCount() = moviesList.size
-}
+}*/

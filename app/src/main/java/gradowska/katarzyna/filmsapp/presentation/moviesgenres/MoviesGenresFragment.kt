@@ -1,5 +1,7 @@
 package gradowska.katarzyna.filmsapp.presentation.moviesgenres
 
+// TODO remove this file after migration
+/*
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -214,4 +216,4 @@ class MoviesGenresFragment : Fragment() {
             }
         }
     }
-}
+}*/
