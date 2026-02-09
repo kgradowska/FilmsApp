@@ -22,12 +22,12 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -38,9 +38,54 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import gradowska.katarzyna.filmsapp.R
+import gradowska.katarzyna.filmsapp.presentation.singleMovie.SingleMovieViewModel
+import gradowska.katarzyna.filmsapp.presentation.theme.Gold
+import gradowska.katarzyna.filmsapp.presentation.theme.Tolopea
+import gradowska.katarzyna.filmsapp.presentation.theme.White
+import gradowska.katarzyna.filmsapp.presentation.theme.WineBerry2
+import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 import java.util.Locale
+
+@Composable
+fun SingleMovieScreen(
+    movieId: Int,
+    onFavouriteChanged: (String, Boolean) -> Unit,
+    viewModel: SingleMovieViewModel = koinViewModel { parametersOf(movieId.toString()) }
+) {
+    val movieDetails by viewModel.movieDetails.collectAsStateWithLifecycle()
+
+    movieDetails?.let { movie ->
+        SingleMovie(
+            titleText = movie.movieTitle,
+            movieImage = movie.moviePhoto,
+            movieBackdropPath = movie.movieBackdropPath,
+            description = movie.movieDescription,
+            rate = movie.movieRate,
+            isLiked = movie.movieLiked,
+            genres = movie.movieGenres,
+            runtime = movie.movieRuntime,
+            dateOfProduction = movie.movieReleaseDate,
+            viewsCounter = movie.movieVoteCount,
+            quote = movie.movieTagline,
+            productionCountries = movie.movieProductionCountries,
+            originalLanguage = movie.movieOriginalLanguage,
+            originalTitle = movie.movieOriginalTitle,
+            budget = movie.movieBudget,
+            revenue = movie.movieRevenue,
+            onFavouriteClick = {
+                val newStatus = !movie.movieLiked
+                viewModel.favouriteIconClicked(movie)
+                onFavouriteChanged(movie.movieID, newStatus)
+            }
+        )
+    } ?: run {
+        // TODO maybe add Loader (CircularProgressIndicator) later
+    }
+}
 
 @Composable
 fun SingleMovie(
@@ -66,7 +111,7 @@ fun SingleMovie(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(R.color.tolopea))
+            .background(Tolopea)
     ) {
 
         Column(
@@ -137,7 +182,7 @@ fun MovieHeader(
                 .width(100.dp)
                 .height(168.dp)
                 .background(
-                    color = colorResource(R.color.wineBerry2).copy(alpha = 0.8f),
+                    color = WineBerry2.copy(alpha = 0.8f),
                     shape = RoundedCornerShape(4.dp)
                 )
                 .padding(vertical = 10.dp),
@@ -147,7 +192,7 @@ fun MovieHeader(
             if (rate.toDoubleOrNull() != null) {
                 Text(
                     text = formatRate(rate),
-                    color = colorResource(R.color.gold),
+                    color = Gold,
                     fontSize = 32.sp,
                     textAlign = TextAlign.Center
                 )
@@ -174,7 +219,7 @@ fun MovieHeader(
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
-                color = colorResource(R.color.gold)
+                color = Gold
             )
 
             Text(
@@ -185,7 +230,7 @@ fun MovieHeader(
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
-                color = colorResource(R.color.gold)
+                color = Gold
             )
         }
     }
@@ -213,7 +258,7 @@ fun MovieContent(
             text = title,
             fontSize = 33.sp,
             fontWeight = FontWeight.Bold,
-            color = colorResource(R.color.gold)
+            color = Gold
         )
 
         Spacer(Modifier.height(10.dp))
@@ -221,7 +266,7 @@ fun MovieContent(
         Text(
             text = genres,
             fontSize = 16.sp,
-            color = colorResource(R.color.gold),
+            color = Gold,
             maxLines = 3,
             overflow = TextOverflow.Ellipsis,
         )
@@ -231,7 +276,7 @@ fun MovieContent(
         Text(
             text = runtime + "  | " + date,
             fontSize = 16.sp,
-            color = colorResource(R.color.gold)
+            color = Gold,
         )
 
         Spacer(Modifier.height(16.dp))
@@ -290,7 +335,7 @@ fun MovieContent(
             fontWeight = FontWeight.Bold,
             fontStyle = FontStyle.Italic,
             fontSize = 15.sp,
-            color = colorResource(R.color.white),
+            color = White,
             modifier = Modifier.padding(bottom = 30.dp)
         )
 
@@ -306,7 +351,7 @@ fun QuoteBox(quote: String) {
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
             .background(
-                color = colorResource(R.color.wineBerry2),
+                color = WineBerry2,
                 shape = RoundedCornerShape(4.dp)
             )
             .padding(vertical = 10.dp, horizontal = 10.dp),
@@ -318,7 +363,7 @@ fun QuoteBox(quote: String) {
             textAlign = TextAlign.Center,
             fontStyle = FontStyle.Italic,
             fontWeight = FontWeight.Bold,
-            color = colorResource(R.color.white),
+            color = White
         )
     }
 }
@@ -343,7 +388,7 @@ fun BoxScope.BottomBar(
                     topEnd = 16.dp
                 )
             )
-            .background(colorResource(R.color.wineBerry2))
+            .background(WineBerry2)
             .align(Alignment.BottomCenter),
     ) {
         if (showBudget) {
@@ -367,8 +412,8 @@ private fun RowScope.BudgetColumn(title: String, value: String) {
             alignment = Alignment.CenterVertically
         )
     ) {
-        Text(title, fontWeight = FontWeight.Bold, color = colorResource(R.color.gold))
-        Text(value, fontStyle = FontStyle.Italic, color = colorResource(R.color.gold))
+        Text(title, fontWeight = FontWeight.Bold, color = Gold)
+        Text(value, fontStyle = FontStyle.Italic, color = Gold)
     }
 }
 
@@ -382,13 +427,13 @@ fun LabeledText(
             text = label,
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
-            color = colorResource(R.color.gold)
+            color = Gold
         )
         Text(
             text = value,
             fontStyle = FontStyle.Italic,
             fontSize = 16.sp,
-            color = colorResource(R.color.gold)
+            color = Gold
         )
     }
 }

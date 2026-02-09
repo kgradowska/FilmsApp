@@ -26,7 +26,7 @@ class SingleMovieViewModel(
 
     private suspend fun getMovie() {
         val newMovie = getMovieDetailsUseCase.getMovie(movieId)
-        _movieDetails.emit(newMovie)
+        _movieDetails.value = newMovie
     }
 
     fun favouriteIconClicked(movie: MovieDetailsDataModel) {
