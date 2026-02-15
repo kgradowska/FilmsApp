@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-
 import gradowska.katarzyna.filmsapp.presentation.navigation.MainScreen
+import gradowska.katarzyna.filmsapp.presentation.theme.FilmsAppTheme
 
 class MainActivity : ComponentActivity() {
 
@@ -14,9 +14,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            //FilmsAppTheme { TODO do it later - create Theme and Colors files
-            MainScreen()
-            //}
+            FilmsAppTheme {
+                MainScreen()
+            }
         }
     }
 }
