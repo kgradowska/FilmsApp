@@ -35,7 +35,9 @@ class MoviesGenresViewModel(
 
     private var fetchJob: Job? = null
 
-    var genreId: Int? = null
+    private val _selectedGenreId = MutableStateFlow<Int?>(null)
+    val selectedGenreId: StateFlow<Int?> = _selectedGenreId
+
     private var isLoading = false
     private var canLoadMore = true
     private var currentPage = 1
@@ -46,20 +48,8 @@ class MoviesGenresViewModel(
     init {
         viewModelScope.launch {
             val genres = getGenres()
-            genreId = genres.firstOrNull()?.id
+            _selectedGenreId.value = genres.firstOrNull()?.id
             getMoviesList()
-        }
-    }
-
-    fun onFavouriteResultReceived(
-        isFavourite: Boolean,
-        movieID: String?,
-    ) {
-        val index = moviesList.value.indexOfFirst { it.movieID == movieID }
-        if (index != -1) {
-            val newList = ArrayList(moviesList.value)
-            newList.getOrNull(index)?.movieLiked = isFavourite
-            _moviesList.value = newList
         }
     }
 
@@ -71,6 +61,10 @@ class MoviesGenresViewModel(
         _rangeValues.value = selectedValues
     }
 
+    fun onGenreSelected(id: Int?) {
+        _selectedGenreId.value = id
+    }
+
     private fun getMoviesList() {
         if (!isLoading && canLoadMore) {
             fetchJob?.cancel()
@@ -80,7 +74,7 @@ class MoviesGenresViewModel(
                     val movieList = getMoviesGenresUseCase.getMovieList(
                         query = null,
                         currentPage = currentPage,
-                        withGenres = genreId?.toString(),
+                        withGenres = _selectedGenreId.value?.toString(),
                         voteAverageGte = currentMinRange,
                         voteAverageLte = currentMaxRange,
                     )
