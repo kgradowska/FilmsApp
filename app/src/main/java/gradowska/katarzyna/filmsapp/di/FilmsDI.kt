@@ -1,11 +1,16 @@
 package gradowska.katarzyna.filmsapp.di
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStoreFile
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import gradowska.katarzyna.filmsapp.data.ApiService
 import gradowska.katarzyna.filmsapp.data.MovieDataSource
 import gradowska.katarzyna.filmsapp.data.UserDataSource
 import gradowska.katarzyna.filmsapp.domain.usecase.GetFavouriteMovieUseCase
+import gradowska.katarzyna.filmsapp.domain.usecase.GetFavouriteMoviesUseCase
 import gradowska.katarzyna.filmsapp.domain.usecase.GetGenresUseCase
 import gradowska.katarzyna.filmsapp.domain.usecase.GetMovieDetailsUseCase
 import gradowska.katarzyna.filmsapp.domain.usecase.GetMoviesGenresUseCase
@@ -27,10 +32,16 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 object FilmsDI {
     val filmModule = module {
         single { MovieDataSource(androidContext(), get(), get(), API_KEY) }
-        single { UserDataSource(androidContext()) }
+        single<DataStore<Preferences>> {
+            PreferenceDataStoreFactory.create(
+                produceFile = { androidContext().preferencesDataStoreFile("USER_PREFS") }
+            )
+        }
+        single { UserDataSource(get()) }
         single { get<Retrofit>().create(ApiService::class.java) }
 
         factory { GetFavouriteMovieUseCase(get()) }
+        factory { GetFavouriteMoviesUseCase(get()) }
         factory { GetMoviesUseCase(get(), get()) }
         factory { SetFavouriteMovieUseCase(get()) }
         factory { GetMovieDetailsUseCase(get(), get()) }
@@ -38,10 +49,10 @@ object FilmsDI {
         factory { GetGenresUseCase(get()) }
         factory { GetMoviesGenresUseCase(get(), get()) }
 
-        viewModel { MoviesViewModel(get(), get(), get()) }
+        viewModel { MoviesViewModel(get(), get(), get(), get()) }
         viewModel { (movieId: String) -> SingleMovieViewModel(movieId, get(), get()) }
         viewModel { MainActivityViewModel() }
-        viewModel { MoviesGenresViewModel(get(), get(), get()) }
+        viewModel { MoviesGenresViewModel(get(), get(), get(), get()) }
     }
 
     val networkModule = module {

@@ -5,24 +5,38 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import gradowska.katarzyna.filmsapp.domain.entity.GenreDataModel
 import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
+import gradowska.katarzyna.filmsapp.domain.usecase.GetFavouriteMoviesUseCase
 import gradowska.katarzyna.filmsapp.domain.usecase.GetGenresUseCase
 import gradowska.katarzyna.filmsapp.domain.usecase.GetMoviesGenresUseCase
 import gradowska.katarzyna.filmsapp.domain.usecase.SetFavouriteMovieUseCase
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class MoviesGenresViewModel(
     private val getMoviesGenresUseCase: GetMoviesGenresUseCase,
     private val setFavouriteMovieUseCase: SetFavouriteMovieUseCase,
-    private val getGenresUseCase: GetGenresUseCase
+    private val getGenresUseCase: GetGenresUseCase,
+    getFavouriteMoviesUseCase: GetFavouriteMoviesUseCase,
 ) : ViewModel() {
 
     private val _moviesList: MutableStateFlow<List<MovieDataModel>> = MutableStateFlow(listOf())
-    val moviesList: StateFlow<List<MovieDataModel>> = _moviesList
+    val moviesList: StateFlow<List<MovieDataModel>> =
+        _moviesList.combine(getFavouriteMoviesUseCase()) { movies, favourites ->
+            movies.map { m ->
+                m.copy(movieLiked = favourites.contains(m.movieID))
+            }
+        }.stateIn(
+            scope = viewModelScope,
+            initialValue = _moviesList.value,
+            started = SharingStarted.WhileSubscribed(5000),
+        )
 
     private val _genresList: MutableStateFlow<List<GenreDataModel>> = MutableStateFlow(listOf())
     val genresList: StateFlow<List<GenreDataModel>> = _genresList
@@ -99,16 +113,9 @@ class MoviesGenresViewModel(
     }
 
     fun favouriteIconClicked(movie: MovieDataModel) {
-        setFavouriteMovieUseCase.setMovieIsFavourite(movie.movieID, !movie.movieLiked)
-        val newList = ArrayList<MovieDataModel>()
-        for (m in _moviesList.value) {
-            if (m.movieID != movie.movieID) {
-                newList.add(m)
-            } else {
-                newList.add(m.copy(movieLiked = !movie.movieLiked))
-            }
+        viewModelScope.launch {
+            setFavouriteMovieUseCase.setMovieIsFavourite(movie.movieID, !movie.movieLiked)
         }
-        _moviesList.value = newList
     }
 
     fun searchButtonClicked() {

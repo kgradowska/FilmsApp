@@ -53,7 +53,6 @@ import java.util.Locale
 @Composable
 fun SingleMovieScreen(
     movieId: Int,
-    onFavouriteChanged: (String, Boolean) -> Unit,
     viewModel: SingleMovieViewModel = koinViewModel { parametersOf(movieId.toString()) }
 ) {
     val movieDetails by viewModel.movieDetails.collectAsStateWithLifecycle()
@@ -77,9 +76,7 @@ fun SingleMovieScreen(
             budget = movie.movieBudget,
             revenue = movie.movieRevenue,
             onFavouriteClick = {
-                val newStatus = !movie.movieLiked
                 viewModel.favouriteIconClicked(movie)
-                onFavouriteChanged(movie.movieID, newStatus)
             }
         )
     } ?: run {
@@ -106,8 +103,7 @@ fun SingleMovie(
     budget: String,
     revenue: String,
     onFavouriteClick: () -> Unit,
-
-    ) {
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()

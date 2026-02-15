@@ -4,20 +4,26 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
+import gradowska.katarzyna.filmsapp.domain.usecase.GetFavouriteMoviesUseCase
 import gradowska.katarzyna.filmsapp.domain.usecase.GetMoviesUseCase
 import gradowska.katarzyna.filmsapp.domain.usecase.GetSearchedMovieDetailsUseCase
 import gradowska.katarzyna.filmsapp.domain.usecase.SetFavouriteMovieUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlin.collections.emptyList
 
 class MoviesViewModel(
     private val setFavouriteMovieUseCase: SetFavouriteMovieUseCase,
     private val getMoviesUseCase: GetMoviesUseCase,
-    private val getSearchedMovieUseCase: GetSearchedMovieDetailsUseCase
+    private val getSearchedMovieUseCase: GetSearchedMovieDetailsUseCase,
+    getFavouriteMoviesUseCase: GetFavouriteMoviesUseCase,
 ) : ViewModel() {
 
     private var isLoading = false
@@ -26,7 +32,16 @@ class MoviesViewModel(
     private var currentQuery = ""
 
     private val _moviesList: MutableStateFlow<List<MovieDataModel>> = MutableStateFlow(emptyList())
-    val moviesList: StateFlow<List<MovieDataModel>> = _moviesList
+    val moviesList: StateFlow<List<MovieDataModel>> =
+        _moviesList.combine(getFavouriteMoviesUseCase()) { movies, favourites ->
+            movies.map { m ->
+                m.copy(movieLiked = favourites.contains(m.movieID))
+            }
+        }.stateIn(
+            scope = viewModelScope,
+            initialValue = _moviesList.value,
+            started = SharingStarted.WhileSubscribed(5000),
+        )
 
     private val _showToast = MutableSharedFlow<Unit>()
     val showToast = _showToast.asSharedFlow()
@@ -97,16 +112,6 @@ class MoviesViewModel(
         }
     }
 
-    fun onFavouriteResultReceived(
-        // TODO add database
-        isFavourite: Boolean,
-        movieID: String?,
-    ) {
-        _moviesList.value = _moviesList.value.map { movie ->
-            if (movie.movieID == movieID) movie.copy(movieLiked = isFavourite) else movie
-        }
-    }
-
     fun searchClicked(query: String) {
         if (!isLoading) {
             if (currentQuery != query) {
@@ -130,14 +135,6 @@ class MoviesViewModel(
         viewModelScope.launch {
             val newLikedStatus = !movie.movieLiked
             setFavouriteMovieUseCase.setMovieIsFavourite(movie.movieID, newLikedStatus)
-
-            _moviesList.value = _moviesList.value.map { m ->
-                if (m.movieID == movie.movieID) {
-                    m.copy(movieLiked = newLikedStatus)
-                } else {
-                    m
-                }
-            }
         }
     }
 }

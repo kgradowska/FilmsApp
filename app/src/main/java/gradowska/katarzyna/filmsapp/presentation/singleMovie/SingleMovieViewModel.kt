@@ -5,34 +5,27 @@ import androidx.lifecycle.viewModelScope
 import gradowska.katarzyna.filmsapp.domain.entity.MovieDetailsDataModel
 import gradowska.katarzyna.filmsapp.domain.usecase.GetMovieDetailsUseCase
 import gradowska.katarzyna.filmsapp.domain.usecase.SetFavouriteMovieUseCase
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class SingleMovieViewModel(
-    private val movieId: String,
-    private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
+    movieId: String,
+    getMovieDetailsUseCase: GetMovieDetailsUseCase,
     private val setFavouriteMovieUseCase: SetFavouriteMovieUseCase
 ) : ViewModel() {
 
-    private val _movieDetails: MutableStateFlow<MovieDetailsDataModel?> = MutableStateFlow(null)
-    val movieDetails: StateFlow<MovieDetailsDataModel?> = _movieDetails
-
-    init {
-        viewModelScope.launch {
-            getMovie()
-        }
-    }
-
-    private suspend fun getMovie() {
-        val newMovie = getMovieDetailsUseCase.getMovie(movieId)
-        _movieDetails.value = newMovie
-    }
+    val movieDetails: StateFlow<MovieDetailsDataModel?> = getMovieDetailsUseCase.getMovie(movieId)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = null,
+        )
 
     fun favouriteIconClicked(movie: MovieDetailsDataModel) {
-        setFavouriteMovieUseCase.setMovieIsFavourite(movie.movieID, !movie.movieLiked)
         viewModelScope.launch {
-            getMovie()
+            setFavouriteMovieUseCase.setMovieIsFavourite(movie.movieID, !movie.movieLiked)
         }
     }
 }
