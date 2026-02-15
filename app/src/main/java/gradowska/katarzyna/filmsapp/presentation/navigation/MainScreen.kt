@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,6 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.NavDestination.Companion.hasRoute
+import gradowska.katarzyna.filmsapp.presentation.theme.Tolopea
+import gradowska.katarzyna.filmsapp.presentation.theme.WineBerry2
 
 
 @Composable
@@ -39,7 +42,14 @@ fun MainScreen() {
                         }
                     },
                     icon = { Icon(Icons.Default.Search, "Search") },
-                    label = { Text("Search") }
+                    label = { Text("Search") },
+                    colors = NavigationBarItemDefaults.colors(
+                        indicatorColor = androidx.compose.ui.graphics.Color.Transparent,
+                        selectedIconColor = Tolopea,
+                        unselectedIconColor = WineBerry2,
+                        selectedTextColor = Tolopea,
+                        unselectedTextColor = WineBerry2
+                    )
                 )
                 NavigationBarItem(
                     selected = currentDestination?.hasRoute<MoviesFilter>() == true,
@@ -53,7 +63,14 @@ fun MainScreen() {
                         }
                     },
                     icon = { Icon(Icons.Default.Favorite, "Filters") },
-                    label = { Text("Filters") }
+                    label = { Text("Filters") },
+                    colors = NavigationBarItemDefaults.colors(
+                        indicatorColor = androidx.compose.ui.graphics.Color.Transparent,
+                        selectedIconColor = Tolopea,
+                        unselectedIconColor = WineBerry2,
+                        selectedTextColor = Tolopea,
+                        unselectedTextColor = WineBerry2
+                    )
                 )
             }
         }
