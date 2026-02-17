@@ -3,6 +3,7 @@ package gradowska.katarzyna.filmsapp.data
 import gradowska.katarzyna.filmsapp.data.entity.GenresDTO
 import gradowska.katarzyna.filmsapp.data.entity.MovieDetailsDTO
 import gradowska.katarzyna.filmsapp.data.entity.MoviesListDTO
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -18,7 +19,7 @@ interface ApiService {
     suspend fun fetchMovie(
         @Path("movie_id") movie_id: String,
         @Query("api_key") api_key: String,
-    ): MovieDetailsDTO
+    ): Response<MovieDetailsDTO>
 
     @GET("search/movie")
     suspend fun fetchSearchingMovie(

@@ -80,7 +80,9 @@ fun SingleMovieScreen(
             }
         )
     } ?: run {
-        // TODO maybe add Loader (CircularProgressIndicator) later
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Text(text = stringResource(R.string.movie_not_found), color = Color.White)
+        }
     }
 }
 
@@ -116,7 +118,7 @@ fun SingleMovie(
                 .verticalScroll(
                     rememberScrollState()
                 )
-                .padding(bottom = 70.dp) // the place for the sticky row
+                .padding(bottom = 50.dp) // the place for the sticky row
         ) {
             MovieHeader(
                 movieBackdropPath = movieBackdropPath,
@@ -168,7 +170,9 @@ fun MovieHeader(
             contentDescription = null,
             modifier = Modifier
                 .fillMaxSize(),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
+            placeholder = painterResource(R.drawable.ic_poster_placeholder),
+            error = painterResource(R.drawable.ic_poster_placeholder)
         )
 
         Column(
@@ -253,6 +257,7 @@ fun MovieContent(
         Text(
             text = title,
             fontSize = 33.sp,
+            lineHeight = 40.sp,
             fontWeight = FontWeight.Bold,
             color = Gold
         )

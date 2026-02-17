@@ -6,6 +6,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
 class GetMovieDetailsUseCase(
@@ -14,15 +15,19 @@ class GetMovieDetailsUseCase(
 ) {
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    fun getMovie(id: String): Flow<MovieDetailsDataModel> {
+    fun getMovie(id: String): Flow<MovieDetailsDataModel?> {
         return flow {
             val movie = dataSource.getMovieFromApi(id)
             emit(movie)
         }.flatMapLatest { movie ->
-            getFavouriteMoviesUseCase().map { favourites ->
-                movie.toMovieDetailsDataModel(
-                    favourites.contains(movie.id.toString())
-                )
+            if (movie == null) {
+                flowOf(null)
+            } else {
+                getFavouriteMoviesUseCase().map { favourites ->
+                    movie.toMovieDetailsDataModel(
+                        favourites.contains(movie.id.toString())
+                    )
+                }
             }
         }
     }
