@@ -113,7 +113,8 @@ fun MovieItem(
                     Text(
                         text = String.format(Locale.getDefault(), "%.2f", movie.movieRate),
                         color = Gold,
-                        fontSize = 32.sp
+                        fontSize = 32.sp,
+                        modifier = Modifier.testTag("movie_rate_text")
                     )
                 }
 
