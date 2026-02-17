@@ -1,5 +1,6 @@
 package gradowska.katarzyna.filmsapp.presentation.recyclerList.compose
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import gradowska.katarzyna.filmsapp.R
 import androidx.compose.foundation.layout.Column
@@ -40,10 +41,22 @@ fun MoviesScreen(
     onMovieClick: (String) -> Unit,
     viewModel: MoviesViewModel = koinViewModel()
 ) {
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val toastText = stringResource(R.string.movie_click_toast)
     val movies by viewModel.moviesList.collectAsStateWithLifecycle()
     val keyboardController = LocalSoftwareKeyboardController.current
 
     var searchQuery by remember { mutableStateOf("") }
+
+    LaunchedEffect(Unit) {
+        viewModel.showToast.collect {
+            Toast.makeText(
+                context,
+                toastText,
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -60,7 +73,7 @@ fun MoviesScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Close,
-                            contentDescription = "Clear search"
+                            contentDescription = stringResource(R.string.clear_search)
                         )
                     }
                 }

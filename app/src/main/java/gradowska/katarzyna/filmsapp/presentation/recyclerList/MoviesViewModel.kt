@@ -50,7 +50,7 @@ class MoviesViewModel(
         getMoviesList()
         viewModelScope.launch {
             delay(2000)
-            _showToast.emit(Unit) // TODO add a toast in compose
+            _showToast.emit(Unit)
         }
     }
 
