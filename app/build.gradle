@@ -4,10 +4,23 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id 'org.jetbrains.kotlin.plugin.serialization'
     id 'com.google.devtools.ksp'
+    id 'io.github.takahirom.roborazzi'
 }
 
 android {
     compileSdk 35
+
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/LICENSE.md"
+            excludes += "/META-INF/LICENSE-notice.md"
+            excludes += "/META-INF/LICENSE.txt"
+            excludes += "/META-INF/NOTICE.txt"
+            excludes += "/META-INF/ASL2.0"
+            excludes += "/META-INF/*.kotlin_module"
+        }
+    }
 
     defaultConfig {
         applicationId "gradowska.katarzyna.filmsapp"
@@ -49,6 +62,12 @@ android {
         }
     }
 
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
     namespace 'gradowska.katarzyna.filmsapp'
 }
 
@@ -65,7 +84,6 @@ dependencies {
     implementation "io.coil-kt:coil-compose:2.6.0"
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.3")
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3'
-    debugImplementation "androidx.compose.ui:ui-tooling"
     implementation 'io.insert-koin:koin-androidx-compose:4.0.0'
     implementation 'androidx.datastore:datastore-preferences:1.2.0'
 
@@ -109,10 +127,26 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0'
 
     annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
+
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'io.mockk:mockk:1.13.17'
     testImplementation "io.mockk:mockk-android:1.13.17"
     testImplementation "io.mockk:mockk-agent:1.13.17"
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation "org.robolectric:robolectric:4.13"
+    testImplementation("io.github.takahirom.roborazzi:roborazzi:1.7.0")
+    testImplementation("io.github.takahirom.roborazzi:roborazzi-compose:1.7.0")
+    testImplementation "androidx.compose.ui:ui-test-junit4"
+    testImplementation "androidx.activity:activity-compose:1.9.3"
+
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.6.0")
+    androidTestImplementation("androidx.compose.ui:ui-test-manifest:1.6.0")
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.7.0'
+    androidTestImplementation "io.mockk:mockk-android:1.13.17"
+    androidTestImplementation "io.mockk:mockk-agent:1.13.17"
+    androidTestImplementation "io.insert-koin:koin-test:4.0.0"
+
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.6.0")
+    debugImplementation "androidx.compose.ui:ui-tooling"
 }
