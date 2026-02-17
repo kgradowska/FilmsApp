@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -69,7 +70,9 @@ fun MovieItem(
                 modifier = Modifier
                     .width(80.dp)
                     .height(120.dp)
-                    .align(Alignment.CenterVertically)
+                    .align(Alignment.CenterVertically),
+                placeholder = painterResource(R.drawable.ic_poster_placeholder),
+                error = painterResource(R.drawable.ic_poster_placeholder)
             )
 
             Spacer(modifier = Modifier.width(10.dp))
@@ -128,6 +131,7 @@ fun MovieItem(
                     modifier = Modifier
                         .size(50.dp)
                         .clickable { onFavouriteClick(movie) }
+                        .testTag("fav_icon")
                 )
 
                 Spacer(modifier = Modifier.weight(1f))
