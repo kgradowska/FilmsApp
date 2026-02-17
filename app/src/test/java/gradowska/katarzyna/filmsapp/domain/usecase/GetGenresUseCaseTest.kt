@@ -7,7 +7,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -26,7 +26,7 @@ class GetGenresUseCaseTest {
     }
 
     @Test
-    fun `should return list of genres when genres are fetched from API`() = runBlocking {
+    fun `should return list of genres when genres are fetched from API`() = runTest {
         // arrange
         val genre1 = GenresDTO.Genre(id = 1, name = "Action")
         val genre2 = GenresDTO.Genre(id = 2, name = "Comedy")
@@ -48,7 +48,7 @@ class GetGenresUseCaseTest {
     }
 
     @Test
-    fun `should return empty list when API returns no genres`() = runBlocking {
+    fun `should return empty list when API returns no genres`() = runTest {
         // arrange
         coEvery { movieDataSource.getGenresFromApi() } returns GenresDTO(genres = emptyList())
 

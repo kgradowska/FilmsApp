@@ -5,12 +5,15 @@ import gradowska.katarzyna.filmsapp.data.entity.Genre
 import gradowska.katarzyna.filmsapp.data.entity.MovieDetailsDTO
 import gradowska.katarzyna.filmsapp.data.entity.ProductionCountry
 import gradowska.katarzyna.filmsapp.data.entity.SpokenLanguage
-import gradowska.katarzyna.filmsapp.domain.entity.MovieDetailsDataModel
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.runBlocking
+import io.mockk.verify
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -21,17 +24,17 @@ class GetMovieDetailsUseCaseTest {
     private lateinit var movieDataSource: MovieDataSource
 
     @MockK
-    private lateinit var getFavouriteMovieUseCase: GetFavouriteMovieUseCase
+    private lateinit var getFavouriteMoviesUseCase: GetFavouriteMoviesUseCase
 
     private lateinit var useCase: GetMovieDetailsUseCase
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxUnitFun = true)
-        useCase = GetMovieDetailsUseCase(movieDataSource, getFavouriteMovieUseCase)
+        useCase = GetMovieDetailsUseCase(movieDataSource, getFavouriteMoviesUseCase)
     }
 
-    private val movie = MovieDetailsDTO(
+    private val movieDto = MovieDetailsDTO(
         id = 123,
         title = "Inception",
         overview = "A mind-bending thriller",
@@ -53,92 +56,55 @@ class GetMovieDetailsUseCaseTest {
     )
 
     @Test
-    fun `should return movie details when movie is fetched from API`() = runBlocking {
+    fun `should return movie details when movie is favourite`() = runTest {
         // arrange
-        val isFavourite = true
-        val expectedMovieDetails = MovieDetailsDataModel(
-            movieID = "123",
-            movieTitle = "Inception",
-            movieDescription = "A mind-bending thriller",
-            moviePhoto = "https://image.tmdb.org/t/p/original/" + "sth",
-            movieLiked = isFavourite,
-            movieRate = "8.6",
-            movieReleaseDate = "   " + "03.04.2024",
-            movieVoteCount = "500",
-            movieGenres = "Comedy",
-            movieRuntime = "145 min",
-            movieBudget = "500000 $",
-            movieRevenue = "123123 $",
-            movieOriginalLanguage = "en",
-            movieOriginalTitle = "xyz",
-            movieTagline = "  " + "tagLine" + "  ",
-            movieBackdropPath = "https://image.tmdb.org/t/p/original/" + "sthsth",
-            movieProductionCountries = "en"
-        )
+        val movieId = movieDto.id.toString()
+        val favouritesList = listOf(movieId)
 
-        coEvery { movieDataSource.getMovieFromApi(movie.id.toString()) } returns movie
-        coEvery { getFavouriteMovieUseCase.getMovieIsFavourite(movie.id.toString()) } returns isFavourite
+        coEvery { movieDataSource.getMovieFromApi(movieId) } returns movieDto
+        every { getFavouriteMoviesUseCase() } returns flowOf(favouritesList)
 
         // act
-        val result = useCase.getMovie(movie.id.toString())
+        val result = useCase.getMovie(movieId).first()
 
         // assert
-        assertEquals(expectedMovieDetails, result)
-        coVerify(exactly = 1) { movieDataSource.getMovieFromApi(movie.id.toString()) }
-        coVerify(exactly = 1) { getFavouriteMovieUseCase.getMovieIsFavourite(movie.id.toString()) }
+        assertEquals(true, result?.movieLiked)
+        assertEquals("Inception", result?.movieTitle)
+        coVerify(exactly = 1) { movieDataSource.getMovieFromApi(movieId) }
+        verify(exactly = 1) { getFavouriteMoviesUseCase() }
     }
 
     @Test
-    fun `should return movie details with false favourite status when movie is not favourite`() =
-        runBlocking {
+    fun `should return movie details when movie is NOT favourite`() =
+        runTest {
             // arrange
-            val isFavourite = false
-            val expectedMovieDetails = MovieDetailsDataModel(
-                movieID = "123",
-                movieTitle = "Inception",
-                movieDescription = "A mind-bending thriller",
-                moviePhoto = "https://image.tmdb.org/t/p/original/" + "sth",
-                movieLiked = isFavourite,
-                movieRate = "8.6",
-                movieReleaseDate = "   " + "03.04.2024",
-                movieVoteCount = "500",
-                movieGenres = "Comedy",
-                movieRuntime = "145 min",
-                movieBudget = "500000 $",
-                movieRevenue = "123123 $",
-                movieOriginalLanguage = "en",
-                movieOriginalTitle = "xyz",
-                movieTagline = "  " + "tagLine" + "  ",
-                movieBackdropPath = "https://image.tmdb.org/t/p/original/" + "sthsth",
-                movieProductionCountries = "en"
-            )
+            val movieId = movieDto.id.toString()
+            val favouritesList = listOf("999")
 
-            coEvery { movieDataSource.getMovieFromApi(movie.id.toString()) } returns movie
-            coEvery { getFavouriteMovieUseCase.getMovieIsFavourite(movie.id.toString()) } returns isFavourite
+            coEvery { movieDataSource.getMovieFromApi(movieId) } returns movieDto
+            every { getFavouriteMoviesUseCase() } returns flowOf(favouritesList)
 
             // act
-            val result = useCase.getMovie(movie.id.toString())
+            val result = useCase.getMovie(movieId).first()
 
             // assert
-            assertEquals(expectedMovieDetails, result)
-            coVerify(exactly = 1) { movieDataSource.getMovieFromApi(movie.id.toString()) }
-            coVerify(exactly = 1) { getFavouriteMovieUseCase.getMovieIsFavourite(movie.id.toString()) }
+            assertEquals(false, result?.movieLiked)
+            coVerify(exactly = 1) { movieDataSource.getMovieFromApi(movieId) }
+            verify(exactly = 1) { getFavouriteMoviesUseCase() }
         }
 
-
     @Test
-    fun `should handle case where movie is not found in API`() = runBlocking {
+    fun `should return null when API returns no movie`() = runTest {
         // arrange
         val movieId = "789"
         coEvery { movieDataSource.getMovieFromApi(movieId) } returns null
 
         // act
-        val result = useCase.getMovie(movieId)
+        val result = useCase.getMovie(movieId).first()
 
         // assert
         assertEquals(null, result)
         coVerify(exactly = 1) { movieDataSource.getMovieFromApi(movieId) }
-        coVerify(exactly = 0) { getFavouriteMovieUseCase.getMovieIsFavourite(movieId) }
+        verify(exactly = 0) { getFavouriteMoviesUseCase() }
     }
-
 }

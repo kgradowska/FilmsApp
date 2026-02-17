@@ -2,8 +2,9 @@ package gradowska.katarzyna.filmsapp.domain.usecase
 
 import gradowska.katarzyna.filmsapp.data.UserDataSource
 import io.mockk.MockKAnnotations
+import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
-import io.mockk.verify
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
@@ -20,7 +21,7 @@ class SetFavouriteMovieUseCaseTest {
     }
 
     @Test
-    fun `should call userDataSource to set movie as favourite`() {
+    fun `should call userDataSource to set movie as favourite`() = runTest {
         // arrange
         val movieId = "123"
         val isFavourite = true
@@ -29,11 +30,11 @@ class SetFavouriteMovieUseCaseTest {
         useCase.setMovieIsFavourite(movieId, isFavourite)
 
         // assert
-        verify(exactly = 1) { userDataSource.setMovieIsFavourite(movieId, isFavourite) }
+        coVerify(exactly = 1) { userDataSource.setMovieIsFavourite(movieId, isFavourite) }
     }
 
     @Test
-    fun `should call userDataSource to unset movie as favourite`() {
+    fun `should call userDataSource to unset movie as favourite`() = runTest {
         // arrange
         val movieId = "456"
         val isFavourite = false
@@ -42,6 +43,6 @@ class SetFavouriteMovieUseCaseTest {
         useCase.setMovieIsFavourite(movieId, isFavourite)
 
         // assert
-        verify(exactly = 1) { userDataSource.setMovieIsFavourite(movieId, isFavourite) }
+        coVerify(exactly = 1) { userDataSource.setMovieIsFavourite(movieId, isFavourite) }
     }
 }
