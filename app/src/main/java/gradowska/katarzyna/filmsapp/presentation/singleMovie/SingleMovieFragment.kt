@@ -1,5 +1,7 @@
 package gradowska.katarzyna.filmsapp.presentation.singleMovie
+// TODO remove this file after migration
 
+/*
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -97,3 +99,4 @@ class SingleMovieFragment : Fragment() {
         const val MOVIE_FRAGMENT_ID_KEY = "MOVIE_FRAGMENT_ID_KEY"
     }
 }
+*/
