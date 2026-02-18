@@ -1,4 +1,4 @@
-package gradowska.katarzyna.filmsapp.presentation.recyclerList.compose
+package gradowska.katarzyna.filmsapp.presentation.filters
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -40,7 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import gradowska.katarzyna.filmsapp.domain.entity.GenreDataModel
-import gradowska.katarzyna.filmsapp.presentation.moviesgenres.MoviesGenresViewModel
+import gradowska.katarzyna.filmsapp.presentation.shared.MovieItem
 import gradowska.katarzyna.filmsapp.presentation.theme.Gold
 import gradowska.katarzyna.filmsapp.presentation.theme.Tolopea
 import gradowska.katarzyna.filmsapp.presentation.theme.White

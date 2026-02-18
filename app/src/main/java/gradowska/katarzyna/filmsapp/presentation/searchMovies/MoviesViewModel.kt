@@ -1,4 +1,4 @@
-package gradowska.katarzyna.filmsapp.presentation.recyclerList
+package gradowska.katarzyna.filmsapp.presentation.searchMovies
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

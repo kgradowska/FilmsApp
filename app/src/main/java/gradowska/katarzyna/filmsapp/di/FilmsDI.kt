@@ -18,8 +18,8 @@ import gradowska.katarzyna.filmsapp.domain.usecase.GetMoviesUseCase
 import gradowska.katarzyna.filmsapp.domain.usecase.GetSearchedMovieDetailsUseCase
 import gradowska.katarzyna.filmsapp.domain.usecase.SetFavouriteMovieUseCase
 import gradowska.katarzyna.filmsapp.presentation.main.MainActivityViewModel
-import gradowska.katarzyna.filmsapp.presentation.moviesgenres.MoviesGenresViewModel
-import gradowska.katarzyna.filmsapp.presentation.recyclerList.MoviesViewModel
+import gradowska.katarzyna.filmsapp.presentation.filters.MoviesGenresViewModel
+import gradowska.katarzyna.filmsapp.presentation.searchMovies.MoviesViewModel
 import gradowska.katarzyna.filmsapp.presentation.singleMovie.SingleMovieViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

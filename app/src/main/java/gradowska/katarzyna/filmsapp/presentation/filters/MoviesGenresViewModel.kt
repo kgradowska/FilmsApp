@@ -1,4 +1,4 @@
-package gradowska.katarzyna.filmsapp.presentation.moviesgenres
+package gradowska.katarzyna.filmsapp.presentation.filters
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

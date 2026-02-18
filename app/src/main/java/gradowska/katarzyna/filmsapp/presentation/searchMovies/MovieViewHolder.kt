@@ -1,4 +1,4 @@
-package gradowska.katarzyna.filmsapp.presentation.recyclerList
+package gradowska.katarzyna.filmsapp.presentation.searchMovies
 
 // TODO remove this file after migration
 /*

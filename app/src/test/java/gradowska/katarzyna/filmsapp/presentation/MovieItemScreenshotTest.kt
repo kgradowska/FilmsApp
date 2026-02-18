@@ -5,7 +5,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onRoot
 import com.github.takahirom.roborazzi.captureRoboImage
 import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
-import gradowska.katarzyna.filmsapp.presentation.recyclerList.compose.MovieItem
+import gradowska.katarzyna.filmsapp.presentation.shared.MovieItem
 import gradowska.katarzyna.filmsapp.presentation.theme.FilmsAppTheme
 import org.junit.After
 import org.junit.Rule

@@ -5,9 +5,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import gradowska.katarzyna.filmsapp.presentation.recyclerList.compose.FilterScreen
-import gradowska.katarzyna.filmsapp.presentation.recyclerList.compose.MoviesScreen
-import gradowska.katarzyna.filmsapp.presentation.recyclerList.compose.SingleMovieScreen
+import gradowska.katarzyna.filmsapp.presentation.filters.FilterScreen
+import gradowska.katarzyna.filmsapp.presentation.searchMovies.MoviesScreen
+import gradowska.katarzyna.filmsapp.presentation.singleMovie.SingleMovieScreen
 
 @Composable
 fun MainNavGraph(navController: NavHostController) {

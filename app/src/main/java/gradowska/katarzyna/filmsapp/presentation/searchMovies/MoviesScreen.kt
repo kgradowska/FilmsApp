@@ -1,4 +1,4 @@
-package gradowska.katarzyna.filmsapp.presentation.recyclerList.compose
+package gradowska.katarzyna.filmsapp.presentation.searchMovies
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -27,12 +27,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import gradowska.katarzyna.filmsapp.presentation.recyclerList.MoviesViewModel
+import gradowska.katarzyna.filmsapp.presentation.shared.MovieItem
 import gradowska.katarzyna.filmsapp.presentation.theme.Tolopea
 import org.koin.androidx.compose.koinViewModel
 
@@ -41,7 +42,7 @@ fun MoviesScreen(
     onMovieClick: (String) -> Unit,
     viewModel: MoviesViewModel = koinViewModel()
 ) {
-    val context = androidx.compose.ui.platform.LocalContext.current
+    val context = LocalContext.current
     val toastText = stringResource(R.string.movie_click_toast)
     val movies by viewModel.moviesList.collectAsStateWithLifecycle()
     val keyboardController = LocalSoftwareKeyboardController.current

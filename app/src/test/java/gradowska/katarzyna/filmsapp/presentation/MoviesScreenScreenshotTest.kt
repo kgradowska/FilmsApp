@@ -5,8 +5,8 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onRoot
 import com.github.takahirom.roborazzi.captureRoboImage
 import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
-import gradowska.katarzyna.filmsapp.presentation.recyclerList.MoviesViewModel
-import gradowska.katarzyna.filmsapp.presentation.recyclerList.compose.MoviesScreen
+import gradowska.katarzyna.filmsapp.presentation.searchMovies.MoviesViewModel
+import gradowska.katarzyna.filmsapp.presentation.searchMovies.MoviesScreen
 import gradowska.katarzyna.filmsapp.presentation.theme.FilmsAppTheme
 import io.mockk.every
 import io.mockk.mockk

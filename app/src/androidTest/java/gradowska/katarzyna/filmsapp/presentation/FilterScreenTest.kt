@@ -5,8 +5,8 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import gradowska.katarzyna.filmsapp.domain.entity.GenreDataModel
 import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
-import gradowska.katarzyna.filmsapp.presentation.moviesgenres.MoviesGenresViewModel
-import gradowska.katarzyna.filmsapp.presentation.recyclerList.compose.FilterScreen
+import gradowska.katarzyna.filmsapp.presentation.filters.MoviesGenresViewModel
+import gradowska.katarzyna.filmsapp.presentation.filters.FilterScreen
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

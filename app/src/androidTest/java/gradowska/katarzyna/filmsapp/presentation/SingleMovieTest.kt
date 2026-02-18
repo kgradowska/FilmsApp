@@ -2,7 +2,7 @@ package gradowska.katarzyna.filmsapp.presentation
 
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
-import gradowska.katarzyna.filmsapp.presentation.recyclerList.compose.SingleMovie
+import gradowska.katarzyna.filmsapp.presentation.singleMovie.SingleMovie
 import org.junit.Rule
 import org.junit.Test
 

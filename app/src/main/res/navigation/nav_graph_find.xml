@@ -6,7 +6,7 @@
     app:startDestination="@id/recyclerListFragment">
     <fragment
         android:id="@+id/recyclerListFragment"
-        android:name="gradowska.katarzyna.filmsapp.presentation.recyclerList.MoviesFragment"
+        android:name="gradowska.katarzyna.filmsapp.presentation.searchMovies.MoviesFragment"
         tools:layout="@layout/fragment_recycler_list">
         <action
             android:id="@+id/action_recyclerListFragment_to_singleMovieFragment"

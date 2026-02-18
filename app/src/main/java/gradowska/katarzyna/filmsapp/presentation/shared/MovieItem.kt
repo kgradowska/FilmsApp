@@ -1,4 +1,4 @@
-package gradowska.katarzyna.filmsapp.presentation.recyclerList.compose
+package gradowska.katarzyna.filmsapp.presentation.shared
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column

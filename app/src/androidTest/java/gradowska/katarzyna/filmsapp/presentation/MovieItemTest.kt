@@ -3,7 +3,7 @@ package gradowska.katarzyna.filmsapp.presentation
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
-import gradowska.katarzyna.filmsapp.presentation.recyclerList.compose.MovieItem
+import gradowska.katarzyna.filmsapp.presentation.shared.MovieItem
 import org.junit.Rule
 import org.junit.Test
 

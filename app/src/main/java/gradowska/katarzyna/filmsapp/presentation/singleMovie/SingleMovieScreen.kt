@@ -1,4 +1,4 @@
-package gradowska.katarzyna.filmsapp.presentation.recyclerList.compose
+package gradowska.katarzyna.filmsapp.presentation.singleMovie
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -42,7 +42,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import gradowska.katarzyna.filmsapp.R
-import gradowska.katarzyna.filmsapp.presentation.singleMovie.SingleMovieViewModel
 import gradowska.katarzyna.filmsapp.presentation.theme.Gold
 import gradowska.katarzyna.filmsapp.presentation.theme.Tolopea
 import gradowska.katarzyna.filmsapp.presentation.theme.White

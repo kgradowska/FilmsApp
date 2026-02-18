@@ -4,7 +4,7 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onRoot
 import com.github.takahirom.roborazzi.captureRoboImage
-import gradowska.katarzyna.filmsapp.presentation.recyclerList.compose.SingleMovie
+import gradowska.katarzyna.filmsapp.presentation.singleMovie.SingleMovie
 import gradowska.katarzyna.filmsapp.presentation.theme.FilmsAppTheme
 import org.junit.Rule
 import org.junit.Test
