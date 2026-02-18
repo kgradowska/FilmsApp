@@ -52,7 +52,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun FilterScreen(
     onMovieClick: (String) -> Unit,
-    viewModel: MoviesGenresViewModel = koinViewModel()
+    viewModel: FiltersViewModel = koinViewModel()
 ) {
     val movies by viewModel.moviesList.collectAsStateWithLifecycle()
     val genres by viewModel.genresList.collectAsStateWithLifecycle()

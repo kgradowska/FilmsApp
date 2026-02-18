@@ -18,8 +18,8 @@ import gradowska.katarzyna.filmsapp.domain.usecase.GetMoviesUseCase
 import gradowska.katarzyna.filmsapp.domain.usecase.GetSearchedMovieDetailsUseCase
 import gradowska.katarzyna.filmsapp.domain.usecase.SetFavouriteMovieUseCase
 import gradowska.katarzyna.filmsapp.presentation.main.MainActivityViewModel
-import gradowska.katarzyna.filmsapp.presentation.filters.MoviesGenresViewModel
-import gradowska.katarzyna.filmsapp.presentation.searchMovies.MoviesViewModel
+import gradowska.katarzyna.filmsapp.presentation.filters.FiltersViewModel
+import gradowska.katarzyna.filmsapp.presentation.searchMovies.SearchMoviesViewModel
 import gradowska.katarzyna.filmsapp.presentation.singleMovie.SingleMovieViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -49,10 +49,10 @@ object FilmsDI {
         factory { GetGenresUseCase(get()) }
         factory { GetMoviesGenresUseCase(get(), get()) }
 
-        viewModel { MoviesViewModel(get(), get(), get(), get()) }
+        viewModel { SearchMoviesViewModel(get(), get(), get(), get()) }
         viewModel { (movieId: String) -> SingleMovieViewModel(movieId, get(), get()) }
         viewModel { MainActivityViewModel() }
-        viewModel { MoviesGenresViewModel(get(), get(), get(), get()) }
+        viewModel { FiltersViewModel(get(), get(), get(), get()) }
     }
 
     val networkModule = module {

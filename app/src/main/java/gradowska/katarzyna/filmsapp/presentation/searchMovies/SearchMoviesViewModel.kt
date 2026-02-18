@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlin.collections.emptyList
 
-class MoviesViewModel(
+class SearchMoviesViewModel(
     private val setFavouriteMovieUseCase: SetFavouriteMovieUseCase,
     private val getMoviesUseCase: GetMoviesUseCase,
     private val getSearchedMovieUseCase: GetSearchedMovieDetailsUseCase,

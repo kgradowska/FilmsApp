@@ -40,7 +40,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun MoviesScreen(
     onMovieClick: (String) -> Unit,
-    viewModel: MoviesViewModel = koinViewModel()
+    viewModel: SearchMoviesViewModel = koinViewModel()
 ) {
     val context = LocalContext.current
     val toastText = stringResource(R.string.movie_click_toast)

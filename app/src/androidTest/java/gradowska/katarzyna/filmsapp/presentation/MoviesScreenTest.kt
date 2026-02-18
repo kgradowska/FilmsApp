@@ -4,7 +4,7 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.activity.ComponentActivity
 import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
-import gradowska.katarzyna.filmsapp.presentation.searchMovies.MoviesViewModel
+import gradowska.katarzyna.filmsapp.presentation.searchMovies.SearchMoviesViewModel
 import gradowska.katarzyna.filmsapp.presentation.searchMovies.MoviesScreen
 import io.mockk.every
 import io.mockk.mockk
@@ -25,7 +25,7 @@ class MoviesScreenTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
-    private val viewModel: MoviesViewModel = mockk(relaxed = true)
+    private val viewModel: SearchMoviesViewModel = mockk(relaxed = true)
     private val moviesFlow = MutableStateFlow<List<MovieDataModel>>(emptyList())
     private val toastFlow = MutableSharedFlow<Unit>()
 

@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class MoviesGenresViewModel(
+class FiltersViewModel(
     private val getMoviesGenresUseCase: GetMoviesGenresUseCase,
     private val setFavouriteMovieUseCase: SetFavouriteMovieUseCase,
     private val getGenresUseCase: GetGenresUseCase,

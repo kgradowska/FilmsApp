@@ -6,7 +6,7 @@ import androidx.compose.ui.test.onRoot
 import com.github.takahirom.roborazzi.captureRoboImage
 import gradowska.katarzyna.filmsapp.domain.entity.GenreDataModel
 import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
-import gradowska.katarzyna.filmsapp.presentation.filters.MoviesGenresViewModel
+import gradowska.katarzyna.filmsapp.presentation.filters.FiltersViewModel
 import gradowska.katarzyna.filmsapp.presentation.filters.FilterScreen
 import gradowska.katarzyna.filmsapp.presentation.theme.FilmsAppTheme
 import io.mockk.every
@@ -32,7 +32,7 @@ class FilterScreenScreenshotTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
-    private val viewModel: MoviesGenresViewModel = mockk(relaxed = true)
+    private val viewModel: FiltersViewModel = mockk(relaxed = true)
 
     private val moviesFlow = MutableStateFlow<List<MovieDataModel>>(emptyList())
     private val genresFlow = MutableStateFlow<List<GenreDataModel>>(emptyList())

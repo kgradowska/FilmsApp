@@ -5,7 +5,7 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import gradowska.katarzyna.filmsapp.domain.entity.GenreDataModel
 import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
-import gradowska.katarzyna.filmsapp.presentation.filters.MoviesGenresViewModel
+import gradowska.katarzyna.filmsapp.presentation.filters.FiltersViewModel
 import gradowska.katarzyna.filmsapp.presentation.filters.FilterScreen
 import io.mockk.every
 import io.mockk.mockk
@@ -23,7 +23,7 @@ class FilterScreenTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
-    private val viewModel: MoviesGenresViewModel = mockk(relaxed = true)
+    private val viewModel: FiltersViewModel = mockk(relaxed = true)
 
     private val moviesFlow = MutableStateFlow<List<MovieDataModel>>(emptyList())
     private val genresFlow = MutableStateFlow<List<GenreDataModel>>(emptyList())
