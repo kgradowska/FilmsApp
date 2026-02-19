@@ -77,31 +77,11 @@ fun MovieItem(
 
             Spacer(modifier = Modifier.width(10.dp))
 
-            Column(
-                modifier = modifier
-                    .weight(1f)
-                    .fillMaxHeight(),
-            ) {
-                Text(
-                    text = movie.movieTitle,
-                    maxLines = 2,
-                    color = Gold,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    overflow = TextOverflow.Ellipsis
-                )
-
-                Spacer(Modifier.weight(1f))
-
-                Text(
-                    text = movie.movieDescription,
-                    maxLines = 5,
-                    color = White,
-                    fontSize = 15.sp,
-                    fontStyle = FontStyle.Italic,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
+            MovieInfo(
+                title = movie.movieTitle,
+                description = movie.movieDescription,
+                modifier = Modifier.weight(1f)
+            )
 
             Spacer(modifier = Modifier.width(10.dp))
 
@@ -138,6 +118,33 @@ fun MovieItem(
                 Spacer(modifier = Modifier.weight(1f))
             }
         }
+    }
+}
+
+@Composable
+fun MovieInfo(title: String, description: String, modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier.fillMaxHeight(),
+    ) {
+        Text(
+            text = title,
+            maxLines = 2,
+            color = Gold,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            overflow = TextOverflow.Ellipsis
+        )
+
+        Spacer(Modifier.weight(1f))
+
+        Text(
+            text = description,
+            maxLines = 5,
+            color = White,
+            fontSize = 15.sp,
+            fontStyle = FontStyle.Italic,
+            overflow = TextOverflow.Ellipsis
+        )
     }
 }
 

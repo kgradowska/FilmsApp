@@ -33,6 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
 import gradowska.katarzyna.filmsapp.presentation.shared.EmptyMoviesPlaceholder
 import gradowska.katarzyna.filmsapp.presentation.shared.LoadingScreen
 import gradowska.katarzyna.filmsapp.presentation.shared.MovieItem
@@ -45,10 +46,9 @@ fun MoviesScreen(
     onMovieClick: (String) -> Unit,
     viewModel: SearchMoviesViewModel = koinViewModel()
 ) {
+    val movies by viewModel.moviesList.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val toastText = stringResource(R.string.movie_click_toast)
-    val movies by viewModel.moviesList.collectAsStateWithLifecycle()
-    val keyboardController = LocalSoftwareKeyboardController.current
 
     var searchQuery by remember { mutableStateOf("") }
 
@@ -62,6 +62,69 @@ fun MoviesScreen(
         }
     }
 
+    MoviesContent(
+        searchQuery = searchQuery,
+        movies = movies,
+        onSearchQueryChange = { searchQuery = it },
+        onSearchAction = { viewModel.searchClicked(searchQuery) },
+        onMovieClick = onMovieClick,
+        onFavouriteClick = { viewModel.favouriteIconClicked(it) },
+        onLoadMore = { viewModel.recyclerEndReached() }
+    )
+}
+
+@Composable
+fun SearchBar(
+    query: String,
+    onQueryChange: (String) -> Unit,
+    onSearchAction: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    OutlinedTextField(
+        value = query,
+        onValueChange = onQueryChange,
+        trailingIcon = {
+            if (query.isNotEmpty()) {
+                IconButton(onClick = { onQueryChange("") }) {
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        contentDescription = stringResource(R.string.clear_search)
+                    )
+                }
+            }
+        },
+        modifier = modifier.fillMaxWidth(),
+        placeholder = { Text(text = stringResource(R.string.search_movie)) },
+        shape = RoundedCornerShape(12.dp),
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = Color.White,
+            unfocusedContainerColor = Color.White,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent
+        ),
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+        keyboardActions = KeyboardActions(
+            onSearch = {
+                onSearchAction()
+                keyboardController?.hide()
+            }
+        )
+    )
+}
+
+@Composable
+fun MoviesContent(
+    searchQuery: String,
+    movies: List<MovieDataModel>,
+    onSearchQueryChange: (String) -> Unit,
+    onSearchAction: () -> Unit,
+    onMovieClick: (String) -> Unit,
+    onFavouriteClick: (MovieDataModel) -> Unit,
+    onLoadMore: () -> Unit
+) {
     var showPlaceholder by remember { mutableStateOf(false) }
 
     LaunchedEffect(movies.isEmpty()) {
@@ -77,70 +140,43 @@ fun MoviesScreen(
             .fillMaxSize()
             .background(Tolopea)
     ) {
-        OutlinedTextField(
-            value = searchQuery,
-            onValueChange = { searchQuery = it },
-            trailingIcon = {
-                if (searchQuery.isNotEmpty()) {
-                    IconButton(
-                        onClick = { searchQuery = "" }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Close,
-                            contentDescription = stringResource(R.string.clear_search)
-                        )
-                    }
-                }
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            placeholder = { Text(text = stringResource(R.string.search_movie)) },
-            readOnly = false,
-            shape = RoundedCornerShape(12.dp),
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color.White,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent
-            ),
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-            keyboardActions = KeyboardActions(
-                onSearch = {
-                    viewModel.searchClicked(searchQuery)
-                    keyboardController?.hide()
-                }
-            )
+        SearchBar(
+            query = searchQuery,
+            onQueryChange = onSearchQueryChange,
+            onSearchAction = onSearchAction,
+            modifier = Modifier.padding(16.dp)
         )
 
         if (movies.isEmpty()) {
-            if (showPlaceholder) {
-                EmptyMoviesPlaceholder()
-            } else {
-                LoadingScreen()
-            }
+            if (showPlaceholder) EmptyMoviesPlaceholder() else LoadingScreen()
         } else {
-            LazyColumn {
-                itemsIndexed(
-                    movies,
-                ) { index, movie ->
-                    MovieItem(
-                        movie = movie,
-                        onItemClick = { clickedMovie ->
-                            onMovieClick(clickedMovie.movieID)
-                        },
-                        onFavouriteClick = { favouriteMovie ->
-                            viewModel.favouriteIconClicked(favouriteMovie)
-                        }
-                    )
+            MoviesList(
+                movies = movies,
+                onMovieClick = onMovieClick,
+                onFavouriteClick = onFavouriteClick,
+                onLoadMore = onLoadMore
+            )
+        }
+    }
+}
 
-                    if (index == movies.lastIndex) {
-                        LaunchedEffect(index) {
-                            viewModel.recyclerEndReached()
-                        }
-                    }
-                }
+@Composable
+fun MoviesList(
+    movies: List<MovieDataModel>,
+    onMovieClick: (String) -> Unit,
+    onFavouriteClick: (MovieDataModel) -> Unit,
+    onLoadMore: () -> Unit
+) {
+    LazyColumn {
+        itemsIndexed(movies) { index, movie ->
+            MovieItem(
+                movie = movie,
+                onItemClick = { onMovieClick(it.movieID) },
+                onFavouriteClick = onFavouriteClick
+            )
+
+            if (index == movies.lastIndex) {
+                LaunchedEffect(index) { onLoadMore() }
             }
         }
     }
