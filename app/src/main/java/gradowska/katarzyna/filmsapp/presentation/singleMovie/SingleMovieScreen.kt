@@ -46,9 +46,9 @@ import gradowska.katarzyna.filmsapp.presentation.theme.Gold
 import gradowska.katarzyna.filmsapp.presentation.theme.Tolopea
 import gradowska.katarzyna.filmsapp.presentation.theme.White
 import gradowska.katarzyna.filmsapp.presentation.theme.WineBerry2
+import gradowska.katarzyna.filmsapp.presentation.utils.formatRate
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
-import java.util.Locale
 
 @Composable
 fun SingleMovieScreen(
@@ -157,6 +157,7 @@ fun MovieHeader(
     viewsCounter: String,
     onFavouriteClick: () -> Unit
 ) {
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -436,12 +437,6 @@ fun LabeledText(
         )
     }
 }
-
-//TODO add it to the helper later
-fun formatRate(rate: String): String =
-    rate.toDoubleOrNull()
-        ?.let { String.format(Locale.US, "%.2f", it) }
-        ?: "-"
 
 @Preview(showBackground = true)
 @Composable
