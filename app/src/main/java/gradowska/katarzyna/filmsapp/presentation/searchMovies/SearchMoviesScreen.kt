@@ -33,8 +33,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import gradowska.katarzyna.filmsapp.presentation.shared.EmptyMoviesPlaceholder
+import gradowska.katarzyna.filmsapp.presentation.shared.LoadingScreen
 import gradowska.katarzyna.filmsapp.presentation.shared.MovieItem
 import gradowska.katarzyna.filmsapp.presentation.theme.Tolopea
+import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -56,6 +59,16 @@ fun MoviesScreen(
                 toastText,
                 Toast.LENGTH_LONG
             ).show()
+        }
+    }
+
+    var showPlaceholder by remember { mutableStateOf(false) }
+
+    LaunchedEffect(movies.isEmpty()) {
+        if (movies.isEmpty()) {
+            showPlaceholder = false
+            delay(4000)
+            showPlaceholder = true
         }
     }
 
@@ -101,23 +114,31 @@ fun MoviesScreen(
             )
         )
 
-        LazyColumn {
-            itemsIndexed(
-                movies,
-            ) { index, movie ->
-                MovieItem(
-                    movie = movie,
-                    onItemClick = { clickedMovie ->
-                        onMovieClick(clickedMovie.movieID)
-                    },
-                    onFavouriteClick = { favouriteMovie ->
-                        viewModel.favouriteIconClicked(favouriteMovie)
-                    }
-                )
+        if (movies.isEmpty()) {
+            if (showPlaceholder) {
+                EmptyMoviesPlaceholder()
+            } else {
+                LoadingScreen()
+            }
+        } else {
+            LazyColumn {
+                itemsIndexed(
+                    movies,
+                ) { index, movie ->
+                    MovieItem(
+                        movie = movie,
+                        onItemClick = { clickedMovie ->
+                            onMovieClick(clickedMovie.movieID)
+                        },
+                        onFavouriteClick = { favouriteMovie ->
+                            viewModel.favouriteIconClicked(favouriteMovie)
+                        }
+                    )
 
-                if (index == movies.lastIndex) {
-                    LaunchedEffect(index) {
-                        viewModel.recyclerEndReached()
+                    if (index == movies.lastIndex) {
+                        LaunchedEffect(index) {
+                            viewModel.recyclerEndReached()
+                        }
                     }
                 }
             }

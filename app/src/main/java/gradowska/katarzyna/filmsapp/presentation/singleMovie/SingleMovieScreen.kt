@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import gradowska.katarzyna.filmsapp.R
+import gradowska.katarzyna.filmsapp.presentation.shared.LoadingScreen
 import gradowska.katarzyna.filmsapp.presentation.theme.Gold
 import gradowska.katarzyna.filmsapp.presentation.theme.Tolopea
 import gradowska.katarzyna.filmsapp.presentation.theme.White
@@ -81,21 +81,6 @@ fun SingleMovieScreen(
         )
     } ?: run {
         LoadingScreen()
-    }
-}
-
-@Composable
-fun LoadingScreen() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Tolopea.copy(alpha = 0.5f)),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator(
-            color = Gold,
-            strokeWidth = 4.dp
-        )
     }
 }
 

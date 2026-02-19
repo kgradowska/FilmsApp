@@ -40,11 +40,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import gradowska.katarzyna.filmsapp.domain.entity.GenreDataModel
+import gradowska.katarzyna.filmsapp.presentation.shared.EmptyMoviesPlaceholder
+import gradowska.katarzyna.filmsapp.presentation.shared.LoadingScreen
 import gradowska.katarzyna.filmsapp.presentation.shared.MovieItem
 import gradowska.katarzyna.filmsapp.presentation.theme.Gold
 import gradowska.katarzyna.filmsapp.presentation.theme.Tolopea
 import gradowska.katarzyna.filmsapp.presentation.theme.White
 import gradowska.katarzyna.filmsapp.presentation.theme.WineBerry2
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
@@ -63,6 +66,16 @@ fun FilterScreen(
 
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
+
+    var showPlaceholder by remember { mutableStateOf(false) }
+
+    LaunchedEffect(movies.isEmpty()) {
+        if (movies.isEmpty()) {
+            showPlaceholder = false
+            delay(4000)
+            showPlaceholder = true
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -140,23 +153,31 @@ fun FilterScreen(
             }
         }
 
-        LazyColumn(
-            state = listState,
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Tolopea),
-            contentPadding = PaddingValues(16.dp)
-        ) {
-            itemsIndexed(movies) { index, movie ->
-                MovieItem(
-                    movie = movie,
-                    onItemClick = { clickedMovie -> onMovieClick(clickedMovie.movieID) },
-                    onFavouriteClick = { viewModel.favouriteIconClicked(it) }
-                )
+        if (movies.isEmpty()) {
+            if (showPlaceholder) {
+                EmptyMoviesPlaceholder()
+            } else {
+                LoadingScreen()
+            }
+        } else {
+            LazyColumn(
+                state = listState,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Tolopea),
+                contentPadding = PaddingValues(16.dp)
+            ) {
+                itemsIndexed(movies) { index, movie ->
+                    MovieItem(
+                        movie = movie,
+                        onItemClick = { clickedMovie -> onMovieClick(clickedMovie.movieID) },
+                        onFavouriteClick = { viewModel.favouriteIconClicked(it) }
+                    )
 
-                if (index == movies.lastIndex) {
-                    LaunchedEffect(index) {
-                        viewModel.listEndReached()
+                    if (index == movies.lastIndex) {
+                        LaunchedEffect(index) {
+                            viewModel.listEndReached()
+                        }
                     }
                 }
             }
