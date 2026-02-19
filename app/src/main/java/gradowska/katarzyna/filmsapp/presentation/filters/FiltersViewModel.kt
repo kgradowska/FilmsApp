@@ -10,11 +10,9 @@ import gradowska.katarzyna.filmsapp.domain.usecase.GetGenresUseCase
 import gradowska.katarzyna.filmsapp.domain.usecase.GetMoviesGenresUseCase
 import gradowska.katarzyna.filmsapp.domain.usecase.SetFavouriteMovieUseCase
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -43,9 +41,6 @@ class FiltersViewModel(
 
     private val _rangeValues = MutableStateFlow(listOf(INITIAL_MIN_RANGE, INITIAL_MAX_RANGE))
     val rangeValues: StateFlow<List<Float>> = _rangeValues
-
-    private val _hideAppBarLayout = MutableSharedFlow<Unit>()
-    val hideAppBarLayout = _hideAppBarLayout.asSharedFlow()
 
     private var fetchJob: Job? = null
 
@@ -121,9 +116,6 @@ class FiltersViewModel(
     fun searchButtonClicked() {
         setStartValues()
         getMoviesList()
-        viewModelScope.launch {
-            _hideAppBarLayout.emit(Unit)
-        }
     }
 
     private fun setStartValues() {
