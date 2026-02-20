@@ -79,23 +79,23 @@ data class MovieDetailsDTO(
     }
 
     fun toMovieDetailsDataModel(isFavourite: Boolean) = MovieDetailsDataModel(
-        movieID = id.toString(),
-        movieTitle = title,
-        movieDescription = overview,
-        moviePhoto = "https://image.tmdb.org/t/p/original/" + posterPath,
-        movieLiked = isFavourite,
-        movieRate = voteAverage.toString(),
-        movieReleaseDate = "   " + releaseDate,
-        movieVoteCount = voteCount.toString(),
-        movieGenres = createGenresText(),
-        movieRuntime = runtime.toString() + " min",
-        movieBudget = budget.toString() + " $",
-        movieRevenue = revenue.toString() + " $",
-        movieOriginalLanguage = originalLanguage,
-        movieOriginalTitle = originalTitle,
-        movieTagline = "  " + tagline + "  ",
-        movieBackdropPath = "https://image.tmdb.org/t/p/original/" + backdropPath,
-        movieProductionCountries = createProductionCountriesText()
+        id = id.toString(),
+        title = title,
+        description = overview,
+        photo = "https://image.tmdb.org/t/p/original/" + posterPath,
+        isLiked = isFavourite,
+        rate = voteAverage.toString(),
+        releaseDate = "   " + releaseDate,
+        voteCount = voteCount.toString(),
+        genres = createGenresText(),
+        runtime = runtime.toString() + " min",
+        budget = budget.toString() + " $",
+        revenue = revenue.toString() + " $",
+        originalLanguage = originalLanguage,
+        originalTitle = originalTitle,
+        quote = "  " + tagline + "  ",
+        backdropPath = "https://image.tmdb.org/t/p/original/" + backdropPath,
+        productionCountries = createProductionCountriesText()
     )
 }
 

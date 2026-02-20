@@ -17,6 +17,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -86,12 +87,16 @@ fun MovieItem(
             Spacer(modifier = Modifier.width(10.dp))
 
             Column(
-                modifier = modifier.fillMaxHeight(),
+                modifier = Modifier.fillMaxHeight(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 if (movie.movieRate != null) {
+                    val formattedRate = remember(movie.movieRate) {
+                        String.format(Locale.getDefault(), "%.2f", movie.movieRate)
+                    }
+
                     Text(
-                        text = String.format(Locale.getDefault(), "%.2f", movie.movieRate),
+                        text = formattedRate,
                         color = Gold,
                         fontSize = 32.sp,
                         modifier = Modifier.testTag("movie_rate_text")
