@@ -10,6 +10,8 @@ import gradowska.katarzyna.filmsapp.presentation.filters.FilterScreen
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Before
 import org.junit.Rule
@@ -25,8 +27,8 @@ class FilterScreenTest {
 
     private val viewModel: FiltersViewModel = mockk(relaxed = true)
 
-    private val moviesFlow = MutableStateFlow<List<MovieDataModel>>(emptyList())
-    private val genresFlow = MutableStateFlow<List<GenreDataModel>>(emptyList())
+    private val moviesFlow = MutableStateFlow<PersistentList<MovieDataModel>>(persistentListOf())
+    private val genresFlow = MutableStateFlow<PersistentList<GenreDataModel>>(persistentListOf())
     private val selectedGenreIdFlow = MutableStateFlow<Int?>(null)
     private val rangeValuesFlow = MutableStateFlow(listOf(0f, 10f))
 
@@ -48,7 +50,7 @@ class FilterScreenTest {
 
     @Test
     fun selectingGenre_ShouldTriggerViewModel() {
-        val genres = listOf(
+        val genres = persistentListOf(
             GenreDataModel(1, "Action"),
             GenreDataModel(2, "Comedy")
         )
@@ -78,7 +80,7 @@ class FilterScreenTest {
 
     @Test
     fun displayMovies_AndHandleClick() {
-        val movies = listOf(
+        val movies = persistentListOf(
             MovieDataModel("101", "Gladiator", "History", 9.5, "", false)
         )
         moviesFlow.value = movies

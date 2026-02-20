@@ -19,6 +19,8 @@ import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import gradowska.katarzyna.filmsapp.R
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.persistentListOf
 
 class MoviesScreenTest {
 
@@ -26,7 +28,7 @@ class MoviesScreenTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     private val viewModel: SearchMoviesViewModel = mockk(relaxed = true)
-    private val moviesFlow = MutableStateFlow<List<MovieDataModel>>(emptyList())
+    private val moviesFlow = MutableStateFlow<PersistentList<MovieDataModel>>(persistentListOf())
     private val toastFlow = MutableSharedFlow<Unit>()
 
     @Before
@@ -85,7 +87,7 @@ class MoviesScreenTest {
 
     @Test
     fun list_ShouldDisplayMovies_AndHandleClicks() {
-        val movies = listOf(
+        val movies = persistentListOf(
             MovieDataModel("1", "Inception", "Desc", 9.0, "", false),
             MovieDataModel("2", "Interstellar", "Desc", 8.5, "", false)
         )

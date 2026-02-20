@@ -2,6 +2,7 @@ package gradowska.katarzyna.filmsapp.presentation
 
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
+import gradowska.katarzyna.filmsapp.domain.entity.MovieDetailsDataModel
 import gradowska.katarzyna.filmsapp.presentation.singleMovie.SingleMovie
 import org.junit.Rule
 import org.junit.Test
@@ -11,27 +12,38 @@ class SingleMovieTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
+    private fun createMockMovie(
+        title: String = "Inception",
+        description: String = "Dream within a dream",
+        budget: String = "160M",
+        revenue: String = "828M"
+    ) = MovieDetailsDataModel(
+        id = "1",
+        title = title,
+        photo = "",
+        backdropPath = "",
+        rate = "8.8",
+        isLiked = false,
+        voteCount = "100",
+        productionCountries = "USA",
+        originalLanguage = "EN",
+        originalTitle = "Original Inception",
+        description = description,
+        quote = "Your mind is the scene of the crime",
+        budget = budget,
+        revenue = revenue,
+        genres = "Sci-Fi",
+        runtime = "148 min",
+        releaseDate = "2010"
+    )
+
     @Test
     fun movieDetails_ShouldDisplayAllRequiredInformation() {
         // arrange
+        val movie = createMockMovie()
         composeTestRule.setContent {
             SingleMovie(
-                titleText = "Inception",
-                description = "Dream within a dream",
-                rate = "8.8",
-                isLiked = false,
-                viewsCounter = "100",
-                genres = "Sci-Fi",
-                runtime = "148 min",
-                dateOfProduction = "2010",
-                quote = "Your mind is the scene of the crime",
-                budget = "160M",
-                revenue = "828M",
-                movieImage = "",
-                movieBackdropPath = "",
-                productionCountries = "USA",
-                originalLanguage = "EN",
-                originalTitle = "Original Inception",
+                movie = movie,
                 onFavouriteClick = {}
             )
         }
@@ -41,32 +53,18 @@ class SingleMovieTest {
         composeTestRule.onNodeWithText("Sci-Fi").assertIsDisplayed()
         composeTestRule.onNodeWithText("Dream within a dream").assertIsDisplayed()
         composeTestRule.onNodeWithText("160M").assertIsDisplayed()
+        composeTestRule.onNodeWithText("828M").assertIsDisplayed()
     }
 
     @Test
     fun favoriteIcon_ShouldTriggerCallback_WhenClicked() {
         //arrange
         var clicked = false
-
+        val movie = createMockMovie()
         composeTestRule.setContent {
             SingleMovie(
-                titleText = "Test",
-                isLiked = false,
-                rate = "5.0",
-                viewsCounter = "10",
-                onFavouriteClick = { clicked = true },
-                movieImage = "",
-                movieBackdropPath = "",
-                description = "Dream within a dream",
-                genres = "Sci-Fi",
-                runtime = "148 min",
-                dateOfProduction = "2010",
-                quote = "Your mind is the scene of the crime",
-                productionCountries = "USA",
-                originalLanguage = "EN",
-                originalTitle = "Original Inception",
-                budget = "160M",
-                revenue = "828M",
+                movie = movie,
+                onFavouriteClick = { clicked = true }
             )
         }
 
