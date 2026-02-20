@@ -19,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.NavDestination.Companion.hasRoute
 import gradowska.katarzyna.filmsapp.presentation.theme.Tolopea
 import gradowska.katarzyna.filmsapp.presentation.theme.WineBerry2
+import org.koin.compose.KoinContext
 
 
 @Composable
@@ -27,57 +28,59 @@ fun MainScreen() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    Scaffold(
-        bottomBar = {
-            NavigationBar {
-                NavigationBarItem(
-                    selected = currentDestination?.hasRoute<MoviesHome>() == true,
-                    onClick = {
-                        navController.navigate(MoviesHome) {
-                            popUpTo<MoviesHome> {
-                                saveState = true
+    KoinContext {
+        Scaffold(
+            bottomBar = {
+                NavigationBar {
+                    NavigationBarItem(
+                        selected = currentDestination?.hasRoute<MoviesHome>() == true,
+                        onClick = {
+                            navController.navigate(MoviesHome) {
+                                popUpTo<MoviesHome> {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
                             }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    },
-                    icon = { Icon(Icons.Default.Search, "Search") },
-                    label = { Text("Search") },
-                    colors = NavigationBarItemDefaults.colors(
-                        indicatorColor = androidx.compose.ui.graphics.Color.Transparent,
-                        selectedIconColor = Tolopea,
-                        unselectedIconColor = WineBerry2,
-                        selectedTextColor = Tolopea,
-                        unselectedTextColor = WineBerry2
+                        },
+                        icon = { Icon(Icons.Default.Search, "Search") },
+                        label = { Text("Search") },
+                        colors = NavigationBarItemDefaults.colors(
+                            indicatorColor = androidx.compose.ui.graphics.Color.Transparent,
+                            selectedIconColor = Tolopea,
+                            unselectedIconColor = WineBerry2,
+                            selectedTextColor = Tolopea,
+                            unselectedTextColor = WineBerry2
+                        )
                     )
-                )
-                NavigationBarItem(
-                    selected = currentDestination?.hasRoute<MoviesFilter>() == true,
-                    onClick = {
-                        navController.navigate(MoviesFilter) {
-                            popUpTo<MoviesHome> {
-                                saveState = true
+                    NavigationBarItem(
+                        selected = currentDestination?.hasRoute<MoviesFilter>() == true,
+                        onClick = {
+                            navController.navigate(MoviesFilter) {
+                                popUpTo<MoviesHome> {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
                             }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    },
-                    icon = { Icon(Icons.Default.Favorite, "Filters") },
-                    label = { Text("Filters") },
-                    colors = NavigationBarItemDefaults.colors(
-                        indicatorColor = androidx.compose.ui.graphics.Color.Transparent,
-                        selectedIconColor = Tolopea,
-                        unselectedIconColor = WineBerry2,
-                        selectedTextColor = Tolopea,
-                        unselectedTextColor = WineBerry2
+                        },
+                        icon = { Icon(Icons.Default.Favorite, "Filters") },
+                        label = { Text("Filters") },
+                        colors = NavigationBarItemDefaults.colors(
+                            indicatorColor = androidx.compose.ui.graphics.Color.Transparent,
+                            selectedIconColor = Tolopea,
+                            unselectedIconColor = WineBerry2,
+                            selectedTextColor = Tolopea,
+                            unselectedTextColor = WineBerry2
+                        )
                     )
-                )
+                }
+            }
+        ) { innerPadding ->
+            Box(modifier = Modifier.padding(innerPadding)) {
+                MainNavGraph(navController = navController)
             }
         }
-    ) { innerPadding ->
-        Box(modifier = Modifier.padding(innerPadding)) {
-            MainNavGraph(navController = navController)
-        }
-    }
 
+    }
 }

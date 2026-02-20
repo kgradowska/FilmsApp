@@ -23,4 +23,5 @@
     <string name="empty_movie_list">Movie list is empty</string>
     <string name="movie_not_found">The movie was not found</string>
     <string name="clear_search">"Clear search"</string>
+    <string name="error_invalid_movie_id">Could not open movie: invalid ID</string>
 </resources>
