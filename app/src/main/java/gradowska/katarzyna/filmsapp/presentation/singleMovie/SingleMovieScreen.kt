@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import gradowska.katarzyna.filmsapp.R
+import gradowska.katarzyna.filmsapp.domain.entity.MovieDetailsDataModel
 import gradowska.katarzyna.filmsapp.presentation.shared.LoadingScreen
 import gradowska.katarzyna.filmsapp.presentation.theme.Gold
 import gradowska.katarzyna.filmsapp.presentation.theme.Tolopea
@@ -59,25 +60,8 @@ fun SingleMovieScreen(
 
     movieDetails?.let { movie ->
         SingleMovie(
-            titleText = movie.movieTitle,
-            movieImage = movie.moviePhoto,
-            movieBackdropPath = movie.movieBackdropPath,
-            description = movie.movieDescription,
-            rate = movie.movieRate,
-            isLiked = movie.movieLiked,
-            genres = movie.movieGenres,
-            runtime = movie.movieRuntime,
-            dateOfProduction = movie.movieReleaseDate,
-            viewsCounter = movie.movieVoteCount,
-            quote = movie.movieTagline,
-            productionCountries = movie.movieProductionCountries,
-            originalLanguage = movie.movieOriginalLanguage,
-            originalTitle = movie.movieOriginalTitle,
-            budget = movie.movieBudget,
-            revenue = movie.movieRevenue,
-            onFavouriteClick = {
-                viewModel.favouriteIconClicked(movie)
-            }
+            movie = movie,
+            onFavouriteClick = { viewModel.favouriteIconClicked(movie) }
         )
     } ?: run {
         LoadingScreen()
@@ -86,22 +70,7 @@ fun SingleMovieScreen(
 
 @Composable
 fun SingleMovie(
-    titleText: String,
-    movieImage: String,
-    movieBackdropPath: String,
-    description: String,
-    rate: String,
-    isLiked: Boolean,
-    genres: String,
-    runtime: String,
-    dateOfProduction: String,
-    viewsCounter: String,
-    quote: String,
-    productionCountries: String,
-    originalLanguage: String,
-    originalTitle: String,
-    budget: String,
-    revenue: String,
+    movie: MovieDetailsDataModel,
     onFavouriteClick: () -> Unit,
 ) {
     Box(
@@ -118,32 +87,14 @@ fun SingleMovie(
                 )
                 .padding(bottom = 50.dp) // the place for the sticky row
         ) {
-            MovieHeader(
-                movieBackdropPath = movieBackdropPath,
-                rate = rate,
-                isLiked = isLiked,
-                viewsCounter = viewsCounter,
-                onFavouriteClick = onFavouriteClick
-            )
+            MovieHeader(movie = movie, onFavouriteClick = onFavouriteClick)
 
-            MovieContent(
-                title = titleText,
-                genres = genres,
-                runtime = runtime,
-                date = dateOfProduction,
-                quote = quote,
-                posterPath = movieImage,
-                productionCountries = productionCountries,
-                originalLanguage = originalLanguage,
-                originalTitle = originalTitle,
-                description = description
-            )
-
+            MovieContent(movie = movie)
         }
 
         BottomBar(
-            budget = budget,
-            revenue = revenue
+            budget = movie.budget,
+            revenue = movie.revenue
         )
 
     }
@@ -151,10 +102,7 @@ fun SingleMovie(
 
 @Composable
 fun MovieHeader(
-    movieBackdropPath: String,
-    rate: String,
-    isLiked: Boolean,
-    viewsCounter: String,
+    movie: MovieDetailsDataModel,
     onFavouriteClick: () -> Unit
 ) {
 
@@ -165,7 +113,7 @@ fun MovieHeader(
     ) {
 
         AsyncImage(
-            model = movieBackdropPath,
+            model = movie.backdropPath,
             contentDescription = null,
             modifier = Modifier
                 .fillMaxSize(),
@@ -188,9 +136,9 @@ fun MovieHeader(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            if (rate.toDoubleOrNull() != null) {
+            if (movie.rate.toDoubleOrNull() != null) {
                 Text(
-                    text = formatRate(rate),
+                    text = formatRate(movie.rate),
                     color = Gold,
                     fontSize = 32.sp,
                     textAlign = TextAlign.Center
@@ -199,7 +147,7 @@ fun MovieHeader(
 
             Icon(
                 painter = painterResource(
-                    if (isLiked)
+                    if (movie.isLiked)
                         R.drawable.ic_baseline_star_rate_24
                     else
                         R.drawable.ic_baseline_star_border_24
@@ -214,7 +162,7 @@ fun MovieHeader(
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-                text = viewsCounter,
+                text = movie.voteCount,
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
@@ -224,7 +172,7 @@ fun MovieHeader(
             Text(
                 text = pluralStringResource(
                     id = R.plurals.votes,
-                    count = viewsCounter.toIntOrNull() ?: 0
+                    count = movie.voteCount.toIntOrNull() ?: 0
                 ),
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center,
@@ -236,25 +184,14 @@ fun MovieHeader(
 }
 
 @Composable
-fun MovieContent(
-    title: String,
-    genres: String,
-    runtime: String,
-    date: String,
-    quote: String,
-    posterPath: String,
-    productionCountries: String,
-    originalLanguage: String,
-    originalTitle: String,
-    description: String
-) {
+fun MovieContent(movie: MovieDetailsDataModel) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp, vertical = 20.dp)
     ) {
         Text(
-            text = title,
+            text = movie.title,
             fontSize = 33.sp,
             lineHeight = 40.sp,
             fontWeight = FontWeight.Bold,
@@ -264,7 +201,7 @@ fun MovieContent(
         Spacer(Modifier.height(10.dp))
 
         Text(
-            text = genres,
+            text = movie.genres,
             fontSize = 16.sp,
             color = Gold,
             maxLines = 3,
@@ -274,15 +211,15 @@ fun MovieContent(
         Spacer(Modifier.height(6.dp))
 
         Text(
-            text = runtime + "  | " + date,
+            text = movie.runtime + "  | " + movie.releaseDate,
             fontSize = 16.sp,
             color = Gold,
         )
 
         Spacer(Modifier.height(16.dp))
 
-        if (quote.isNotBlank()) {
-            QuoteBox(quote)
+        if (movie.quote.isNotBlank()) {
+            QuoteBox(movie.quote)
             Spacer(Modifier.height(10.dp))
         }
 
@@ -293,10 +230,9 @@ fun MovieContent(
         ) {
 
             AsyncImage(
-                model = posterPath,
+                model = movie.photo,
                 contentDescription = null,
                 modifier = Modifier
-                    //.width(80.dp)
                     .fillMaxHeight()
                     .weight(1f)
                     .align(Alignment.CenterVertically),
@@ -313,17 +249,17 @@ fun MovieContent(
             ) {
                 LabeledText(
                     label = stringResource(R.string.production_countries),
-                    value = productionCountries
+                    value = movie.productionCountries
                 )
 
                 LabeledText(
                     label = stringResource(R.string.original_language),
-                    value = originalLanguage
+                    value = movie.originalLanguage
                 )
 
                 LabeledText(
                     label = stringResource(R.string.original_title),
-                    value = originalTitle
+                    value = movie.originalTitle
                 )
             }
         }
@@ -331,7 +267,7 @@ fun MovieContent(
         Spacer(Modifier.height(10.dp))
 
         Text(
-            text = description,
+            text = movie.description,
             fontWeight = FontWeight.Bold,
             fontStyle = FontStyle.Italic,
             fontSize = 15.sp,
@@ -441,14 +377,14 @@ fun LabeledText(
 @Preview(showBackground = true)
 @Composable
 fun SingleMoviePreview() {
-    SingleMovie(
-        titleText = "The Shawshank Redemption",
-        movieImage = "https://image.tmdb.org/t/p/w500/los_angeles.jpg",
-        movieBackdropPath = "",
+    val mockMovie = MovieDetailsDataModel(
+        id = "1",
+        title = "The Shawshank Redemption",
+        photo = "https://image.tmdb.org/t/p/w500/los_angeles.jpg",
+        backdropPath = "",
         rate = "8.32",
         isLiked = false,
-        viewsCounter = "235 325",
-        onFavouriteClick = {},
+        voteCount = "235 325",
         productionCountries = "US",
         originalLanguage = "English",
         originalTitle = "Title",
@@ -458,6 +394,11 @@ fun SingleMoviePreview() {
         revenue = "234234352",
         genres = "Comedy",
         runtime = "200 min",
-        dateOfProduction = "2003-04-01"
+        releaseDate = "2003-04-01"
+    )
+
+    SingleMovie(
+        movie = mockMovie,
+        onFavouriteClick = {}
     )
 }

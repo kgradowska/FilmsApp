@@ -25,7 +25,7 @@ class SingleMovieViewModel(
 
     fun favouriteIconClicked(movie: MovieDetailsDataModel) {
         viewModelScope.launch {
-            setFavouriteMovieUseCase.setMovieIsFavourite(movie.movieID, !movie.movieLiked)
+            setFavouriteMovieUseCase.setMovieIsFavourite(movie.id, !movie.isLiked)
         }
     }
 }
