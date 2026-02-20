@@ -8,7 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -21,10 +22,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -38,6 +41,7 @@ import gradowska.katarzyna.filmsapp.presentation.shared.EmptyMoviesPlaceholder
 import gradowska.katarzyna.filmsapp.presentation.shared.LoadingScreen
 import gradowska.katarzyna.filmsapp.presentation.shared.MovieItem
 import gradowska.katarzyna.filmsapp.presentation.theme.Tolopea
+import kotlinx.collections.immutable.PersistentList
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
 
@@ -50,7 +54,7 @@ fun MoviesScreen(
     val context = LocalContext.current
     val toastText = stringResource(R.string.movie_click_toast)
 
-    var searchQuery by remember { mutableStateOf("") }
+    var searchQuery by rememberSaveable { mutableStateOf("") }
 
     LaunchedEffect(Unit) {
         viewModel.showToast.collect {
@@ -118,7 +122,7 @@ fun SearchBar(
 @Composable
 fun MoviesContent(
     searchQuery: String,
-    movies: List<MovieDataModel>,
+    movies: PersistentList<MovieDataModel>,
     onSearchQueryChange: (String) -> Unit,
     onSearchAction: () -> Unit,
     onMovieClick: (String) -> Unit,
@@ -162,22 +166,39 @@ fun MoviesContent(
 
 @Composable
 fun MoviesList(
-    movies: List<MovieDataModel>,
+    movies: PersistentList<MovieDataModel>,
     onMovieClick: (String) -> Unit,
     onFavouriteClick: (MovieDataModel) -> Unit,
     onLoadMore: () -> Unit
 ) {
-    LazyColumn {
-        itemsIndexed(movies) { index, movie ->
+    val listState = rememberLazyListState()
+
+    val shouldLoadMore = remember {
+        derivedStateOf {
+            val lastVisibleItem = listState.layoutInfo.visibleItemsInfo.lastOrNull()
+                ?: return@derivedStateOf false
+
+
+            lastVisibleItem.index >= listState.layoutInfo.totalItemsCount - 5
+        }
+    }
+
+    LaunchedEffect(shouldLoadMore.value) {
+        if (shouldLoadMore.value && movies.isNotEmpty()) {
+            onLoadMore()
+        }
+    }
+
+    LazyColumn(state = listState) {
+        items(
+            items = movies,
+            key = { it.movieID }
+        ) { movie ->
             MovieItem(
                 movie = movie,
                 onItemClick = { onMovieClick(it.movieID) },
                 onFavouriteClick = onFavouriteClick
             )
-
-            if (index == movies.lastIndex) {
-                LaunchedEffect(index) { onLoadMore() }
-            }
         }
     }
 }

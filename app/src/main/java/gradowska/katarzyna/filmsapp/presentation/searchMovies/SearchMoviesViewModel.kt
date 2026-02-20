@@ -8,6 +8,9 @@ import gradowska.katarzyna.filmsapp.domain.usecase.GetFavouriteMoviesUseCase
 import gradowska.katarzyna.filmsapp.domain.usecase.GetMoviesUseCase
 import gradowska.katarzyna.filmsapp.domain.usecase.GetSearchedMovieDetailsUseCase
 import gradowska.katarzyna.filmsapp.domain.usecase.SetFavouriteMovieUseCase
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +20,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlin.collections.emptyList
 
 class SearchMoviesViewModel(
     private val setFavouriteMovieUseCase: SetFavouriteMovieUseCase,
@@ -31,15 +33,15 @@ class SearchMoviesViewModel(
     private var currentPage = 1
     private var currentQuery = ""
 
-    private val _moviesList: MutableStateFlow<List<MovieDataModel>> = MutableStateFlow(emptyList())
-    val moviesList: StateFlow<List<MovieDataModel>> =
+    private val _moviesList = MutableStateFlow<PersistentList<MovieDataModel>>(persistentListOf())
+    val moviesList: StateFlow<PersistentList<MovieDataModel>> =
         _moviesList.combine(getFavouriteMoviesUseCase()) { movies, favourites ->
             movies.map { m ->
                 m.copy(movieLiked = favourites.contains(m.movieID))
-            }
+            }.toPersistentList()
         }.stateIn(
             scope = viewModelScope,
-            initialValue = _moviesList.value,
+            initialValue = persistentListOf(),
             started = SharingStarted.WhileSubscribed(5000),
         )
 
@@ -71,9 +73,12 @@ class SearchMoviesViewModel(
                     val movieList = getMoviesUseCase.getMoviesList(true, currentPage)
 
                     if (currentPage == 1) {
-                        _moviesList.value = movieList
+                        _moviesList.value = movieList.toPersistentList()
                     } else {
-                        _moviesList.value = _moviesList.value + movieList
+                        val updatedList = (_moviesList.value + movieList)
+                            .distinctBy { it.movieID }
+                            .toPersistentList()
+                        _moviesList.value = updatedList
                     }
 
                     isLoading = false
@@ -96,9 +101,12 @@ class SearchMoviesViewModel(
                         getSearchedMovieUseCase.getSearchedMovieList(currentQuery, currentPage)
 
                     if (currentPage == 1) {
-                        _moviesList.value = movieList
+                        _moviesList.value = movieList.toPersistentList()
                     } else {
-                        _moviesList.value = _moviesList.value + movieList
+                        val updatedList = (_moviesList.value + movieList)
+                            .distinctBy { it.movieID }
+                            .toPersistentList()
+                        _moviesList.value = updatedList
                     }
 
                     isLoading = false
@@ -117,7 +125,7 @@ class SearchMoviesViewModel(
             if (currentQuery != query) {
                 currentPage = 1
                 currentQuery = query
-                _moviesList.value = emptyList()
+                _moviesList.value = persistentListOf()
                 canLoadMore = true
             }
 
