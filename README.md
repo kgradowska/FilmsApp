@@ -1,7 +1,4 @@
 # FilmsApp 
-This app is still **in progress**.
-
-Below, you can read about things ***already done*** and those ***to be done soon***.
 ## Aim
 The main **aim** of this app is to **show a list of movies** and **make simple operations on** that **list**, like adding movies to the favourite movies list and searching them by title or filters.
 
@@ -9,10 +6,21 @@ My **main goal** is to **learn different concepts** by making this application.
 
 The **attention** has been **focused** on the **code and architecture quality**, as well as on **the appearance of the user interface**.
 
-## Application Guide
-After launching the app, you can search movies on a **Find screen** or change the screen by clicking on a *Filter* button at the bottom of a screen to use filters.
+[Watch the video](https://youtube.com/shorts/3ZX-zb0Cwqw?feature=share)
 
-## Things done
+## Application Guide
+After launching the app, you can search movies on a **Search screen** or change the screen by clicking on a *Filter* button at the bottom of a screen to use filters.
+
+## Migration & Modernization
+The 2.0 version of this project represents a complete overhaul of the app's foundation. Key improvements include:
+- UI Framework: Full migration from XML Layouts & ViewBinding to Jetpack Compose (Material 3).
+- Navigation: Replaced Fragments and SafeArgs with Type-safe Compose Navigation (powered by kotlinx-serialization).
+- Storage: Transitioned from SharedPreferences to the modern Jetpack DataStore (Preferences) for better performance and thread safety.
+- Dependency Injection: Expanded Koin modules with full Compose integration (koin-androidx-compose).
+- Images: Switched from Glide to Coil, which is natively optimized for Jetpack Compose.
+- Data Handling: Introduced Immutable Collections to optimize Compose recomposition and ensure UI stability.
+
+## Things previously done (before the migration)
 All things which are done up to now:
 - usage of data from TMDB API: https://developer.themoviedb.org/docs/getting-started
 - implementing MVVM and single activity architecture
@@ -28,11 +36,3 @@ All things which are done up to now:
 - searching movies by filters on a Filter screen
 - using Recycler Views to show movies 
 - making a layout for movie details
-
-## Things to do
-All things to do in the near future:
-- adding repositories
-- writing unit tests
-- creating a new screen with the user's favourite movies
-- adding an X button on an EditText to remove the written sentence
-- adding more filters to find movies
