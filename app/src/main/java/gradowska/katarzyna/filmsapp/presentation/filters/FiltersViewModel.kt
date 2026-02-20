@@ -16,6 +16,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 
 class FiltersViewModel(
     private val getMoviesGenresUseCase: GetMoviesGenresUseCase,
@@ -24,20 +27,20 @@ class FiltersViewModel(
     getFavouriteMoviesUseCase: GetFavouriteMoviesUseCase,
 ) : ViewModel() {
 
-    private val _moviesList: MutableStateFlow<List<MovieDataModel>> = MutableStateFlow(listOf())
-    val moviesList: StateFlow<List<MovieDataModel>> =
+    private val _moviesList = MutableStateFlow<PersistentList<MovieDataModel>>(persistentListOf())
+    val moviesList: StateFlow<PersistentList<MovieDataModel>> =
         _moviesList.combine(getFavouriteMoviesUseCase()) { movies, favourites ->
             movies.map { m ->
                 m.copy(movieLiked = favourites.contains(m.movieID))
-            }
+            }.toPersistentList()
         }.stateIn(
             scope = viewModelScope,
             initialValue = _moviesList.value,
             started = SharingStarted.WhileSubscribed(5000),
         )
 
-    private val _genresList: MutableStateFlow<List<GenreDataModel>> = MutableStateFlow(listOf())
-    val genresList: StateFlow<List<GenreDataModel>> = _genresList
+    private val _genresList = MutableStateFlow<PersistentList<GenreDataModel>>(persistentListOf())
+    val genresList: StateFlow<PersistentList<GenreDataModel>> = _genresList
 
     private val _rangeValues = MutableStateFlow(listOf(INITIAL_MIN_RANGE, INITIAL_MAX_RANGE))
     val rangeValues: StateFlow<List<Float>> = _rangeValues
@@ -87,20 +90,21 @@ class FiltersViewModel(
                         voteAverageGte = currentMinRange,
                         voteAverageLte = currentMaxRange,
                     )
-                    val allMovies = if (currentPage == 1) {
-                        ArrayList()
+
+                    val newList = if (currentPage == 1) {
+                        movieList.toPersistentList()
                     } else {
-                        ArrayList(_moviesList.value)
+                        (_moviesList.value + movieList).distinctBy { it.movieID }.toPersistentList()
                     }
-                    allMovies.addAll(movieList)
-                    _moviesList.value = allMovies
+
+                    _moviesList.value = newList
 
                     isLoading = false
                     canLoadMore = movieList.isNotEmpty()
                     currentPage++
                 } catch (exception: Exception) {
                     isLoading = false
-                    _moviesList.value = emptyList()
+                    _moviesList.value = persistentListOf()
                     Log.e("getMoviesGenres", "Exception: ${exception.message}")
                 }
             }
@@ -128,7 +132,7 @@ class FiltersViewModel(
 
     private suspend fun getGenres(): List<GenreDataModel> {
         val genres = getGenresUseCase.getGenres()
-        _genresList.emit(genres)
+        _genresList.emit(genres.toPersistentList())
         return genres
     }
 
@@ -136,5 +140,4 @@ class FiltersViewModel(
         private const val INITIAL_MIN_RANGE = 5f
         private const val INITIAL_MAX_RANGE = 7f
     }
-
 }

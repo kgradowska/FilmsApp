@@ -10,8 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -51,6 +51,7 @@ import gradowska.katarzyna.filmsapp.presentation.theme.Gold
 import gradowska.katarzyna.filmsapp.presentation.theme.Tolopea
 import gradowska.katarzyna.filmsapp.presentation.theme.White
 import gradowska.katarzyna.filmsapp.presentation.theme.WineBerry2
+import kotlinx.collections.immutable.PersistentList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -85,7 +86,7 @@ fun FilterScreen(
 fun DropdownGenreSelector(
     expanded: Boolean,
     selectedOption: String,
-    options: List<GenreDataModel>,
+    options: PersistentList<GenreDataModel>,
     onExpandedChange: (Boolean) -> Unit,
     onOptionSelected: (String) -> Unit
 ) {
@@ -137,7 +138,7 @@ fun DropdownGenreSelector(
 
 @Composable
 fun FilterHeader(
-    genres: List<GenreDataModel>,
+    genres: PersistentList<GenreDataModel>,
     selectedGenreId: Int?,
     rangeValues: List<Float>,
     onGenreSelected: (Int?) -> Unit,
@@ -220,8 +221,8 @@ fun RatingRangePicker(
 
 @Composable
 fun FilterContent(
-    movies: List<MovieDataModel>,
-    genres: List<GenreDataModel>,
+    movies: PersistentList<MovieDataModel>,
+    genres: PersistentList<GenreDataModel>,
     selectedGenreId: Int?,
     rangeValues: List<Float>,
     onGenreSelected: (Int?) -> Unit,
@@ -278,25 +279,40 @@ fun FilterContent(
 
 @Composable
 fun FilterResultsList(
-    movies: List<MovieDataModel>,
+    movies: PersistentList<MovieDataModel>,
     listState: LazyListState,
     onMovieClick: (String) -> Unit,
     onFavouriteClick: (MovieDataModel) -> Unit,
     onLoadMore: () -> Unit
 ) {
+    val shouldLoadMore = remember {
+        derivedStateOf {
+            val lastVisibleItem = listState.layoutInfo.visibleItemsInfo.lastOrNull()
+                ?: return@derivedStateOf false
+
+            lastVisibleItem.index >= listState.layoutInfo.totalItemsCount - 5
+        }
+    }
+
+    LaunchedEffect(shouldLoadMore.value) {
+        if (shouldLoadMore.value && movies.isNotEmpty()) {
+            onLoadMore()
+        }
+    }
+
     LazyColumn(
         state = listState,
         contentPadding = PaddingValues(16.dp)
     ) {
-        itemsIndexed(movies) { index, movie ->
+        items(
+            items = movies,
+            key = { it.movieID }
+        ) { movie ->
             MovieItem(
                 movie = movie,
                 onItemClick = { onMovieClick(it.movieID) },
                 onFavouriteClick = onFavouriteClick
             )
-            if (index == movies.lastIndex) {
-                LaunchedEffect(index) { onLoadMore() }
-            }
         }
     }
 }
