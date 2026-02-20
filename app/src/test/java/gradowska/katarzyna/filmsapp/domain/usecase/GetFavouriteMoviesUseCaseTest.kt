@@ -5,6 +5,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
@@ -27,7 +28,7 @@ class GetFavouriteMoviesUseCaseTest {
     @Test
     fun `should return list of favourite movie ids`() = runTest {
         // arrange
-        val favouriteMovies = listOf("123", "456", "789")
+        val favouriteMovies = persistentListOf("123", "456", "789")
         every { userDataSource.getFavouriteMovies() } returns flowOf(favouriteMovies)
 
         // act
@@ -42,7 +43,7 @@ class GetFavouriteMoviesUseCaseTest {
     @Test
     fun `should return empty list when no movies are favourite`() = runTest {
         // arrange
-        val emptyList = emptyList<String>()
+        val emptyList = persistentListOf<String>()
         every { userDataSource.getFavouriteMovies() } returns flowOf(emptyList)
 
         // act

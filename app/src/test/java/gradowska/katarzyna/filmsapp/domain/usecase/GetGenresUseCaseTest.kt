@@ -7,6 +7,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -30,10 +31,10 @@ class GetGenresUseCaseTest {
         // arrange
         val genre1 = GenresDTO.Genre(id = 1, name = "Action")
         val genre2 = GenresDTO.Genre(id = 2, name = "Comedy")
-        val expected = listOf(genre1.toGenreDataModel(), genre2.toGenreDataModel())
+        val expected = persistentListOf(genre1.toGenreDataModel(), genre2.toGenreDataModel())
 
         coEvery { movieDataSource.getGenresFromApi() } returns GenresDTO(
-            genres = listOf(
+            genres = persistentListOf(
                 genre1,
                 genre2
             )
@@ -50,13 +51,13 @@ class GetGenresUseCaseTest {
     @Test
     fun `should return empty list when API returns no genres`() = runTest {
         // arrange
-        coEvery { movieDataSource.getGenresFromApi() } returns GenresDTO(genres = emptyList())
+        coEvery { movieDataSource.getGenresFromApi() } returns GenresDTO(genres = persistentListOf())
 
         // act
         val result = useCase.getGenres()
 
         // assert
-        assertEquals(emptyList<GenreDataModel>(), result)
+        assertEquals(persistentListOf<GenreDataModel>(), result)
         coVerify(exactly = 1) { movieDataSource.getGenresFromApi() }
     }
 

@@ -11,6 +11,8 @@ import gradowska.katarzyna.filmsapp.presentation.filters.FilterScreen
 import gradowska.katarzyna.filmsapp.presentation.theme.FilmsAppTheme
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.After
 import org.junit.Before
@@ -34,8 +36,8 @@ class FilterScreenScreenshotTest {
 
     private val viewModel: FiltersViewModel = mockk(relaxed = true)
 
-    private val moviesFlow = MutableStateFlow<List<MovieDataModel>>(emptyList())
-    private val genresFlow = MutableStateFlow<List<GenreDataModel>>(emptyList())
+    private val moviesFlow = MutableStateFlow<PersistentList<MovieDataModel>>(persistentListOf())
+    private val genresFlow = MutableStateFlow<PersistentList<GenreDataModel>>(persistentListOf())
     private val selectedGenreIdFlow = MutableStateFlow<Int?>(null)
     private val rangeValuesFlow = MutableStateFlow(listOf(0f, 10f))
 
@@ -62,12 +64,12 @@ class FilterScreenScreenshotTest {
 
     @Test
     fun filterScreen_InitialState() {
-        genresFlow.value = listOf(
+        genresFlow.value = persistentListOf(
             GenreDataModel(1, "Action"),
             GenreDataModel(2, "Drama"),
             GenreDataModel(3, "Sci-Fi")
         )
-        moviesFlow.value = emptyList()
+        moviesFlow.value = persistentListOf()
 
         composeTestRule.setContent {
             FilmsAppTheme {
@@ -80,11 +82,11 @@ class FilterScreenScreenshotTest {
 
     @Test
     fun filterScreen_WithFilteredResults() {
-        genresFlow.value = listOf(GenreDataModel(3, "Sci-Fi"))
+        genresFlow.value = persistentListOf(GenreDataModel(3, "Sci-Fi"))
         selectedGenreIdFlow.value = 3
         rangeValuesFlow.value = listOf(7.5f, 9.5f)
 
-        moviesFlow.value = listOf(
+        moviesFlow.value = persistentListOf(
             MovieDataModel(
                 movieID = "101",
                 movieTitle = "Interstellar",

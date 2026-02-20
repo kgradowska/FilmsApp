@@ -4,6 +4,7 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onRoot
 import com.github.takahirom.roborazzi.captureRoboImage
+import gradowska.katarzyna.filmsapp.domain.entity.MovieDetailsDataModel
 import gradowska.katarzyna.filmsapp.presentation.singleMovie.SingleMovie
 import gradowska.katarzyna.filmsapp.presentation.theme.FilmsAppTheme
 import org.junit.Rule
@@ -22,25 +23,30 @@ class SingleMovieScreenshotTest {
 
     @Test
     fun captureSingleMovieScreen() {
+        val mockMovie = MovieDetailsDataModel(
+            id = "1",
+            title = "Interstellar",
+            photo = "",
+            backdropPath = "",
+            rate = "8.7",
+            isLiked = true,
+            voteCount = "1500000",
+            genres = "Sci-Fi, Drama",
+            runtime = "169 min",
+            releaseDate = "2014",
+            quote = "Mankind was born on Earth. It was never meant to die here.",
+            productionCountries = "USA, UK",
+            originalLanguage = "English",
+            originalTitle = "Interstellar",
+            budget = "165 000 000 $",
+            revenue = "677 000 000 $",
+            description = "A team of explorers travel through a wormhole in space..."
+        )
+
         composeTestRule.setContent {
             FilmsAppTheme() {
                 SingleMovie(
-                    titleText = "Interstellar",
-                    movieImage = "",
-                    movieBackdropPath = "",
-                    description = "A team of explorers travel through a wormhole in space...",
-                    rate = "8.7",
-                    isLiked = true,
-                    genres = "Sci-Fi, Drama",
-                    runtime = "169 min",
-                    dateOfProduction = "2014",
-                    viewsCounter = "1500000",
-                    quote = "Mankind was born on Earth. It was never meant to die here.",
-                    productionCountries = "USA, UK",
-                    originalLanguage = "English",
-                    originalTitle = "Interstellar",
-                    budget = "165 000 000 $",
-                    revenue = "677 000 000 $",
+                    movie = mockMovie,
                     onFavouriteClick = {}
                 )
             }

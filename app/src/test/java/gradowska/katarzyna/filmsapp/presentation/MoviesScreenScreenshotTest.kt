@@ -10,6 +10,8 @@ import gradowska.katarzyna.filmsapp.presentation.searchMovies.MoviesScreen
 import gradowska.katarzyna.filmsapp.presentation.theme.FilmsAppTheme
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.After
@@ -34,7 +36,7 @@ class MoviesScreenScreenshotTest {
 
     private val viewModel: SearchMoviesViewModel = mockk(relaxed = true)
 
-    private val moviesFlow = MutableStateFlow<List<MovieDataModel>>(emptyList())
+    private val moviesFlow = MutableStateFlow<PersistentList<MovieDataModel>>(persistentListOf())
     private val toastFlow = MutableSharedFlow<Unit>()
 
     @Before
@@ -58,7 +60,7 @@ class MoviesScreenScreenshotTest {
 
     @Test
     fun moviesScreen_EmptyState() {
-        moviesFlow.value = emptyList()
+        moviesFlow.value = persistentListOf()
 
         composeTestRule.setContent {
             FilmsAppTheme {
@@ -71,7 +73,7 @@ class MoviesScreenScreenshotTest {
 
     @Test
     fun moviesScreen_WithData() {
-        moviesFlow.value = listOf(
+        moviesFlow.value = persistentListOf(
             MovieDataModel(
                 movieID = "1",
                 movieTitle = "Inception",

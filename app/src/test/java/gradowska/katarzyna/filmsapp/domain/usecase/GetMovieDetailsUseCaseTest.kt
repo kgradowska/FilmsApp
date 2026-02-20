@@ -68,8 +68,8 @@ class GetMovieDetailsUseCaseTest {
         val result = useCase.getMovie(movieId).first()
 
         // assert
-        assertEquals(true, result?.movieLiked)
-        assertEquals("Inception", result?.movieTitle)
+        assertEquals(true, result?.isLiked)
+        assertEquals("Inception", result?.title)
         coVerify(exactly = 1) { movieDataSource.getMovieFromApi(movieId) }
         verify(exactly = 1) { getFavouriteMoviesUseCase() }
     }
@@ -88,7 +88,7 @@ class GetMovieDetailsUseCaseTest {
             val result = useCase.getMovie(movieId).first()
 
             // assert
-            assertEquals(false, result?.movieLiked)
+            assertEquals(false, result?.isLiked)
             coVerify(exactly = 1) { movieDataSource.getMovieFromApi(movieId) }
             verify(exactly = 1) { getFavouriteMoviesUseCase() }
         }
