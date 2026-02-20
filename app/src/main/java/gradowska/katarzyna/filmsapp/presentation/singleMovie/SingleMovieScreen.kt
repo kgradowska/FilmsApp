@@ -73,6 +73,12 @@ fun SingleMovie(
     movie: MovieDetailsDataModel,
     onFavouriteClick: () -> Unit,
 ) {
+    val budgetValue = movie.budget.trim()
+    val revenueValue = movie.revenue.trim()
+    val hasBudget = budgetValue != "0 $" && budgetValue != "$0" && budgetValue.isNotBlank()
+    val hasRevenue = revenueValue != "0 $" && revenueValue != "$0" && revenueValue.isNotBlank()
+    val showBottomBar = hasBudget || hasRevenue
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -85,7 +91,7 @@ fun SingleMovie(
                 .verticalScroll(
                     rememberScrollState()
                 )
-                .padding(bottom = 50.dp) // the place for the sticky row
+                .padding(bottom = if (showBottomBar) 50.dp else 10.dp) // the place for the sticky row
         ) {
             MovieHeader(movie = movie, onFavouriteClick = onFavouriteClick)
 
@@ -129,8 +135,7 @@ fun MovieHeader(
                 .width(100.dp)
                 .height(168.dp)
                 .background(
-                    color = WineBerry2.copy(alpha = 0.8f),
-                    shape = RoundedCornerShape(4.dp)
+                    color = WineBerry2.copy(alpha = 0.8f), shape = RoundedCornerShape(4.dp)
                 )
                 .padding(vertical = 10.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -198,23 +203,37 @@ fun MovieContent(movie: MovieDetailsDataModel) {
             color = Gold
         )
 
-        Spacer(Modifier.height(10.dp))
+        if (movie.genres.isNotBlank()) {
+            Spacer(Modifier.height(10.dp))
 
-        Text(
-            text = movie.genres,
-            fontSize = 16.sp,
-            color = Gold,
-            maxLines = 3,
-            overflow = TextOverflow.Ellipsis,
-        )
+            Text(
+                text = movie.genres,
+                fontSize = 16.sp,
+                color = Gold,
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
 
-        Spacer(Modifier.height(6.dp))
+        val runtimeClean = movie.runtime.trim()
+        val dateClean = movie.releaseDate.trim()
 
-        Text(
-            text = movie.runtime + "  | " + movie.releaseDate,
-            fontSize = 16.sp,
-            color = Gold,
-        )
+        val hasRuntime = runtimeClean.isNotBlank() && runtimeClean != "0" && runtimeClean != "0 min"
+        val hasDate = dateClean.isNotBlank()
+
+        val shouldShowInfoRow = hasRuntime || hasDate
+
+        if (shouldShowInfoRow) {
+            Spacer(Modifier.height(6.dp))
+
+            Text(
+                text = listOfNotNull(
+                    runtimeClean.takeIf { hasRuntime },
+                    dateClean.takeIf { hasDate }).joinToString(separator = "  |  "),
+                fontSize = 16.sp,
+                color = Gold,
+            )
+        }
 
         Spacer(Modifier.height(16.dp))
 
@@ -287,8 +306,7 @@ fun QuoteBox(quote: String) {
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
             .background(
-                color = WineBerry2,
-                shape = RoundedCornerShape(4.dp)
+                color = WineBerry2, shape = RoundedCornerShape(4.dp)
             )
             .padding(vertical = 10.dp, horizontal = 10.dp),
         contentAlignment = Alignment.Center
@@ -320,8 +338,7 @@ fun BoxScope.BottomBar(
             .height(70.dp)
             .clip(
                 RoundedCornerShape(
-                    topStart = 16.dp,
-                    topEnd = 16.dp
+                    topStart = 16.dp, topEnd = 16.dp
                 )
             )
             .background(WineBerry2)

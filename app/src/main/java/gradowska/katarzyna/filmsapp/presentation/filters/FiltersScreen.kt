@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -88,11 +89,13 @@ fun DropdownGenreSelector(
     selectedOption: String,
     options: PersistentList<GenreDataModel>,
     onExpandedChange: (Boolean) -> Unit,
-    onOptionSelected: (String) -> Unit
+    onOptionSelected: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     ExposedDropdownMenuBox(
         expanded = expanded,
-        onExpandedChange = { onExpandedChange(it) }
+        onExpandedChange = { onExpandedChange(it) },
+        modifier = modifier
     ) {
         TextField(
             value = selectedOption,
@@ -161,17 +164,31 @@ fun FilterHeader(
             modifier = Modifier.padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            DropdownGenreSelector(
-                expanded = expanded,
-                selectedOption = selectedOption,
-                options = genres,
-                onExpandedChange = { expanded = it },
-                onOptionSelected = { genreName ->
-                    val selectedGenre = genres.find { it.name == genreName }
-                    onGenreSelected(selectedGenre?.id)
-                    expanded = false
-                }
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Genre",
+                    color = Gold,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Medium,
+                    modifier = Modifier.weight(1f)
+                )
+
+                DropdownGenreSelector(
+                    expanded = expanded,
+                    selectedOption = selectedOption,
+                    options = genres,
+                    onExpandedChange = { expanded = it },
+                    onOptionSelected = { genreName ->
+                        val selectedGenre = genres.find { it.name == genreName }
+                        onGenreSelected(selectedGenre?.id)
+                        expanded = false
+                    },
+                    modifier = Modifier.weight(2f)
+                )
+            }
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -180,7 +197,7 @@ fun FilterHeader(
                 onValueChange = onSliderChange
             )
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             Button(
                 onClick = onSearchClick,
@@ -204,7 +221,9 @@ fun RatingRangePicker(
     Column {
         Text(
             text = "Rating: ${"%.1f".format(rangeValues[0])} - ${"%.1f".format(rangeValues[1])}",
-            color = White
+            color = Gold,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Medium,
         )
         RangeSlider(
             value = rangeValues[0]..rangeValues[1],
