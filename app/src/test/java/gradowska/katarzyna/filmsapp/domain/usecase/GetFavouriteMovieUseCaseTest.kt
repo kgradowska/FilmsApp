@@ -4,10 +4,13 @@ import gradowska.katarzyna.filmsapp.data.UserDataSource
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import org.junit.Assert.assertEquals
+import kotlinx.coroutines.flow.first
 import org.junit.Before
 import org.junit.Test
 import io.mockk.every
 import io.mockk.verify
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 
 class GetFavouriteMovieUseCaseTest {
 
@@ -23,13 +26,13 @@ class GetFavouriteMovieUseCaseTest {
     }
 
     @Test
-    fun `should return true when movie is favourite`() {
+    fun `should return true when movie is favourite`() = runTest {
         // arrange
         val movieId = "123"
-        every { userDataSource.getMovieIsFavourite(movieId) } returns true
+        every { userDataSource.getMovieIsFavourite(movieId) } returns flowOf(true)
 
         // act
-        val result = useCase.getMovieIsFavourite(movieId)
+        val result = useCase(movieId).first()
 
         // assert
         assertEquals(true, result)
@@ -37,13 +40,13 @@ class GetFavouriteMovieUseCaseTest {
     }
 
     @Test
-    fun `should return false when movie is not favourite`() {
+    fun `should return false when movie is not favourite`() = runTest {
         // arrange
         val movieId = "456"
-        every { userDataSource.getMovieIsFavourite(movieId) } returns false
+        every { userDataSource.getMovieIsFavourite(movieId) } returns flowOf(false)
 
         // act
-        val result = useCase.getMovieIsFavourite(movieId)
+        val result = useCase(movieId).first()
 
         // assert
         assertEquals(false, result)

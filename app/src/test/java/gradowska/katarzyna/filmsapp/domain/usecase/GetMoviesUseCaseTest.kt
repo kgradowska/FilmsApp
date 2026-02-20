@@ -7,8 +7,11 @@ import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.runBlocking
+import io.mockk.verify
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -30,7 +33,7 @@ class GetMoviesUseCaseTest {
     }
 
     @Test
-    fun `should return movies list from API with favourite flags`() = runBlocking {
+    fun `should return movies list from API with favourite flags`() = runTest {
         // arrange
         val movieDto = MoviesListDTO.Result(
             id = 1,
@@ -53,7 +56,7 @@ class GetMoviesUseCaseTest {
             totalResults = 1
         )
 
-        coEvery { getFavouriteMovieUseCase.getMovieIsFavourite("1") } returns true
+        every { getFavouriteMovieUseCase("1") } returns flowOf(true)
 
         val expected = listOf(
             movieDto.toMovieDataModel(isFavourite = true)
@@ -64,14 +67,12 @@ class GetMoviesUseCaseTest {
 
         // assert
         assertEquals(expected, result)
-        coVerify(exactly = 1) {
-            movieDataSource.getMoviesListFromApi(1)
-            getFavouriteMovieUseCase.getMovieIsFavourite("1")
-        }
+        coVerify(exactly = 1) { movieDataSource.getMoviesListFromApi(1) }
+        verify(exactly = 1) { getFavouriteMovieUseCase("1") }
     }
 
     @Test
-    fun `should return movies list from local JSON with favourite flags`() = runBlocking {
+    fun `should return movies list from local JSON with favourite flags`() = runTest {
         // arrange
         val movieDTO = MovieDTO(
             id = "2",
@@ -84,7 +85,7 @@ class GetMoviesUseCaseTest {
         )
 
         coEvery { movieDataSource.getMoviesListFromJson() } returns listOf(movieDTO)
-        coEvery { getFavouriteMovieUseCase.getMovieIsFavourite("2") } returns true
+        every { getFavouriteMovieUseCase("2") } returns flowOf(true)
 
         val expected = listOf(
             movieDTO.toMovieDataModel(isFavourite = true)
@@ -95,14 +96,12 @@ class GetMoviesUseCaseTest {
 
         // assert
         assertEquals(expected, result)
-        coVerify(exactly = 1) {
-            movieDataSource.getMoviesListFromJson()
-            getFavouriteMovieUseCase.getMovieIsFavourite("2")
-        }
+        coVerify(exactly = 1) { movieDataSource.getMoviesListFromJson() }
+        verify(exactly = 1) { getFavouriteMovieUseCase("2") }
     }
 
     @Test
-    fun `should return empty list when API returns no movies`() = runBlocking {
+    fun `should return empty list when API returns no movies`() = runTest {
         // arrange
         coEvery { movieDataSource.getMoviesListFromApi(1) } returns MoviesListDTO(
             page = 1,
@@ -116,13 +115,12 @@ class GetMoviesUseCaseTest {
 
         // assert
         assertEquals(emptyList<MovieDataModel>(), result)
-        coVerify(exactly = 1) {
-            movieDataSource.getMoviesListFromApi(1)
-        }
+        coVerify(exactly = 1) { movieDataSource.getMoviesListFromApi(1) }
+        verify(exactly = 0) { getFavouriteMovieUseCase(any()) }
     }
 
     @Test
-    fun `should return empty list when JSON returns no movies`() = runBlocking {
+    fun `should return empty list when JSON returns no movies`() = runTest {
         // arrange
         coEvery { movieDataSource.getMoviesListFromJson() } returns emptyList()
 
@@ -131,8 +129,7 @@ class GetMoviesUseCaseTest {
 
         // assert
         assertEquals(emptyList<MovieDataModel>(), result)
-        coVerify(exactly = 1) {
-            movieDataSource.getMoviesListFromJson()
-        }
+        coVerify(exactly = 1) { movieDataSource.getMoviesListFromJson() }
+        verify(exactly = 0) { getFavouriteMovieUseCase(any()) }
     }
 }

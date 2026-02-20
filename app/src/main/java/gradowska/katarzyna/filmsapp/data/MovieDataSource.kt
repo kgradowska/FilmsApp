@@ -32,7 +32,12 @@ class MovieDataSource(
     }
 
     suspend fun getMovieFromApi(id: String): MovieDetailsDTO? {
-        return apiService.fetchMovie(id, apiKey)
+        val response = apiService.fetchMovie(id, apiKey)
+        return if (response.isSuccessful) {
+            response.body() // Returns DTO
+        } else {
+            null // Returns null in case of an error
+        }
     }
 
     suspend fun getSearchedMovieFromApi(query: String, page: Int): MoviesListDTO {

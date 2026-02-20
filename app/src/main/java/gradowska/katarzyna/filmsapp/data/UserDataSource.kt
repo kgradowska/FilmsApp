@@ -1,19 +1,42 @@
 package gradowska.katarzyna.filmsapp.data
 
-import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringSetPreferencesKey
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlin.collections.emptySet
 
-class UserDataSource(context: Context) {
-    private val sharedPref = context.getSharedPreferences("USER_PREFS", Context.MODE_PRIVATE)
+class UserDataSource(private val dataStore: DataStore<Preferences>) {
 
-    fun setMovieIsFavourite(movieId: String, isFavourite: Boolean) {
-        with(sharedPref.edit()) {
-            putBoolean(movieId, isFavourite)
-            apply()
+    suspend fun setMovieIsFavourite(movieId: String, isFavourite: Boolean) {
+        dataStore.edit { preferences ->
+            val currentFavourites = preferences[FAVOURITES_KEY] ?: emptySet()
+
+            val updatedFavourites = if (isFavourite) {
+                currentFavourites + movieId
+            } else {
+                currentFavourites - movieId
+            }
+
+            preferences[FAVOURITES_KEY] = updatedFavourites
         }
     }
 
-    fun getMovieIsFavourite(movieId: String): Boolean {
-        return sharedPref.getBoolean(movieId, false)
+    fun getMovieIsFavourite(movieId: String): Flow<Boolean> {
+        return dataStore.data.map { preferences ->
+            preferences[FAVOURITES_KEY]?.contains(movieId) ?: false
+        }
     }
 
+    fun getFavouriteMovies(): Flow<List<String>> {
+        return dataStore.data.map { preferences ->
+            preferences[FAVOURITES_KEY]?.toList() ?: emptyList()
+        }
+    }
+
+    companion object {
+        private val FAVOURITES_KEY = stringSetPreferencesKey("favourite_movies")
+    }
 }

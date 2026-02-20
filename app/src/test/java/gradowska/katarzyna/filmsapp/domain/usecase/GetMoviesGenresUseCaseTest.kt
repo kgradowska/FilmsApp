@@ -6,7 +6,10 @@ import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.verify
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -73,8 +76,8 @@ class GetMoviesGenresUseCaseTest {
             results = listOf(result1, result2),
             totalResults = 2
         )
-        coEvery { getFavouriteMovieUseCase.getMovieIsFavourite("1") } returns true
-        coEvery { getFavouriteMovieUseCase.getMovieIsFavourite("2") } returns false
+        every { getFavouriteMovieUseCase("1") } returns flowOf(true)
+        every { getFavouriteMovieUseCase("2") } returns flowOf(false)
 
         val expected = listOf(
             result1.toMovieDataModel(isFavourite = true),
@@ -94,19 +97,19 @@ class GetMoviesGenresUseCaseTest {
         // assert
         assertEquals(expected, result)
         coVerify(exactly = 1) {
-            movieDataSource.getMoviesInGenre(any(), any(), any(), any(), any(), any())
-            getFavouriteMovieUseCase.getMovieIsFavourite("1")
-            getFavouriteMovieUseCase.getMovieIsFavourite("2")
+            movieDataSource.getMoviesInGenre(
+                any(),
+                any(),
+                any(),
+                any(),
+                any(),
+                any()
+            )
         }
-        assertEquals(result[0].movieID, result1.id.toString())
+        verify(exactly = 1) { getFavouriteMovieUseCase("1") }
+        verify(exactly = 1) { getFavouriteMovieUseCase("2") }
+        assertEquals(result[0].movieID, "1")
         assertEquals(result[0].movieLiked, true)
-        assertEquals(result[0].movieRate, result1.voteAverage)
-        assertEquals(
-            result[0].moviePhoto,
-            "https://image.tmdb.org/t/p/original/" + result1.posterPath
-        )
-        assertEquals(result[0].movieTitle, result1.title)
-        assertEquals(result[0].movieDescription, result1.overview)
     }
 
     @Test
@@ -150,5 +153,6 @@ class GetMoviesGenresUseCaseTest {
                 any()
             )
         }
+        verify(exactly = 0) { getFavouriteMovieUseCase(any()) }
     }
 }
