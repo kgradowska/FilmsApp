@@ -2,9 +2,6 @@ package gradowska.katarzyna.filmsapp.presentation.navigation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -14,9 +11,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.NavDestination.Companion.hasRoute
+import gradowska.katarzyna.filmsapp.R
 import gradowska.katarzyna.filmsapp.presentation.theme.Tolopea
 import gradowska.katarzyna.filmsapp.presentation.theme.WineBerry2
 import org.koin.compose.KoinContext
@@ -43,7 +42,12 @@ fun MainScreen() {
                                 restoreState = true
                             }
                         },
-                        icon = { Icon(Icons.Default.Search, "Search") },
+                        icon = {
+                            Icon(
+                                painterResource(id = R.drawable.baseline_manage_search_24),
+                                "Search"
+                            )
+                        },
                         label = { Text("Search") },
                         colors = NavigationBarItemDefaults.colors(
                             indicatorColor = androidx.compose.ui.graphics.Color.Transparent,
@@ -64,7 +68,12 @@ fun MainScreen() {
                                 restoreState = true
                             }
                         },
-                        icon = { Icon(Icons.Default.Favorite, "Filters") },
+                        icon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_filter_alt_24),
+                                contentDescription = "Filters"
+                            )
+                        },
                         label = { Text("Filters") },
                         colors = NavigationBarItemDefaults.colors(
                             indicatorColor = androidx.compose.ui.graphics.Color.Transparent,

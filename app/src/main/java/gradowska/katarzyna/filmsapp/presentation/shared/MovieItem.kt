@@ -17,7 +17,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,7 +34,7 @@ import gradowska.katarzyna.filmsapp.domain.entity.MovieDataModel
 import gradowska.katarzyna.filmsapp.presentation.theme.Gold
 import gradowska.katarzyna.filmsapp.presentation.theme.White
 import gradowska.katarzyna.filmsapp.presentation.theme.WineBerry2
-import java.util.Locale
+import gradowska.katarzyna.filmsapp.presentation.utils.formatRate
 
 @Composable
 fun MovieItem(
@@ -91,9 +90,7 @@ fun MovieItem(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 if (movie.movieRate != null) {
-                    val formattedRate = remember(movie.movieRate) {
-                        String.format(Locale.getDefault(), "%.2f", movie.movieRate)
-                    }
+                    val formattedRate = formatRate(movie.movieRate.toString())
 
                     Text(
                         text = formattedRate,
